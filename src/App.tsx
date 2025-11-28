@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { sommaire } from "./data/sommaire.ts"
@@ -15,6 +15,7 @@ import CalculateurCIA from "./components/CalculateurCIA.tsx"
 import CalculateurPrimes from "./components/CalculateurPrimes.tsx"
 import Calculateur13eme from "./components/Calculateur13eme.tsx"
 import Metiers from "./components/Metiers.tsx"
+import FAQ from "./components/FAQ.tsx"
 
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -87,7 +88,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -868,6 +869,18 @@ ${toutLeContenu}
                     </div>
                   </button>
                 </div>
+
+                {/* Bouton Questions Fréquentes */}
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
+                    className="group flex items-center gap-3 bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-500 hover:via-amber-500 hover:to-yellow-600 text-slate-900 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-yellow-500/30 transition-all duration-150 hover:scale-105"
+                  >
+                    <HelpCircle className="w-6 h-6" />
+                    <span className="text-lg">Questions Fréquentes</span>
+                    <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+                  </button>
+                </div>
               </div>
             </div>
           </>
@@ -877,6 +890,11 @@ ${toutLeContenu}
       {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
       {chatState.currentView === 'metiers' && (
         <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+      )}
+
+      {/* --- SECTION FAQ --- */}
+      {chatState.currentView === 'faq' && (
+        <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
       )}
 
       {/* --- SECTION CALCULATEURS FULL-WIDTH --- */}
