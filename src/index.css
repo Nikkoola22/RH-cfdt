@@ -2,13 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth global transitions */
-* {
-  transition: all 0.3s ease;
+/* Performance: désactiver les transitions globales qui causent des saccades */
+/* Appliquer les transitions uniquement où nécessaire */
+
+/* Boutons et liens avec transitions optimisées GPU */
+button, a {
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out, background-color 0.15s ease-out;
+  will-change: transform;
 }
 
-button, a {
-  transition: all 0.2s ease;
+button:active {
+  transform: scale(0.97);
 }
 
 /* Subtle background effects - Inspired by creative dribbble design */
@@ -39,9 +43,11 @@ body::before {
     radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
-  animation: blob-animation 8s ease-in-out infinite;
+  animation: blob-animation 15s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 body::after {
@@ -54,32 +60,34 @@ body::after {
   background:
     radial-gradient(ellipse at 60% 70%, rgba(99, 102, 241, 0.1) 0%, transparent 60%),
     radial-gradient(ellipse at 30% 30%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-  animation: blob-animation-reverse 10s ease-in-out infinite;
+  animation: blob-animation-reverse 20s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 @keyframes blob-animation {
   0%, 100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   33% {
-    transform: translate(30px, -30px) scale(1.1);
+    transform: translate3d(30px, -30px, 0) scale(1.1);
   }
   66% {
-    transform: translate(-20px, 20px) scale(0.9);
+    transform: translate3d(-20px, 20px, 0) scale(0.9);
   }
 }
 
 @keyframes blob-animation-reverse {
   0%, 100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   33% {
-    transform: translate(-40px, 40px) scale(0.95);
+    transform: translate3d(-40px, 40px, 0) scale(0.95);
   }
   66% {
-    transform: translate(20px, -25px) scale(1.05);
+    transform: translate3d(20px, -25px, 0) scale(1.05);
   }
 }
 
@@ -165,31 +173,36 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
-/* Animation pour le marquee */
+/* Animation pour le marquee - optimisé GPU */
 @keyframes marquee {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
 @keyframes marquee-rss {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translate3d(-33.33%, 0, 0);
   }
 }
 
 .animate-marquee {
   animation: marquee 30s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .animate-marquee-rss {
-  animation: marquee-rss 60s linear infinite;
+  animation: marquee-rss 40s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Styles responsifs pour le lecteur */
@@ -228,7 +241,7 @@ body {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Subtle glow animations */
+/* Subtle glow animations - désactivées pour performance */
 @keyframes subtle-glow {
   0%, 100% {
     box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.1);
@@ -238,20 +251,25 @@ body {
   }
 }
 
-@keyframes soft-pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.95;
-  }
+/* Pulse supprimé sur sections - causait des repaints constants */
+/* Les effets visuels restent via les gradients statiques */
+
+/* Transitions rapides pour éléments interactifs */
+.fast-transition {
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out !important;
 }
 
-/* Apply subtle effects */
-section {
-  animation: soft-pulse 4s ease-in-out infinite;
+/* Icônes cliquables optimisées */
+.icon-button {
+  transition: transform 0.1s ease-out, color 0.1s ease-out;
+  will-change: transform;
+  cursor: pointer;
 }
 
-header {
-  animation: soft-pulse 5s ease-in-out infinite;
+.icon-button:hover {
+  transform: scale(1.1);
+}
+
+.icon-button:active {
+  transform: scale(0.95);
 }

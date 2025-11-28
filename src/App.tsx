@@ -49,7 +49,7 @@ const RssBandeau = React.memo(({ rssItems, rssLoading }: { rssItems: RssItem[], 
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-lg font-light mx-6 hover:text-cyan-300 transition-all duration-200 cursor-pointer hover:drop-shadow-lg text-white"
+        className="text-lg font-light mx-6 hover:text-cyan-300 cursor-pointer text-white transition-colors duration-100"
       >
         • {item.title}
       </a>
@@ -762,7 +762,7 @@ ${toutLeContenu}
               <button
                 key={`${info.id}-${index}`}
                 onClick={() => handleInfoClick(info)}
-                className="text-lg font-light mx-6 hover:text-amber-200 transition-all duration-200 cursor-pointer hover:scale-105 text-white"
+                className="text-lg font-light mx-6 hover:text-amber-200 cursor-pointer hover:scale-105 text-white transition-transform duration-100"
               >
                 #{info.id}: {info.title}
               </button>
@@ -793,13 +793,13 @@ ${toutLeContenu}
                 <div className="flex justify-center mb-1 gap-8">
                   <button
                     onClick={() => handleDomainSelection(0)}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-purple-900/70 to-slate-800/70 backdrop-blur-md border border-purple-500/30 rounded-2xl p-10 transition-all duration-500 hover:border-pink-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-purple-900/70 to-slate-800/70 backdrop-blur-md border border-purple-500/30 rounded-2xl p-10 hover:border-pink-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
                     <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
                       <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-2xl opacity-0 group-hover:opacity-100 transition blur-lg group-hover:scale-110"></span>
-                        <div className="relative p-6 bg-gradient-to-br from-purple-500/80 to-pink-500/80 backdrop-blur rounded-2xl shadow-2xl group-hover:rotate-2 group-hover:scale-110 transition-all">
+                        <span className="absolute -inset-3 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                        <div className="relative p-6 bg-gradient-to-br from-purple-500/80 to-pink-500/80 backdrop-blur rounded-2xl shadow-2xl group-hover:rotate-2 group-hover:scale-110 transition-transform duration-150">
                           <Search className="w-16 h-16 text-white" />
                         </div>
                       </div>
@@ -809,22 +809,22 @@ ${toutLeContenu}
                       <p className="text-center text-slate-300 font-light text-sm">
                         Temps de travail, formation, télétravail - Recherche dans tous les documents
                       </p>
-                      <div className="flex items-center gap-2 text-pink-400 opacity-0 group-hover:opacity-100 transition">
+                      <div className="flex items-center gap-2 text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                         <span className="font-light text-sm">Accéder à l&apos;assistant</span>
-                        <ArrowRight className="w-4 h-4 animate-pulse" />
+                        <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
                   </button>
 
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'calculators' })}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-10 transition-all duration-500 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-10 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
                     <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
                       <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-2xl opacity-0 group-hover:opacity-100 transition blur-lg group-hover:scale-110"></span>
-                        <div className="relative p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl group-hover:rotate-2 group-hover:scale-110 transition-all">
+                        <span className="absolute -inset-3 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                        <div className="relative p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl group-hover:rotate-2 group-hover:scale-110 transition-transform duration-150">
                           <Calculator className="w-16 h-16 text-white" />
                         </div>
                       </div>
@@ -862,7 +862,7 @@ ${toutLeContenu}
                     setChatState({ ...chatState, currentView: 'menu' })
                   }
                 }}
-                className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-all duration-200 font-light"
+                className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors duration-100 font-light"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
@@ -883,14 +883,14 @@ ${toutLeContenu}
               {/* Carte Primes IFSE */}
               <button
                 onClick={() => setActiveCalculator('primes')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-cyan-900/50 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-cyan-900/50 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
                 <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-6 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform">
+                  <div className="p-6 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
                     <TrendingUp className="w-16 h-16 text-white" />
                   </div>
-                  <h4 className="text-2xl font-light text-white group-hover:text-cyan-200 transition-colors">Primes IFSE</h4>
+                  <h4 className="text-2xl font-light text-white group-hover:text-cyan-200 transition-colors duration-100">Primes IFSE</h4>
                   <p className="text-center text-slate-400 font-light text-sm">Calculez vos primes IFSE 1 et IFSE 2 selon votre grade et direction</p>
                 </div>
               </button>
@@ -898,14 +898,14 @@ ${toutLeContenu}
               {/* Carte CIA */}
               <button
                 onClick={() => setActiveCalculator('cia')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-orange-900/50 backdrop-blur-md border border-orange-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-orange-900/50 backdrop-blur-md border border-orange-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
                 <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-6 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform">
+                  <div className="p-6 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
                     <Calculator className="w-16 h-16 text-white" />
                   </div>
-                  <h4 className="text-2xl font-light text-white group-hover:text-orange-200 transition-colors">CIA</h4>
+                  <h4 className="text-2xl font-light text-white group-hover:text-orange-200 transition-colors duration-100">CIA</h4>
                   <p className="text-center text-slate-400 font-light text-sm">Complément Indemnitaire Annuel - Simulez votre prime CIA</p>
                 </div>
               </button>
@@ -913,14 +913,14 @@ ${toutLeContenu}
               {/* Carte 13ème Mois */}
               <button
                 onClick={() => setActiveCalculator('13eme')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-green-900/50 backdrop-blur-md border border-green-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-green-900/50 backdrop-blur-md border border-green-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
                 <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-6 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform">
+                  <div className="p-6 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
                     <DollarSign className="w-16 h-16 text-white" />
                   </div>
-                  <h4 className="text-2xl font-light text-white group-hover:text-green-200 transition-colors">13ème Mois</h4>
+                  <h4 className="text-2xl font-light text-white group-hover:text-green-200 transition-colors duration-100">13ème Mois</h4>
                   <p className="text-center text-slate-400 font-light text-sm">Calculez votre prime de 13ème mois selon votre situation</p>
                 </div>
               </button>
