@@ -504,12 +504,14 @@ Tu es un assistant juridique EXPERT en FONCTION PUBLIQUE TERRITORIALE (FPT).
 4. IGNORE la fonction publique d'État et hospitalière sauf si explicitement demandé
 
 📚 SOURCES LÉGALES À UTILISER (par ordre de priorité) :
-1. Code général de la fonction publique (CGFP) - https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551
-2. Décrets d'application pour la FPT (notamment décret n°87-602 du 30 juillet 1987 pour les congés maladie)
-3. Loi n°84-53 du 26 janvier 1984 portant dispositions statutaires relatives à la FPT
+1. Code général de la fonction publique (CGFP) - en vigueur depuis le 1er mars 2022
+   https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551
+   (Ce code a remplacé et codifié l'ancienne loi n°84-53 du 26 janvier 1984 qui est ABROGÉE)
+2. Décret n°87-602 du 30 juillet 1987 relatif aux congés de maladie des fonctionnaires territoriaux
+3. Décret n°88-145 du 15 février 1988 pour les agents contractuels territoriaux
 
 📋 FORMAT DE RÉPONSE OBLIGATOIRE :
-- Cite les ARTICLES DE LOI avec leur numéro exact
+- Cite les ARTICLES DU CGFP avec leur numéro exact (ex: Article L822-1 du CGFP)
 - Donne les CHIFFRES PRÉCIS (durées, montants, pourcentages)
 - Utilise un langage CLAIR et ACCESSIBLE
 - Structure ta réponse avec des titres et puces
@@ -523,7 +525,7 @@ Question de l'agent territorial : ${question}
       { role: "system", content: systemPrompt },
       { role: "user", content: `En tant qu'agent de la FONCTION PUBLIQUE TERRITORIALE, je pose cette question : ${question}
 
-Réponds UNIQUEMENT avec le droit applicable à la FPT (Code général de la fonction publique, décrets FPT). Ne cite JAMAIS le Code du travail.` },
+Réponds UNIQUEMENT avec le droit applicable à la FPT (Code général de la fonction publique CGFP, décrets FPT). Ne cite JAMAIS le Code du travail ni la loi 84-53 qui est abrogée.` },
     ]
 
     return await appelPerplexity(apiMessages)
