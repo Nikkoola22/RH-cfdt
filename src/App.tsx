@@ -311,6 +311,8 @@ function App() {
   const [activeCalculator, setActiveCalculator] = useState<'primes' | 'cia' | '13eme' | null>(null)
   const [showAdminPanel, setShowAdminPanel] = useState(false)
   const [showAdminLogin, setShowAdminLogin] = useState(false)
+  const [showExpandSearch, setShowExpandSearch] = useState(false)
+  const [lastQuestion, setLastQuestion] = useState<string>("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -490,6 +492,74 @@ function App() {
     }
   }
 
+  // Fonction de recherche élargie sur Légifrance (Code général de la fonction publique)
+  const rechercherLegifrance = async (question: string) => {
+    const systemPrompt = `
+Tu es un assistant juridique spécialisé dans la fonction publique territoriale.
+
+RECHERCHE UNIQUEMENT dans le Code général de la fonction publique :
+https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551/2022-03-01
+
+RÈGLES :
+1. Cite les articles de loi pertinents avec leur numéro
+2. Explique de manière claire et accessible pour un agent territorial
+3. Précise toujours la source (Code général de la fonction publique)
+4. Si tu ne trouves pas, dis-le clairement
+
+Question de l'agent : ${question}
+`
+
+    const apiMessages = [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: question },
+    ]
+
+    return await appelPerplexity(apiMessages)
+  }
+
+  // Gérer le clic sur "Oui" pour élargir la recherche
+  const handleExpandSearch = async () => {
+    setShowExpandSearch(false)
+    if (!lastQuestion) return
+
+    setChatState((prevState) => ({ ...prevState, isProcessing: true }))
+    
+    const searchingMessage: ChatMessage = {
+      type: "assistant",
+      content: "🔍 Je recherche dans le Code général de la fonction publique sur Légifrance...",
+      timestamp: new Date(),
+    }
+    setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, searchingMessage] }))
+
+    try {
+      const reponse = await rechercherLegifrance(lastQuestion)
+      const resultMessage: ChatMessage = {
+        type: "assistant",
+        content: `📚 **Résultat de la recherche Légifrance :**\n\n${reponse}`,
+        timestamp: new Date(),
+      }
+      setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, resultMessage] }))
+    } catch (error) {
+      console.error("Erreur recherche Légifrance:", error)
+      const errorMessage: ChatMessage = {
+        type: "assistant",
+        content: "Désolé, une erreur est survenue lors de la recherche sur Légifrance. Contactez la CFDT au 01 40 85 64 64.",
+        timestamp: new Date(),
+      }
+      setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, errorMessage] }))
+    } finally {
+      setChatState((prevState) => ({ ...prevState, isProcessing: false }))
+      setLastQuestion("")
+    }
+  }
+
+  // Gérer le clic sur "Non" pour revenir à l'accueil
+  const handleDeclineSearch = () => {
+    setShowExpandSearch(false)
+    setLastQuestion("")
+    returnToMenu()
+  }
+
   const traiterQuestion = async (question: string) => {
     // Charger TOUTES les données pour recherche sémantique complète
     const toutLeContenu = `
@@ -556,10 +626,37 @@ ${toutLeContenu}
     const userMessage: ChatMessage = { type: "user", content: question, timestamp: new Date() }
     setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, userMessage], isProcessing: true }))
     setInputValue("")
+    setShowExpandSearch(false)
     try {
       const reponseContent = await traiterQuestion(question)
-      const assistantMessage: ChatMessage = { type: "assistant", content: reponseContent, timestamp: new Date() }
-      setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, assistantMessage] }))
+      
+      // Détecter si la réponse indique qu'on n'a pas trouvé l'info
+      const notFoundPatterns = [
+        "je ne trouve pas",
+        "pas cette information",
+        "pas trouvé",
+        "aucune information",
+        "documents internes",
+        "contactez la cfdt"
+      ]
+      const isNotFound = notFoundPatterns.some(pattern => 
+        reponseContent.toLowerCase().includes(pattern)
+      )
+      
+      if (isNotFound) {
+        // Proposer d'élargir la recherche
+        const assistantMessage: ChatMessage = {
+          type: "assistant",
+          content: "🔎 Il ne semble pas y avoir cette information dans les documents INTERNES de Gennevilliers.\n\nVoulez-vous que j'élargisse ma recherche dans le Code général de la fonction publique (Légifrance) ?",
+          timestamp: new Date(),
+        }
+        setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, assistantMessage] }))
+        setShowExpandSearch(true)
+        setLastQuestion(question)
+      } else {
+        const assistantMessage: ChatMessage = { type: "assistant", content: reponseContent, timestamp: new Date() }
+        setChatState((prevState) => ({ ...prevState, messages: [...prevState.messages, assistantMessage] }))
+      }
     } catch (error) {
       console.error("Erreur lors du traitement de la question:", error)
       const errorMessage: ChatMessage = {
@@ -873,6 +970,23 @@ ${toutLeContenu}
                       <span className="text-slate-200 ml-2 text-sm font-light">L&apos;assistant réfléchit...</span>
                     </div>
                   </div>
+                </div>
+              )}
+              {/* Boutons Oui/Non pour élargir la recherche */}
+              {showExpandSearch && !chatState.isProcessing && (
+                <div className="flex justify-center gap-4 mt-4 mb-2">
+                  <button
+                    onClick={handleExpandSearch}
+                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center gap-2"
+                  >
+                    <span>✅ Oui, rechercher sur Légifrance</span>
+                  </button>
+                  <button
+                    onClick={handleDeclineSearch}
+                    className="px-8 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-xl hover:from-slate-700 hover:to-slate-800 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center gap-2"
+                  >
+                    <span>❌ Non, retour à l'accueil</span>
+                  </button>
                 </div>
               )}
               <div ref={messagesEndRef} />
