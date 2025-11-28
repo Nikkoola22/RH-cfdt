@@ -469,9 +469,12 @@ function App() {
     }
     return total
   }
-  const appelPerplexity = async (messages: any[]) => {
+  const appelPerplexity = async (messages: any[], useExternalModel = false) => {
     try {
-      const data = { model: "sonar-pro", messages }
+      // Utiliser "sonar" pour recherche externe (meilleur respect des instructions FPT)
+      // Utiliser "sonar-pro" pour recherche interne
+      const model = useExternalModel ? "sonar" : "sonar-pro"
+      const data = { model, messages }
       const response = await fetch(BACKEND_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -537,7 +540,7 @@ Question d'un agent territorial : ${question}
 ✅ OBLIGATOIRE : CGFP, Décret 87-602, Décret 88-145.` },
     ]
 
-    return await appelPerplexity(apiMessages)
+    return await appelPerplexity(apiMessages, true) // true = recherche externe, utilise modèle "sonar"
   }
 
   // Gérer le clic sur "Oui" pour élargir la recherche
