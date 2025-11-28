@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { sommaire } from "./data/sommaire.ts"
@@ -14,6 +14,7 @@ import AdminLogin from "./components/AdminLogin.tsx"
 import CalculateurCIA from "./components/CalculateurCIA.tsx"
 import CalculateurPrimes from "./components/CalculateurPrimes.tsx"
 import Calculateur13eme from "./components/Calculateur13eme.tsx"
+import Metiers from "./components/Metiers.tsx"
 
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -86,7 +87,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators"
+  currentView: "menu" | "chat" | "calculators" | "metiers"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -834,9 +835,35 @@ ${toutLeContenu}
                       <p className="text-center text-slate-300 font-light text-sm">
                         Primes IFSE - Calcul CIA - Outils de simulation
                       </p>
-                      <div className="flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition">
+                      <div className="flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                         <span className="font-light text-sm">Accéder aux calculateurs</span>
-                        <ArrowRight className="w-4 h-4 animate-pulse" />
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Carte Grilles Indiciaires */}
+                  <button
+                    onClick={() => setChatState({ ...chatState, currentView: 'metiers' })}
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-10 hover:border-green-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-transparent to-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
+                      <div className="relative">
+                        <span className="absolute -inset-3 bg-gradient-to-br from-emerald-400/30 to-green-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                        <div className="relative p-6 bg-gradient-to-br from-emerald-500/80 to-green-500/80 backdrop-blur rounded-2xl shadow-2xl group-hover:rotate-2 group-hover:scale-110 transition-transform duration-150">
+                          <LayoutGrid className="w-16 h-16 text-white" />
+                        </div>
+                      </div>
+                      <h4 className="text-2xl font-light tracking-tight text-white group-hover:text-green-200">
+                        Grilles Indiciaires
+                      </h4>
+                      <p className="text-center text-slate-300 font-light text-sm">
+                        Filières, métiers et grilles de rémunération FPT
+                      </p>
+                      <div className="flex items-center gap-2 text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                        <span className="font-light text-sm">Voir les grilles</span>
+                        <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
                   </button>
@@ -846,6 +873,11 @@ ${toutLeContenu}
           </>
         )}
       </main>
+
+      {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
+      {chatState.currentView === 'metiers' && (
+        <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+      )}
 
       {/* --- SECTION CALCULATEURS FULL-WIDTH --- */}
       {chatState.currentView === 'calculators' && (
