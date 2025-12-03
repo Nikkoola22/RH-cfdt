@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculat
 import { chapitres } from "./data/temps.ts"
 import { formation } from "./data/formation.ts"
 import { teletravailData } from "./data/teletravail.ts"
+import { sommaireUnifie, SectionIndex } from "./data/sommaireUnifie.ts"
 import { infoItems } from "./data/info-data.ts"
 import { ifse1Data, getAllDirections, getIFSE2ByDirection, getDirectionFullName } from "./data/rifseep-data.ts"
 import { franceInfoRss } from "./data/rss-data.ts"
@@ -388,27 +389,105 @@ Question d'un agent territorial : ${question}
     returnToMenu()
   }
 
+  // --- RECHERCHE OPTIMISÉE EN 2 ÉTAPES ---
+  // Étape 1 : Identifier les sections pertinentes via le sommaire léger (~500 tokens)
+  // Étape 2 : Charger uniquement le contenu des sections identifiées
+  // Économie : ~80% de tokens par requête
+
+  const genererSommaireTexte = () => {
+    return sommaireUnifie.map(s => 
+      `[${s.id}] ${s.titre} - ${s.resume || s.motsCles.join(', ')}`
+    ).join('\n')
+  }
+
+  const chargerContenuSections = (sectionIds: string[]): string => {
+    const chapitresACharger = new Set<number>()
+    let chargerFormation = false
+    let chargerTeletravail = false
+
+    sectionIds.forEach(id => {
+      const section = sommaireUnifie.find(s => s.id === id)
+      if (section) {
+        if (section.source === 'temps' && section.chapitre) {
+          chapitresACharger.add(section.chapitre)
+        } else if (section.source === 'formation') {
+          chargerFormation = true
+        } else if (section.source === 'teletravail') {
+          chargerTeletravail = true
+        }
+      }
+    })
+
+    let contenu = ''
+    if (chapitresACharger.size > 0) {
+      const titres = ['', 'LE TEMPS DE TRAVAIL', 'LES CONGÉS', "AUTORISATIONS SPÉCIALES D'ABSENCE", 'LES ABSENCES POUR MALADIES ET ACCIDENTS']
+      chapitresACharger.forEach(ch => {
+        contenu += `\n\n=== ${titres[ch] || 'CHAPITRE ' + ch} ===\n${(chapitres as Record<number, string>)[ch] || ''}`
+      })
+    }
+    if (chargerFormation) {
+      contenu += `\n\n=== RÈGLEMENT FORMATION ===\n${formation || ''}`
+    }
+    if (chargerTeletravail) {
+      contenu += `\n\n=== PROTOCOLE TÉLÉTRAVAIL ===\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
+    }
+    return contenu.trim()
+  }
+
   const traiterQuestion = async (question: string) => {
-    // Charger TOUTES les données pour recherche sémantique complète
-    const toutLeContenu = `
-CHAPITRE 1 - LE TEMPS DE TRAVAIL :
-${(chapitres as Record<number, string>)[1] || ''}
+    // ÉTAPE 1 : Identifier les sections pertinentes avec le sommaire léger
+    const sommaire = genererSommaireTexte()
+    const identificationPrompt = `Tu es un assistant qui identifie les sections pertinentes pour répondre à une question.
 
-CHAPITRE 2 - LES CONGÉS :
-${(chapitres as Record<number, string>)[2] || ''}
+SOMMAIRE DES DOCUMENTS DISPONIBLES :
+${sommaire}
 
-CHAPITRE 3 - AUTORISATIONS SPÉCIALES D'ABSENCE :
-${(chapitres as Record<number, string>)[3] || ''}
+QUESTION : ${question}
 
-CHAPITRE 4 - LES ABSENCES POUR MALADIES ET ACCIDENTS :
-${(chapitres as Record<number, string>)[4] || ''}
+RÈGLES :
+- Réponds UNIQUEMENT avec les IDs des sections pertinentes, séparés par des virgules
+- Choisis 1 à 4 sections maximum, les plus pertinentes
+- Si aucune section ne correspond, réponds "AUCUNE"
+- Format attendu : temps_ch2_conges_annuels, temps_ch2_rtt
 
-CHAPITRE 5 - LE RÈGLEMENT FORMATION :
-${formation || ''}
+IDs des sections pertinentes :`
 
-CHAPITRE 6 - LE PROTOCOLE TÉLÉTRAVAIL :
-${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}
-`
+    const identificationResponse = await appelPerplexity([
+      { role: "user", content: identificationPrompt }
+    ])
+
+    // Parser la réponse pour extraire les IDs
+    const responseClean = identificationResponse.toLowerCase().replace(/[\[\]"']/g, '').trim()
+    
+    if (responseClean === 'aucune' || responseClean.includes('aucune section')) {
+      return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
+    }
+
+    // Extraire les IDs valides
+    const idsExtraits = responseClean.split(/[,\s]+/).filter(id => 
+      sommaireUnifie.some(s => s.id === id.trim())
+    )
+
+    // Si aucun ID valide trouvé, fallback sur recherche complète (1 chapitre)
+    let contenuCible: string
+    if (idsExtraits.length === 0) {
+      // Fallback : charger tout (ancien comportement)
+      contenuCible = `
+CHAPITRE 1 - LE TEMPS DE TRAVAIL :\n${(chapitres as Record<number, string>)[1] || ''}
+
+CHAPITRE 2 - LES CONGÉS :\n${(chapitres as Record<number, string>)[2] || ''}
+
+CHAPITRE 3 - AUTORISATIONS SPÉCIALES D'ABSENCE :\n${(chapitres as Record<number, string>)[3] || ''}
+
+CHAPITRE 4 - LES ABSENCES POUR MALADIES ET ACCIDENTS :\n${(chapitres as Record<number, string>)[4] || ''}
+
+RÈGLEMENT FORMATION :\n${formation || ''}
+
+PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
+    } else {
+      // ÉTAPE 2 : Charger uniquement les sections identifiées
+      contenuCible = chargerContenuSections(idsExtraits)
+    }
 
     const systemPrompt = `
 Tu es un assistant CFDT pour la Mairie de Gennevilliers.
@@ -430,8 +509,8 @@ RÈGLES STRICTES :
 - N'ajoute AUCUNE information supplémentaire
 - Ne commence JAMAIS par "Je ne trouve pas" puis donne une réponse ensuite
 
-DOCUMENTATION COMPLÈTE :
-${toutLeContenu}
+DOCUMENTATION :
+${contenuCible}
     `
 
     const conversationHistory = chatState.messages.slice(1).map((msg) => ({
