@@ -295,23 +295,23 @@ export default function Calculateur13eme({ onClose }: Calculateur13emeProps) {
   const eligibility = agentType === 'indiciaire' ? indiciaireEligibility : horaireEligibility
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col">
-      {/* Header avec bouton retour */}
-      <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 py-8 shadow-xl animate-fade-in">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-green-950 to-slate-900 flex flex-col">
+      {/* Header avec bouton retour - Style unifié dark */}
+      <div className="bg-gradient-to-r from-slate-800/95 to-green-900/95 backdrop-blur-md py-6 border-b border-green-500/30 shadow-xl">
         <div className="px-6 flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-white/20 rounded-full shadow-lg backdrop-blur-sm">
+            <div className="p-4 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-2xl shadow-2xl">
               <DollarSign className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Calculateur 13ème Mois</h1>
-              <p className="text-green-100 text-sm mt-1">Simulation pas à pas - Résultat informatif</p>
+              <h1 className="text-2xl sm:text-3xl font-light text-white">Calculateur 13ème Mois</h1>
+              <p className="text-green-300/80 text-sm font-light mt-1">Simulation pas à pas - Résultat informatif</p>
             </div>
           </div>
           {onClose && (
             <button
               onClick={onClose}
-              className="flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+              className="flex items-center gap-2 px-5 py-2.5 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white rounded-lg font-light transition-all duration-150 border border-slate-600/30"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour
@@ -323,20 +323,20 @@ export default function Calculateur13eme({ onClose }: Calculateur13emeProps) {
       <div className="flex-1 overflow-y-auto p-6">
         <div className="max-w-2xl mx-auto space-y-6">
           {/* ÉTAPE 1 - Mode de rémunération */}
-          <div className="animate-fade-in">
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden border-l-4 border-blue-500">
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+          <div>
+            <div className="bg-gradient-to-br from-slate-800/80 to-green-900/40 backdrop-blur-md rounded-2xl overflow-hidden border border-green-500/30">
+              <div className="bg-gradient-to-r from-green-600/80 to-emerald-600/80 px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-full text-white font-bold">1</div>
-                  <h2 className="text-xl font-bold text-white">Mode de rémunération</h2>
+                  <div className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-full text-white font-light">1</div>
+                  <h2 className="text-lg font-light text-white">Mode de rémunération</h2>
                 </div>
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-sm text-gray-600">Quel est votre mode de rémunération ?</p>
+                <p className="text-sm text-slate-400 font-light">Quel est votre mode de rémunération ?</p>
                 <select
                   value={agentType}
                   onChange={(e) => handleSelectAgentType(e.target.value as AgentType)}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none font-semibold text-gray-800 transition-all duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600/50 text-white font-light focus:ring-2 focus:ring-green-500/50 focus:border-green-500 outline-none transition-all"
                 >
                   <option value="">Choisir...</option>
                   <option value="indiciaire">Indiciaire (sur un emploi permanent)</option>

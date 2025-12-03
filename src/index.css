@@ -188,7 +188,7 @@ body {
     transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translate3d(-33.33%, 0, 0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -199,7 +199,7 @@ body {
 }
 
 .animate-marquee-rss {
-  animation: marquee-rss 40s linear infinite;
+  animation: marquee-rss 45s linear infinite;
   will-change: transform;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;

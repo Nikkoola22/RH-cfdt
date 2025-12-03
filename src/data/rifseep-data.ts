@@ -1,4 +1,56 @@
 // Données extraites du Guide RH RIFSEEP de Gennevilliers
+// IFSE 2 est maintenant dans ifse2_primes.json (source unique et complète)
+
+import ifse2PrimesJson from './ifse2_primes.json'
+
+// Interface pour les données du JSON IFSE2
+interface IFSE2PrimeJson {
+  Motif: string
+  Montant: string
+  Metiers_concernes: string
+  Direction: string
+  Service: string
+}
+
+// Interface pour les données transformées IFSE2
+export interface IFSE2Data {
+  motif: string
+  amount: number
+  jobs: string[]
+  direction: string
+  service: string
+}
+
+// Transformer les données JSON au format attendu
+const transformIfse2Data = (jsonData: IFSE2PrimeJson[]): IFSE2Data[] => {
+  const grouped = new Map<string, IFSE2Data>()
+  
+  jsonData.forEach(item => {
+    const key = `${item.Motif}|${item.Direction}|${item.Service}`
+    const amountStr = item.Montant.replace(' €', '').trim().replace(',', '.')
+    const amount = parseFloat(amountStr) || 0
+    
+    if (grouped.has(key)) {
+      const existing = grouped.get(key)!
+      if (!existing.jobs.includes(item.Metiers_concernes)) {
+        existing.jobs.push(item.Metiers_concernes)
+      }
+    } else {
+      grouped.set(key, {
+        motif: item.Motif,
+        amount: amount,
+        jobs: [item.Metiers_concernes],
+        direction: item.Direction,
+        service: item.Service
+      })
+    }
+  })
+  
+  return Array.from(grouped.values())
+}
+
+// Données IFSE2 transformées (source unique depuis le JSON)
+export const ifse2Data = transformIfse2Data(ifse2PrimesJson as IFSE2PrimeJson[])
 
 // Contenu complet du guide RIFSEEP pour le chatbot
 export const rifseepData = `
@@ -29,6 +81,7 @@ L'IFSE 1 est une indemnité forfaitaire mensuelle versée aux agents qui exercen
 ### IFSE 2 - Indemnités et primes complémentaires
 
 L'IFSE 2 comprend diverses indemnités et primes selon les fonctions exercées et les sujétions particulières.
+Les données complètes IFSE 2 sont disponibles dans ifse2_primes.json (292 entrées).
 
 #### Primes communes à toutes les directions
 - Prime maître apprentissage : 98,46€/mois
@@ -59,14 +112,6 @@ export interface IFSE1Data {
   annualAmount: number;
   monthlyAmount: number;
   implementationYear: 2024 | 2025 | 2026;
-}
-
-export interface IFSE2Data {
-  motif: string;
-  amount: number;
-  jobs: string[];
-  direction: string;
-  service: string;
 }
 
 // Barème IFSE 1 - Données extraites du guide
@@ -136,1007 +181,13 @@ export const ifse1Data: IFSE1Data[] = [
   { category: 'C', function: 'Aide à domicile', functionCode: 'C-28', annualAmount: 2500, monthlyAmount: 208.33, implementationYear: 2024 }
 ];
 
-// Barème IFSE 2 - Données extraites du guide
-export const ifse2Data: IFSE2Data[] = [
-  // Indemnités horaires décalés catégorie 1
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Agent d\'exploitation des équipements sportifs',
-      'Responsable de secteur'
-    ],
-    direction: 'DMS',
-    service: 'SGES'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Agent d\'accueil',
-      'Agent d\'entretien',
-      'Agent polyvalent maintenance travaux',
-      'Adjoint au responsable (pôle technique)',
-      'Adjoint au responsable (pôle administratif)'
-    ],
-    direction: 'DMS',
-    service: 'CN'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Technicien catégorie C'],
-    direction: 'DPO',
-    service: 'DIRECTION'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Gardien d\'immeuble'],
-    direction: 'DH',
-    service: 'Compta & gestion du patrimoine'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['ASVP', 'Chef d\'équipe'],
-    direction: 'DRU',
-    service: 'ASVP'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Magasinier chauffeur livreur'],
-    direction: 'DAJ',
-    service: 'Commande publique'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Agent technique polyvalent'],
-    direction: 'DAJ',
-    service: 'Cimetières'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Mécanicien',
-      'Gardien logé / non logé',
-      'Agent polyvalent administratif'
-    ],
-    direction: 'DE',
-    service: 'Garage'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Agent polyvalent (peinture, serrurerie, électricité...)',
-      'Chef d\'équipe',
-      'Adjoint au responsable de service',
-      'Responsable de service'
-    ],
-    direction: 'DPB',
-    service: 'Ateliers municipaux'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Agent polyvalent serrurier', 'Chef d\'équipe'],
-    direction: 'DPB',
-    service: 'Gestion du CACC'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Jardinier',
-      'Adjoint au chef d\'équipe',
-      'Chef d\'équipe',
-      'Responsable des équipes',
-      'Secrétaire'
-    ],
-    direction: 'DE',
-    service: 'EV'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Agent technique spécialisé',
-      'Chauffeur',
-      'Chef d\'équipe',
-      'Magasinier',
-      'Responsable signalisation graffitis',
-      'Responsable section nettoiement',
-      'Technicien de surface'
-    ],
-    direction: 'DE',
-    service: 'GP'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Animateur socio-culturel'],
-    direction: 'DCCS',
-    service: 'Antenne des Agnettes'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Agent d\'accueil', 'Responsable technique', 'Agent technique polyvalent'],
-    direction: 'DCCS',
-    service: 'Aimé Césaire'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Agent d\'accueil', 'Animateur socio-culturel'],
-    direction: 'DCCS',
-    service: 'Espace Grésillons'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Placier régisseur', 'Chef d\'équipe placier régisseur'],
-    direction: 'DDU',
-    service: 'Economique'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Gestionnaire courrier'],
-    direction: 'DMRU',
-    service: 'Services intérieurs'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: [
-      'Agent auprès d\'enfants',
-      'Cuisinier',
-      'Lingère',
-      'Lingère aide-cuisinier'
-    ],
-    direction: 'DPE',
-    service: 'Toutes crèches'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Agent d\'entretien', 'Agent comptable', 'Magasinier'],
-    direction: 'DMSP',
-    service: 'Compta marchés publics'
-  },
-  {
-    motif: 'Indemnités horaires décalées cat 1',
-    amount: 20,
-    jobs: ['Assistante de direction'],
-    direction: 'DMSP',
-    service: 'Direction administrative'
-  },
-
-  // Indemnités responsabilités - Primes activités nautiques
-  {
-    motif: 'Indemnités responsabilités - Primes activités nautiques',
-    amount: 168.71,
-    jobs: ['Éducateur sportif', 'Responsable de secteur'],
-    direction: 'DMS',
-    service: 'SGES'
-  },
-  {
-    motif: 'Indemnités responsabilités - Primes activités nautiques',
-    amount: 315.90,
-    jobs: ['Maître nageur sauveteur', 'Chef de bassin', 'Adjoint au responsable'],
-    direction: 'DMS',
-    service: 'CN'
-  },
-
-  // Primes accueil 1
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante GCR'],
-    direction: 'DRH',
-    service: 'GCR'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante DCRH'],
-    direction: 'DRH',
-    service: 'DCRH'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent d\'accueil'],
-    direction: 'DMS',
-    service: 'CN'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent administratif accueil', 'Adjoint au responsable'],
-    direction: 'DH',
-    service: 'Logement'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Gestionnaire'],
-    direction: 'DDU',
-    service: 'Urbanisme réglementaire / Domaine public'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Gestionnaire administratif'],
-    direction: 'DRU',
-    service: 'Hygiène et sécurité'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['ASVP', 'Chef d\'équipe'],
-    direction: 'DRU',
-    service: 'ASVP'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire'],
-    direction: 'DE',
-    service: 'GP'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire'],
-    direction: 'DCCS',
-    service: 'Antenne des Agnettes'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent d\'accueil', 'Responsable pôle accueil'],
-    direction: 'DCCS',
-    service: 'Aimé Césaire'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Chargé d\'accueil', 'Secrétaire accueil'],
-    direction: 'DCCS',
-    service: 'Espace Grésillons'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Standardiste'],
-    direction: 'DMRU',
-    service: 'Services intérieurs'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: [
-      'Agent d\'accueil administratif',
-      'Adjoint au responsable de service',
-      'Gestionnaire',
-      'Responsable de service'
-    ],
-    direction: 'DMRU',
-    service: 'Affaires civiles'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: [
-      'Agent d\'accueil',
-      'Assistante polyvalente',
-      'Adjoint au responsable de service'
-    ],
-    direction: 'DMRU',
-    service: 'Accueil démarches prestations'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante de direction'],
-    direction: 'DMSP',
-    service: 'Direction administrative'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire médicale'],
-    direction: 'DMSP',
-    service: 'Accueil CMS pôle RH - radiologie'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Responsable de service CMS'],
-    direction: 'DMSP',
-    service: 'Accueil CMS pôle RH'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Animateur santé'],
-    direction: 'DMSP',
-    service: 'Espace santé jeunes'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Auxiliaire de puériculture'],
-    direction: 'DMSP',
-    service: 'PMI Timsit & PMI Timbaud'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire médicale'],
-    direction: 'DMSP',
-    service: 'PMI Timbaud'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent d\'accueil'],
-    direction: 'DMSP',
-    service: 'Prévention santé'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante dentaire'],
-    direction: 'DMSP',
-    service: 'Dentaire'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent chargé des repas et télétransmission', 'Agent administratif'],
-    direction: 'DSA',
-    service: 'ASA'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire'],
-    direction: 'DSA',
-    service: 'Coordination gérontologique'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Conseiller en insertion', 'Assistante', 'Agent d\'accueil'],
-    direction: 'DSA',
-    service: 'Espace insertion'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent d\'accueil', 'Agent administratif'],
-    direction: 'DSA',
-    service: 'Prestations de solidarité'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire accueil'],
-    direction: 'DCJ',
-    service: 'Cinéma Jean Vigo'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante (direction et administrative)', 'Agent d\'accueil'],
-    direction: 'DCJ',
-    service: 'Conservatoire'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Secrétaire accueil'],
-    direction: 'DCJ',
-    service: 'École Manet'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Gestionnaire administratif et financier'],
-    direction: 'DCJ',
-    service: 'Direction'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistant des bibliothèques'],
-    direction: 'DCJ',
-    service: 'Médiathèques'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent d\'accueil'],
-    direction: 'DCJ',
-    service: 'Jeunesse'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Chargé d\'information', 'Assistante'],
-    direction: 'DCJ',
-    service: 'Spectacles'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent chargé des mandatements'],
-    direction: 'DESS',
-    service: 'SSE'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante'],
-    direction: 'DME',
-    service: 'PRE'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Agent d\'accueil', 'Secrétaire'],
-    direction: 'DME',
-    service: 'Séjours éducatifs'
-  },
-  {
-    motif: 'Prime accueil 1',
-    amount: 50,
-    jobs: ['Assistante administrative (V. Leveil)'],
-    direction: 'DME',
-    service: 'Enfance'
-  },
-
-  // Prime accueil 2
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: [
-      'Agent d\'accueil administratif',
-      'Adjoint au responsable de service',
-      'Gestionnaire',
-      'Responsable de service'
-    ],
-    direction: 'DMRU',
-    service: 'Affaires civiles'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Agent d\'accueil', 'Assistante polyvalente', 'Adjoint au responsable de service'],
-    direction: 'DMRU',
-    service: 'Accueil démarches prestations'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Assistante de direction'],
-    direction: 'DMSP',
-    service: 'Direction administrative'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Secrétaire médicale'],
-    direction: 'DMSP',
-    service: 'Accueil CMS pôle RH - radiologie'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Responsable de service CMS'],
-    direction: 'DMSP',
-    service: 'Accueil CMS pôle RH'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Animateur santé'],
-    direction: 'DMSP',
-    service: 'Espace santé jeunes'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Secrétaire médicale'],
-    direction: 'DMSP',
-    service: 'PMI Timbaud'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Assistante dentaire'],
-    direction: 'DMSP',
-    service: 'Dentaire'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Agent chargé des repas et télétransmission', 'Agent administratif'],
-    direction: 'DSA',
-    service: 'ASA'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Conseiller en insertion', 'Assistante', 'Agent d\'accueil'],
-    direction: 'DSA',
-    service: 'Espace insertion'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Agent d\'accueil', 'Agent administratif'],
-    direction: 'DSA',
-    service: 'Prestations de solidarité'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Assistant des bibliothèques'],
-    direction: 'DCJ',
-    service: 'Médiathèques'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Agent d\'accueil'],
-    direction: 'DME',
-    service: 'Séjours éducatifs'
-  },
-  {
-    motif: 'Prime accueil 2',
-    amount: 50,
-    jobs: ['Chargée de recrutement'],
-    direction: 'DRH',
-    service: 'DCRH'
-  },
-
-  // Primes technicité RH / GCR / assistant DGA
-  {
-    motif: 'Prime technicité RH',
-    amount: 280,
-    jobs: [
-      'Chargé de formation',
-      'Responsable de service DCRH',
-      'Adjoint au responsable du service DCRH',
-      'Chargé de projets RH stratégiques'
-    ],
-    direction: 'DRH',
-    service: 'DCRH'
-  },
-  {
-    motif: 'Prime technicité GCR',
-    amount: 281.71,
-    jobs: [
-      'Responsable du service GCR',
-      'Adjoint au responsable du service GCR',
-      'Gestionnaire paie carrière et rémunération',
-      'Technicien paie',
-      'Chargé de mission carrière'
-    ],
-    direction: 'DRH',
-    service: 'GCR'
-  },
-  {
-    motif: 'Prime technicité DGA',
-    amount: 150,
-    jobs: ['Responsable de gestion budgétaire', 'Assistant DGA'],
-    direction: 'DG',
-    service: 'DIRECTION'
-  },
-
-  // Primes encadrement technique
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe ASVP'],
-    direction: 'DRU',
-    service: 'ASVP'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe'],
-    direction: 'DDU',
-    service: 'Economique'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe'],
-    direction: 'DAJ',
-    service: 'Commande publique'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe', 'Responsable de service'],
-    direction: 'DPB',
-    service: 'Ateliers municipaux'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe'],
-    direction: 'DPB',
-    service: 'Gestion du CACC'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Adjoint au chef d\'équipe', 'Chef d\'équipe', 'Responsable des équipes'],
-    direction: 'DE',
-    service: 'EV'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: [
-      'Responsable signalisation graffitis',
-      'Responsable section nettoiement'
-    ],
-    direction: 'DE',
-    service: 'GP'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe'],
-    direction: 'DCCS',
-    service: 'Aimé Césaire'
-  },
-  {
-    motif: 'Prime chef d\'équipe',
-    amount: 85,
-    jobs: ['Chef d\'équipe'],
-    direction: 'DESS',
-    service: 'SERA'
-  },
-  {
-    motif: 'Forfait HS',
-    amount: 121.96,
-    jobs: ['Chefs d\'équipe'],
-    direction: 'DE',
-    service: 'GP'
-  },
-  {
-    motif: 'Forfait HS',
-    amount: 100.85,
-    jobs: ['Chef d\'équipe'],
-    direction: 'DESS',
-    service: 'SERA'
-  },
-  {
-    motif: 'Indemnités sujétions soir',
-    amount: 16.67,
-    jobs: ['Chargé de la vie associative et de la participation citoyenne'],
-    direction: 'DCCS',
-    service: 'Citoyenneté politique ville'
-  },
-
-  // Primes marchés publics et juristes
-  {
-    motif: 'Prime technicité marchés publics',
-    amount: 350,
-    jobs: ['Chargé des marchés publics'],
-    direction: 'DAJ',
-    service: 'Commande publique'
-  },
-  {
-    motif: 'Prime technicité juriste',
-    amount: 350,
-    jobs: ['Juriste'],
-    direction: 'DAJ',
-    service: 'Affaires juridiques'
-  },
-
-  // Indemnité de sujétion spéciale crèches
-  {
-    motif: 'Indemnité de sujétion spéciale',
-    amount: 18,
-    jobs: [
-      'Adjoint au directeur de crèche / Directeur crèche',
-      'Coordinatrice (selon grade)'
-    ],
-    direction: 'DPE',
-    service: 'Toutes crèches'
-  },
-
-  // Primes informatiques DSI
-  {
-    motif: 'Prime rendement informatique (A)',
-    amount: 308.7,
-    jobs: ['Administrateur système & BDD', 'Administrateur réseau'],
-    direction: 'DSI',
-    service: 'Exploitation'
-  },
-  {
-    motif: 'Prime rendement informatique (B)',
-    amount: 210.44,
-    jobs: ['Administrateur système & BDD', 'Administrateur réseau'],
-    direction: 'DSI',
-    service: 'Exploitation'
-  },
-  {
-    motif: 'Prime informatique A & B',
-    amount: 308.7,
-    jobs: ['Chef de projet informatique'],
-    direction: 'DSI',
-    service: 'Études et projets'
-  },
-  {
-    motif: 'Prime rendement informatique',
-    amount: 131.95,
-    jobs: ['Responsable de service'],
-    direction: 'DSI',
-    service: 'Assistance'
-  },
-  {
-    motif: 'Prime informatique ingénierie',
-    amount: 465.63,
-    jobs: ['Responsable de service'],
-    direction: 'DSI',
-    service: 'Exploitation'
-  },
-  {
-    motif: 'Prime informatique ingénierie (B) - Grade 1',
-    amount: 109.12,
-    jobs: ['Technicien informatique'],
-    direction: 'DSI',
-    service: 'Assistance'
-  },
-  {
-    motif: 'Prime informatique ingénierie (B) - Grade 2',
-    amount: 131.95,
-    jobs: ['Technicien informatique (grade supérieur)'],
-    direction: 'DSI',
-    service: 'Assistance'
-  },
-
-  // Primes santé / médico-social
-  {
-    motif: 'PSR Radiologie',
-    amount: 140.77,
-    jobs: ['Manipulateur radio', 'Responsable de service'],
-    direction: 'DMSP',
-    service: 'Radiologie'
-  },
-  {
-    motif: 'Prime forfaitaire aux soins',
-    amount: 15.24,
-    jobs: ['Aide-soignante'],
-    direction: 'DMSP',
-    service: 'SIADPA'
-  },
-  {
-    motif: 'Prime grand âge',
-    amount: 118,
-    jobs: ['Aide-soignante'],
-    direction: 'DMSP',
-    service: 'SIADPA'
-  },
-
-  // Primes animation / education
-  {
-    motif: 'Prime dir° centre de loisirs',
-    amount: 340,
-    jobs: ['Directeur de centre de loisirs'],
-    direction: 'DME',
-    service: 'Enfance'
-  },
-  {
-    motif: 'Prime pause méridienne',
-    amount: 254.16,
-    jobs: ['Animateur encadrement pause méridienne'],
-    direction: 'DME',
-    service: 'Enfance'
-  },
-  {
-    motif: 'Prime technicité ATSEM',
-    amount: 50,
-    jobs: ['ATSEM'],
-    direction: 'DESS',
-    service: 'SERA'
-  },
-  {
-    motif: 'Prime panier repas',
-    amount: 60.27,
-    jobs: ['Responsable d\'office'],
-    direction: 'DESS',
-    service: 'SERA'
-  },
-
-  // Primes culture / jeunesse
-  {
-    motif: 'Indemnités sujétions soir et we',
-    amount: 45.49,
-    jobs: ['Responsable de service'],
-    direction: 'DCJ',
-    service: 'Jeunesse'
-  },
-  {
-    motif: 'Prime responsable de structure',
-    amount: 50,
-    jobs: ['Adjoint au responsable de service'],
-    direction: 'DCJ',
-    service: 'Jeunesse'
-  },
-  {
-    motif: 'Indemnités sujétions soir et we',
-    amount: 41.69,
-    jobs: ['Responsable de service'],
-    direction: 'DCJ',
-    service: 'Spectacles'
-  },
-
-  // Primes directions transverses
-  {
-    motif: 'Prime DG',
-    amount: 150,
-    jobs: ['DG', 'DGST', 'DGAS', 'DGAUE'],
-    direction: 'DG',
-    service: 'DG'
-  },
-  {
-    motif: 'Prime ODEC Total',
-    amount: 75,
-    jobs: ['Responsable de service', 'Adjoint au responsable de service'],
-    direction: 'DMRU',
-    service: 'Affaires civiles'
-  },
-  {
-    motif: 'Prime ODEC Partiel',
-    amount: 40,
-    jobs: ['Agents concernés (liste municipale)'],
-    direction: 'DMRU',
-    service: 'Affaires civiles'
-  },
-  {
-    motif: 'Prime Référent financier principal',
-    amount: 75,
-    jobs: ['Référent financier principal'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-  {
-    motif: 'Prime Référent financier suppléant',
-    amount: 40,
-    jobs: ['Référent financier suppléant'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-  {
-    motif: 'Prime Maître ap-prentissage',
-    amount: 98.46,
-    jobs: ['Maître d\'apprentissage'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-  {
-    motif: 'Prime intérim',
-    amount: 150,
-    jobs: ['Agents assurant un intérim'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-  {
-    motif: 'Prime Expertise comptable',
-    amount: 180,
-    jobs: ['Responsable de service', 'Agent comptable', 'Coordinateur'],
-    direction: 'DAF',
-    service: 'Exécution et qualité comptable'
-  },
-  {
-    motif: 'Prime Gestionnaire déconcentré',
-    amount: 90,
-    jobs: ['Chargé de missions', 'Agent administratif comptable', 'Gestionnaire', 'Adjoint au responsable de service'],
-    direction: 'DESS',
-    service: 'SSE'
-  },
-  {
-    motif: 'Prime Gestionnaire déconcentré',
-    amount: 90,
-    jobs: ['Responsable de service', 'Agent comptable'],
-    direction: 'DMSP',
-    service: 'Comptabilité Marchés publics'
-  },
-  {
-    motif: 'Prime Gestionnaire déconcentré',
-    amount: 90,
-    jobs: ['Responsable gestion financière'],
-    direction: 'DRH',
-    service: 'Gestion financière'
-  },
-  {
-    motif: 'Prime formateur interne',
-    amount: 75,
-    jobs: ['Formateur interne'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-
-  // Primes ajoutées pour cohérence avec ifse2_primes.json
-  {
-    motif: 'Indemnité chaussures',
-    amount: 2.73,
-    jobs: ['Aide-soignante'],
-    direction: 'DMSP',
-    service: 'Infirmerie'
-  },
-  {
-    motif: 'Sujétions spécifiques aux soins',
-    amount: 182.75,
-    jobs: ['Aide-soignante'],
-    direction: 'DMSP',
-    service: 'SIADPA'
-  },
-  {
-    motif: 'Sujétions spécifiques aux soins (majoration)',
-    amount: 197.51,
-    jobs: ['Aide-soignante (selon ancienneté)'],
-    direction: 'DMSP',
-    service: 'SIADPA'
-  },
-  {
-    motif: 'Primes sujétions soir',
-    amount: 60.27,
-    jobs: ['Agents travaillant en soirée'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-  {
-    motif: 'Prime ODEC',
-    amount: 350,
-    jobs: ['Agents ODEC'],
-    direction: 'Toutes dir°',
-    service: 'Tous services'
-  },
-  {
-    motif: 'Prime grand âge',
-    amount: 340,
-    jobs: ['Personnel grand âge'],
-    direction: 'DSA',
-    service: 'Coordination gérontologique'
-  },
-  {
-    motif: 'PSR Radiologie',
-    amount: 465.63,
-    jobs: ['Manipulateur radiologie', 'Technicien radiologie'],
-    direction: 'DMSP',
-    service: 'Radiologie'
-  }
-];
-
-// Fonctions pour obtenir les données filtrées
+// Fonctions utilitaires IFSE 1
 export const getFunctionsByCategory = (category: 'A' | 'B' | 'C') => {
   return ifse1Data.filter(item => item.category === category);
 };
 
 export const getIFSE1ByFunction = (category: 'A' | 'B' | 'C', functionName: string) => {
   return ifse1Data.find(item => item.category === category && item.function === functionName);
-};
-
-export const getIFSE2ByJob = (jobTitle: string) => {
-  return ifse2Data.filter(item => 
-    item.jobs.some(job => job.toLowerCase().includes(jobTitle.toLowerCase()))
-  );
 };
 
 export const getAllCategories = (): ('A' | 'B' | 'C')[] => {
@@ -1147,26 +198,10 @@ export const getFunctionsForCategory = (category: 'A' | 'B' | 'C'): string[] => 
   const functions = ifse1Data
     .filter(item => item.category === category)
     .map(item => item.function);
-  return [...new Set(functions)]; // Supprime les doublons
+  return [...new Set(functions)];
 };
 
-// Fonctions pour les directions IFSE 2
-export const getAllDirections = (): string[] => {
-  const directions = ifse2Data.map(item => item.direction);
-  const uniqueDirections = [...new Set(directions)].sort();
-  return uniqueDirections;
-};
-
-export const getIFSE2ByDirection = (direction: string) => {
-  // Récupère les IFSE 2 spécifiques à la direction
-  const directionSpecific = ifse2Data.filter(item => item.direction === direction);
-  
-  // Récupère les IFSE 2 communes à toutes les directions
-  const commonIFSE2 = ifse2Data.filter(item => item.direction === 'Toutes dir°');
-  
-  return [...directionSpecific, ...commonIFSE2];
-};
-
+// Correspondance des codes de direction vers noms complets
 export const getDirectionFullName = (directionCode: string): string => {
   const directionNames: { [key: string]: string } = {
     'DMS': 'Direction Municipale des Sports',
@@ -1194,3 +229,30 @@ export const getDirectionFullName = (directionCode: string): string => {
   
   return directionNames[directionCode] || directionCode;
 };
+
+// Fonctions utilitaires IFSE 2 (utilisent ifse2_primes.json comme source unique)
+export const getAllDirections = (): string[] => {
+  const directions = ifse2Data.map(item => item.direction)
+  const uniqueDirections = [...new Set(directions)].sort()
+  return uniqueDirections
+}
+
+export const getIFSE2ByDirection = (direction: string): IFSE2Data[] => {
+  const directionSpecific = ifse2Data.filter(item => item.direction === direction)
+  const commonIFSE2 = ifse2Data.filter(item => item.direction === 'Toutes dir°' || item.direction === 'Toutes directions')
+  return [...directionSpecific, ...commonIFSE2]
+}
+
+export const getIFSE2ByJob = (jobTitle: string): IFSE2Data[] => {
+  return ifse2Data.filter(item => 
+    item.jobs.some(job => job.toLowerCase().includes(jobTitle.toLowerCase()))
+  )
+}
+
+export const getServicesByDirection = (direction: string): string[] => {
+  const services = ifse2Data
+    .filter(item => item.direction === direction)
+    .map(item => item.service)
+    .filter(service => service && service.trim() !== '')
+  return [...new Set(services)].sort()
+}

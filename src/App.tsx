@@ -11,9 +11,9 @@ import { ifse1Data, getAllDirections, getIFSE2ByDirection, getDirectionFullName 
 import { franceInfoRss } from "./data/rss-data.ts"
 import AdminPanel from "./components/AdminPanel.tsx"
 import AdminLogin from "./components/AdminLogin.tsx"
-import CalculateurCIA from "./components/CalculateurCIA.tsx"
-import CalculateurPrimes from "./components/CalculateurPrimes.tsx"
-import Calculateur13eme from "./components/Calculateur13eme.tsx"
+import CalculateurCIAV2 from "./components/CalculateurCIAV2.tsx"
+import CalculateurPrimesV2 from "./components/CalculateurPrimesV2.tsx"
+import Calculateur13emeV2 from "./components/Calculateur13emeV2.tsx"
 import Metiers from "./components/Metiers.tsx"
 import FAQ from "./components/FAQ.tsx"
 
@@ -35,8 +35,8 @@ interface RssItem {
 
 // --- COMPOSANT RSS BANDEAU (mémorisé pour éviter les re-renders) ---
 const RssBandeau = React.memo(({ rssItems, rssLoading }: { rssItems: RssItem[], rssLoading: boolean }) => {
-  // Mémoriser le contenu pour éviter que l'animation ne se réinitialise
-  const content = useMemo(() => {
+  // Générer le contenu des items
+  const renderItems = (keyPrefix: string) => {
     if (rssItems.length === 0) {
       return (
         <span className="text-base mx-8 font-light text-slate-100">
@@ -44,31 +44,37 @@ const RssBandeau = React.memo(({ rssItems, rssLoading }: { rssItems: RssItem[], 
         </span>
       )
     }
-    // Tripler les items pour un défilement continu
-    return [...rssItems, ...rssItems, ...rssItems].map((item, index) => (
+    return rssItems.map((item, index) => (
       <a
-        key={`rss-${index}-${item.link}`}
+        key={`${keyPrefix}-${index}`}
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-lg font-light mx-6 hover:text-cyan-300 cursor-pointer text-white transition-colors duration-100"
+        className="text-lg font-light mx-8 hover:text-cyan-300 cursor-pointer text-white transition-colors duration-100 inline-block"
       >
         • {item.title}
       </a>
     ))
-  }, [rssItems, rssLoading])
+  }
 
   return (
-    <section className="relative bg-gradient-to-r from-blue-600/60 via-indigo-600/60 to-blue-600/60 backdrop-blur-md text-white overflow-hidden w-full shadow-lg border-b border-blue-500/30 z-50 -mt-0">
+    <section className="relative bg-gradient-to-r from-blue-600/60 via-indigo-600/60 to-blue-600/60 backdrop-blur-md text-white overflow-hidden w-full shadow-lg border-b border-blue-500/30 z-50">
       <div className="relative h-16 flex items-center overflow-hidden">
+        {/* Label ACTU fixe à gauche */}
         <div className="absolute left-0 top-0 h-full w-40 flex items-center justify-center bg-gradient-to-r from-indigo-700 to-blue-700 backdrop-blur z-20 shadow-lg">
           <div className="flex items-center gap-2">
             <Rss className="w-4 h-4 text-cyan-300 animate-pulse" />
             <span className="text-base font-light tracking-wide text-white">ACTU:</span>
           </div>
         </div>
-        <div className="animate-marquee-rss whitespace-nowrap flex items-center pl-44">
-          {content}
+        {/* Container du défilement - 2 copies pour boucle infinie */}
+        <div className="flex items-center ml-44 animate-marquee-rss">
+          <div className="flex items-center whitespace-nowrap">
+            {renderItems('a')}
+          </div>
+          <div className="flex items-center whitespace-nowrap">
+            {renderItems('b')}
+          </div>
         </div>
       </div>
     </section>
@@ -155,9 +161,9 @@ function App() {
         const items = data.items || []
         
         if (items.length > 0) {
-          // Formater les articles avec le bullet point
+          // Formater les articles (sans bullet, ajouté au rendu)
           const formattedItems = items.slice(0, 5).map((item: any) => ({
-            title: item.title.startsWith('•') ? item.title : `• ${item.title}`,
+            title: item.title.replace(/^•\s*/, '').trim(),
             link: item.link || '#',
             pubDate: item.pubDate || new Date().toISOString()
           }))
@@ -859,13 +865,13 @@ ${contenuCible}
 
         {/* Contenu du calculateur sélectionné */}
         {activeCalculator === 'primes' && (
-          <CalculateurPrimes onClose={() => setActiveCalculator(null)} />
+          <CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} />
         )}
         {activeCalculator === 'cia' && (
-          <CalculateurCIA onClose={() => setActiveCalculator(null)} />
+          <CalculateurCIAV2 onClose={() => setActiveCalculator(null)} />
         )}
         {activeCalculator === '13eme' && (
-          <Calculateur13eme onClose={() => setActiveCalculator(null)} />
+          <Calculateur13emeV2 onClose={() => setActiveCalculator(null)} />
         )}
       </section>
       )}

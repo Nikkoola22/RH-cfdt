@@ -1,86 +1,14 @@
 import { useState, useMemo, useEffect } from 'react'
 import { ChevronRight, CheckCircle2, AlertCircle, TrendingUp, ArrowLeft } from 'lucide-react'
-import { ifse1Data, getDirectionFullName } from '../data/rifseep-data'
-import ifse2PrimesJson from './ifse2_primes.json'
-
-// Interface pour les données du JSON
-interface IFSE2PrimeJson {
-  Motif: string
-  Montant: string
-  Metiers_concernes: string
-  Direction: string
-  Service: string
-}
-
-// Interface pour les données transformées
-interface IFSE2Data {
-  motif: string
-  amount: number
-  jobs: string[]
-  direction: string
-  service: string
-}
-
-// Convertir les données JSON au format attendu
-const transformIfse2Data = (jsonData: IFSE2PrimeJson[]): IFSE2Data[] => {
-  // Grouper par motif, direction et service pour combiner les métiers
-  const grouped = new Map<string, IFSE2Data>()
-  
-  jsonData.forEach(item => {
-    const key = `${item.Motif}|${item.Direction}|${item.Service}`
-    // Gérer les montants avec virgule (format français) ou point (format anglais)
-    const amountStr = item.Montant.replace(' €', '').trim().replace(',', '.')
-    const amount = parseFloat(amountStr) || 0
-    
-    if (grouped.has(key)) {
-      const existing = grouped.get(key)!
-      if (!existing.jobs.includes(item.Metiers_concernes)) {
-        existing.jobs.push(item.Metiers_concernes)
-      }
-    } else {
-      grouped.set(key, {
-        motif: item.Motif,
-        amount: amount,
-        jobs: [item.Metiers_concernes],
-        direction: item.Direction,
-        service: item.Service
-      })
-    }
-  })
-  
-  return Array.from(grouped.values())
-}
-
-// Données IFSE2 transformées
-const ifse2Data = transformIfse2Data(ifse2PrimesJson as IFSE2PrimeJson[])
-
-// Fonction pour obtenir toutes les directions
-const getAllDirections = (): string[] => {
-  const directions = ifse2Data.map(item => item.direction)
-  const uniqueDirections = [...new Set(directions)].sort()
-  return uniqueDirections
-}
-
-// Fonction pour obtenir les IFSE2 par direction
-const getIFSE2ByDirection = (direction: string): IFSE2Data[] => {
-  // Récupère les IFSE 2 spécifiques à la direction
-  const directionSpecific = ifse2Data.filter(item => item.direction === direction)
-  
-  // Récupère les IFSE 2 communes à toutes les directions
-  const commonIFSE2 = ifse2Data.filter(item => item.direction === 'Toutes dir°' || item.direction === 'Toutes directions')
-  
-  return [...directionSpecific, ...commonIFSE2]
-}
-
-// Fonction pour obtenir les services uniques d'une direction
-const getServicesByDirection = (direction: string): string[] => {
-  const services = ifse2Data
-    .filter(item => item.direction === direction)
-    .map(item => item.service)
-    .filter(service => service && service.trim() !== '')
-  const uniqueServices = [...new Set(services)].sort()
-  return uniqueServices
-}
+import { 
+  ifse1Data, 
+  ifse2Data,
+  getDirectionFullName, 
+  getAllDirections, 
+  getIFSE2ByDirection, 
+  getServicesByDirection,
+  IFSE2Data 
+} from '../data/rifseep-data'
 
 interface CalculateurPrimesProps {
   onClose?: () => void
@@ -89,7 +17,7 @@ interface CalculateurPrimesProps {
 export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
   const [currentStep, setCurrentStep] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('')
-  const [selectedFunctionCode, setSelectedFunctionCode] = useState('')
+  const [selectedFunctionIndex, setSelectedFunctionIndex] = useState<number | null>(null)
   // const [selectedJob, setSelectedJob] = useState('') // Kept for future advanced filtering
   const [selectedDirection, setSelectedDirection] = useState('')
   const [selectedService, setSelectedService] = useState('')
@@ -122,10 +50,10 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
 
   // Calculs
   const ifse1Amount = useMemo(() => {
-    if (!selectedFunctionCode) return 0
-    const item = ifse1Data.find(i => i.functionCode === selectedFunctionCode && i.category === selectedCategory)
+    if (selectedFunctionIndex === null) return 0
+    const item = ifse1Data[selectedFunctionIndex]
     return item?.monthlyAmount || 0
-  }, [selectedFunctionCode, selectedCategory])
+  }, [selectedFunctionIndex])
 
   const ifse2Amount = useMemo(() => {
     if (!selectedDirection || selectedIFSE2.size === 0) return 0
@@ -241,10 +169,10 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
   }, [selectedCategory, currentStep])
 
   useEffect(() => {
-    if (currentStep === 2 && selectedFunctionCode) {
+    if (currentStep === 2 && selectedFunctionIndex !== null) {
       setTimeout(() => setCurrentStep(3), 300)
     }
-  }, [selectedFunctionCode, currentStep])
+  }, [selectedFunctionIndex, currentStep])
 
   useEffect(() => {
     if (currentStep === 3 && selectedDirection) {
@@ -255,31 +183,31 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
   const progressPercent = Math.round(
     (Object.values({
       category: selectedCategory ? 1 : 0,
-      function: selectedFunctionCode ? 1 : 0,
+      function: selectedFunctionIndex !== null ? 1 : 0,
       direction: selectedDirection ? 1 : 0,
       weekend: ifse3Total > 0 ? 1 : 0,
-      result: selectedFunctionCode ? 1 : 0,
+      result: selectedFunctionIndex !== null ? 1 : 0,
     }).reduce((a, b) => a + b, 0) / 5) * 100
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-purple-50 flex flex-col">
-      {/* Header avec bouton retour */}
-      <div className="bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 py-8 shadow-xl animate-fade-in">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-cyan-950 to-slate-900 flex flex-col">
+      {/* Header avec bouton retour - Style unifié dark */}
+      <div className="bg-gradient-to-r from-slate-800/95 to-cyan-900/95 backdrop-blur-md py-6 border-b border-cyan-500/30 shadow-xl">
         <div className="px-6 flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-white/20 rounded-full shadow-lg backdrop-blur-sm">
+            <div className="p-4 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-2xl shadow-2xl">
               <TrendingUp className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Calculateur PRIMES</h1>
-              <p className="text-blue-100 text-sm mt-1">Simulation complète - Calcul détaillé par étape</p>
+              <h1 className="text-2xl sm:text-3xl font-light text-white">Calculateur PRIMES</h1>
+              <p className="text-cyan-300/80 text-sm font-light mt-1">IFSE 1, IFSE 2, IFSE 3 et primes particulières</p>
             </div>
           </div>
           {onClose && (
             <button
               onClick={onClose}
-              className="flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+              className="flex items-center gap-2 px-5 py-2.5 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white rounded-lg font-light transition-all duration-150 border border-slate-600/30"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour
@@ -289,30 +217,7 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-2xl mx-auto space-y-3">
-        {/* CSS Animations */}
-        <style>{`
-          @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-          @keyframes slide-up {
-            from { 
-              opacity: 0; 
-              transform: translateY(20px);
-            }
-            to { 
-              opacity: 1; 
-              transform: translateY(0);
-            }
-          }
-          .animate-fade-in {
-            animation: fade-in 0.6s ease-out;
-          }
-          .animate-slide-up {
-            animation: slide-up 0.5s ease-out;
-          }
-        `}</style>
+        <div className="max-w-2xl mx-auto space-y-4">
 
         {/* ÉTAPE 1: CATÉGORIE */}
         <div className={`transition-all duration-500 transform ${!selectedCategory ? 'ring-2 ring-blue-400/50 shadow-lg shadow-blue-500/30 bg-blue-500/10' : ''} ${currentStep === 1 ? 'ring-2 ring-blue-400/50 shadow-lg shadow-blue-500/20 scale-100' : 'opacity-95 hover:opacity-100'} bg-gradient-to-br from-indigo-950/70 via-slate-800/50 to-indigo-900/40 rounded-xl p-6 border border-indigo-700/30 hover:border-blue-400/30 backdrop-blur-sm`}>
@@ -351,7 +256,7 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
         </div>
       </div>
 
-      {selectedCategory && !selectedFunctionCode && (
+      {selectedCategory && selectedFunctionIndex === null && (
         <div className="flex justify-center py-4 animate-bounce">
           <div className="text-blue-400 text-6xl">↓</div>
         </div>
@@ -359,27 +264,28 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
 
       {/* ÉTAPE 2: FONCTION (IFSE 1) */}
       {selectedCategory && (
-        <div className={`transition-all duration-500 transform ${!selectedFunctionCode ? 'ring-2 ring-cyan-400/50 shadow-lg shadow-cyan-500/30 bg-cyan-500/10' : ''} ${currentStep === 2 ? 'ring-2 ring-cyan-400/50 shadow-lg shadow-cyan-500/20 scale-100' : 'opacity-95 hover:opacity-100'} bg-gradient-to-br from-indigo-950/70 via-slate-800/50 to-indigo-900/40 rounded-xl p-6 border border-indigo-700/30 hover:border-cyan-400/30 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500`}>
+        <div className={`transition-all duration-500 transform ${selectedFunctionIndex === null ? 'ring-2 ring-cyan-400/50 shadow-lg shadow-cyan-500/30 bg-cyan-500/10' : ''} ${currentStep === 2 ? 'ring-2 ring-cyan-400/50 shadow-lg shadow-cyan-500/20 scale-100' : 'opacity-95 hover:opacity-100'} bg-gradient-to-br from-indigo-950/70 via-slate-800/50 to-indigo-900/40 rounded-xl p-6 border border-indigo-700/30 hover:border-cyan-400/30 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500`}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center text-white font-bold text-sm shadow-lg ${!selectedFunctionCode ? 'animate-pulse' : ''} ${currentStep === 2 ? 'animate-pulse' : ''}`}>
+              <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center text-white font-bold text-sm shadow-lg ${selectedFunctionIndex === null ? 'animate-pulse' : ''} ${currentStep === 2 ? 'animate-pulse' : ''}`}>
                 2
               </div>
               <div>
-                <h4 className={`text-lg font-bold tracking-tight ${!selectedFunctionCode ? 'text-cyan-300 font-bold' : 'text-white'}`}>{!selectedFunctionCode ? '👉 ' : ''}Fonction & IFSE 1</h4>
+                <h4 className={`text-lg font-bold tracking-tight ${selectedFunctionIndex === null ? 'text-cyan-300 font-bold' : 'text-white'}`}>{selectedFunctionIndex === null ? '👉 ' : ''}Fonction & IFSE 1</h4>
                 <p className="text-xs text-slate-400">Prime de base selon votre poste</p>
               </div>
             </div>
-            {selectedFunctionCode && <CheckCircle2 className="w-5 h-5 text-emerald-400 animate-bounce" />}
+            {selectedFunctionIndex !== null && <CheckCircle2 className="w-5 h-5 text-emerald-400 animate-bounce" />}
           </div>
 
           <div className="max-w-md mx-auto">
             <label className="text-xs text-slate-400 mb-2 block font-medium uppercase tracking-wide">Choisir une fonction:</label>
             <select
-              value={selectedFunctionCode}
+              value={selectedFunctionIndex ?? ''}
               onChange={(e) => {
-                setSelectedFunctionCode(e.target.value)
-                if (e.target.value) {
+                const val = e.target.value
+                setSelectedFunctionIndex(val ? Number(val) : null)
+                if (val) {
                   setCurrentStep(3)
                 }
               }}
@@ -387,9 +293,10 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
             >
               <option value="">-- Sélectionnez une fonction --</option>
               {ifse1Data
-                .filter(item => item.category === selectedCategory)
-                .map((item, idx) => (
-                  <option key={`${selectedCategory}-${idx}-${item.functionCode}`} value={item.functionCode}>
+                .map((item, globalIdx) => ({ item, globalIdx }))
+                .filter(({ item }) => item.category === selectedCategory)
+                .map(({ item, globalIdx }) => (
+                  <option key={`${selectedCategory}-${globalIdx}`} value={globalIdx}>
                     {item.function} - {item.monthlyAmount}€/mois
                   </option>
                 ))}
@@ -398,14 +305,14 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
         </div>
       )}
 
-      {selectedFunctionCode && !selectedDirection && (
+      {selectedFunctionIndex !== null && !selectedDirection && (
         <div className="flex justify-center py-4 animate-bounce">
           <div className="text-cyan-400 text-6xl">↓</div>
         </div>
       )}
 
       {/* ÉTAPE 3: PRIMES COMPLÉMENTAIRES (IFSE 2 & 3) */}
-      {selectedFunctionCode && (
+      {selectedFunctionIndex !== null && (
         <div className={`transition-all duration-300 ${currentStep === 3 ? 'ring-2 ring-teal-400/50' : ''} bg-gradient-to-br from-indigo-950/60 to-indigo-900/30 rounded-xl p-6 border border-indigo-700/30 hover:border-indigo-600/50`}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -593,14 +500,14 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
         </div>
       )}
 
-      {selectedFunctionCode && selectedJob && (weekendSaturdays === 0 && weekendSundays === 0) && (
+      {selectedFunctionIndex !== null && selectedJob && (weekendSaturdays === 0 && weekendSundays === 0) && (
         <div className="flex justify-center py-4 animate-bounce">
           <div className="text-purple-400 text-6xl">↓</div>
         </div>
       )}
 
       {/* ÉTAPE 4: PRIMES WEEK-END (IFSE 3) */}
-      {selectedFunctionCode && (
+      {selectedFunctionIndex !== null && (
         <div className={`transition-all duration-300 ${(weekendSaturdays === 0 && weekendSundays === 0) ? 'ring-2 ring-purple-400/50 shadow-lg shadow-purple-500/30 bg-purple-500/10' : ''} ${currentStep === 4 ? 'ring-2 ring-purple-400/50 shadow-lg shadow-purple-500/20' : ''} bg-gradient-to-br from-indigo-950/60 to-indigo-900/30 rounded-xl p-6 border border-indigo-700/30 hover:border-indigo-600/50`}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -717,22 +624,22 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
         </div>
       )}
 
-      {selectedFunctionCode && currentStep >= 5 && (selectedSpecialPrimes.length === 0) && (
+      {selectedFunctionIndex !== null && currentStep >= 5 && (selectedSpecialPrimes.size === 0) && (
         <div className="flex justify-center py-4 animate-bounce">
           <div className="text-orange-400 text-6xl">↓</div>
         </div>
       )}
 
       {/* ÉTAPE 5: PRIMES PARTICULIÈRES */}
-      {selectedFunctionCode && (
-        <div className={`transition-all duration-300 ${selectedSpecialPrimes.length === 0 ? 'ring-2 ring-orange-400/50 shadow-lg shadow-orange-500/30 bg-orange-500/10' : ''} ${currentStep === 5 ? 'ring-2 ring-orange-400/50 shadow-lg shadow-orange-500/20' : ''} bg-gradient-to-br from-indigo-950/60 to-indigo-900/30 rounded-xl p-6 border border-indigo-700/30 hover:border-indigo-600/50`}>
+      {selectedFunctionIndex !== null && (
+        <div className={`transition-all duration-300 ${selectedSpecialPrimes.size === 0 ? 'ring-2 ring-orange-400/50 shadow-lg shadow-orange-500/30 bg-orange-500/10' : ''} ${currentStep === 5 ? 'ring-2 ring-orange-400/50 shadow-lg shadow-orange-500/20' : ''} bg-gradient-to-br from-indigo-950/60 to-indigo-900/30 rounded-xl p-6 border border-indigo-700/30 hover:border-indigo-600/50`}>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-white font-bold text-sm shadow-lg ${selectedSpecialPrimes.length === 0 ? 'animate-pulse' : ''} ${currentStep === 5 ? 'animate-pulse' : ''}`}>
+              <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-white font-bold text-sm shadow-lg ${selectedSpecialPrimes.size === 0 ? 'animate-pulse' : ''} ${currentStep === 5 ? 'animate-pulse' : ''}`}>
                 5
               </div>
               <div>
-                <h4 className={`text-xl font-bold ${selectedSpecialPrimes.length === 0 ? 'text-orange-300 font-bold' : 'text-white'}`}>{selectedSpecialPrimes.length === 0 ? '👉 ' : ''}Primes particulières</h4>
+                <h4 className={`text-xl font-bold ${selectedSpecialPrimes.size === 0 ? 'text-orange-300 font-bold' : 'text-white'}`}>{selectedSpecialPrimes.size === 0 ? '👉 ' : ''}Primes particulières</h4>
                 <p className="text-xs text-slate-400">Primes additionnelles non liées à un métier spécifique</p>
               </div>
             </div>
@@ -785,22 +692,22 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
         </div>
       )}
 
-      {selectedFunctionCode && selectedSpecialPrimes.length > 0 && (
+      {selectedFunctionIndex !== null && selectedSpecialPrimes.size > 0 && (
         <div className="flex justify-center py-4 animate-bounce">
           <div className="text-green-400 text-6xl">↓</div>
         </div>
       )}
 
       {/* ÉTAPE 6: RÉSULTAT FINAL */}
-      {selectedFunctionCode && (
-        <div className={`transition-all duration-500 transform ${!selectedSpecialPrimes.length > 0 ? 'ring-2 ring-green-400/50 shadow-xl shadow-green-500/30 bg-green-500/10' : ''} ${currentStep === 6 ? 'ring-2 ring-green-400/50 shadow-xl shadow-green-500/20 scale-100' : 'opacity-95'} bg-gradient-to-br from-emerald-950/50 via-teal-900/40 to-cyan-900/30 rounded-xl p-6 border border-emerald-600/30 shadow-lg backdrop-blur-sm animate-in fade-in duration-500`}>
+      {selectedFunctionIndex !== null && (
+        <div className={`transition-all duration-500 transform ${selectedSpecialPrimes.size === 0 ? 'ring-2 ring-green-400/50 shadow-xl shadow-green-500/30 bg-green-500/10' : ''} ${currentStep === 6 ? 'ring-2 ring-green-400/50 shadow-xl shadow-green-500/20 scale-100' : 'opacity-95'} bg-gradient-to-br from-emerald-950/50 via-teal-900/40 to-cyan-900/30 rounded-xl p-6 border border-emerald-600/30 shadow-lg backdrop-blur-sm animate-in fade-in duration-500`}>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-lg ${!selectedSpecialPrimes.length > 0 ? 'animate-pulse' : ''} ${currentStep === 6 ? 'animate-pulse' : ''}`}>
+              <div className={`w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shadow-lg ${selectedSpecialPrimes.size === 0 ? 'animate-pulse' : ''} ${currentStep === 6 ? 'animate-pulse' : ''}`}>
                 6
               </div>
               <div>
-                <h4 className={`text-lg font-bold tracking-tight ${!selectedSpecialPrimes.length > 0 ? 'text-green-300 font-bold' : 'text-white'}`}>{!selectedSpecialPrimes.length > 0 ? '👉 ' : ''}Résumé total</h4>
+                <h4 className={`text-lg font-bold tracking-tight ${selectedSpecialPrimes.size === 0 ? 'text-green-300 font-bold' : 'text-white'}`}>{selectedSpecialPrimes.size === 0 ? '👉 ' : ''}Résumé total</h4>
                 <p className="text-xs text-slate-200">Somme de toutes vos primes</p>
               </div>
             </div>
@@ -844,7 +751,7 @@ export default function CalculateurPrimes({ onClose }: CalculateurPrimesProps) {
           <button
             onClick={() => {
               setSelectedCategory('')
-              setSelectedFunctionCode('')
+              setSelectedFunctionIndex(null)
               setSelectedDirection('')
               setSelectedService('')
               setSelectedJob('')

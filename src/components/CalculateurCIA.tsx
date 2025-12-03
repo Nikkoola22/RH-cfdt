@@ -156,23 +156,23 @@ Calcul détaillé du CIA:
   return (
     <>
       <style>{styles}</style>
-      <div className="flex flex-col h-full">
-        {/* Header avec bouton retour - Modern gradient with animations */}
-        <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 py-8 text-left border-b border-orange-400/30 px-6 shadow-xl animate-fade-in">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative p-4 bg-white/20 rounded-full">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-orange-950 to-slate-900 flex flex-col">
+        {/* Header avec bouton retour - Style unifié dark */}
+        <div className="bg-gradient-to-r from-slate-800/95 to-orange-900/95 backdrop-blur-md py-6 border-b border-orange-500/30 shadow-xl">
+          <div className="px-6 flex items-center justify-between max-w-6xl mx-auto">
+            <div className="flex items-center gap-4">
+              <div className="p-4 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-2xl shadow-2xl">
                 <Euro className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-3xl font-bold text-white">Calculateur CIA</h3>
-                <p className="text-orange-50 text-sm">Complément Indemnitaire Annuel - Calcul pas à pas</p>
+                <h3 className="text-2xl sm:text-3xl font-light text-white">Calculateur CIA</h3>
+                <p className="text-orange-300/80 text-sm font-light mt-1">Complément Indemnitaire Annuel - Calcul pas à pas</p>
               </div>
             </div>
             {onClose && (
               <button
                 onClick={onClose}
-                className="flex items-center gap-2 px-4 py-2 bg-red-700/80 hover:bg-red-800 text-white rounded-full font-semibold transition-all text-sm hover:scale-105"
+                className="flex items-center gap-2 px-5 py-2.5 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white rounded-lg font-light transition-all duration-150 border border-slate-600/30"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Retour
@@ -181,10 +181,10 @@ Calcul détaillé du CIA:
           </div>
         </div>
 
-      <div className="space-y-6 flex-1 overflow-y-auto p-6 max-w-2xl mx-auto w-full bg-gradient-to-b from-orange-50 via-amber-50 to-red-50">
+      <div className="space-y-6 flex-1 overflow-y-auto p-6 max-w-2xl mx-auto w-full">
         {/* PROGRESS TRACKER - Suivi des étapes */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-l-orange-500 animate-slide-up">
-          <h4 className="font-bold text-gray-800 mb-4 text-center">Votre parcours de calcul</h4>
+        <div className="bg-gradient-to-br from-slate-800/80 to-orange-900/40 backdrop-blur-md rounded-2xl p-6 border border-orange-500/30 shadow-lg">
+          <h4 className="font-light text-white mb-4 text-center">Votre parcours de calcul</h4>
           <div className="flex items-center justify-between">
             {[
               { num: 1, label: "IFSE mensuel", icon: "💰" },
@@ -195,17 +195,17 @@ Calcul détaillé du CIA:
               <div key={etape.num} className="flex flex-col items-center flex-1">
                 <button
                   onClick={() => setEtapeActive(etape.num)}
-                  className={`w-12 h-12 rounded-full font-bold text-lg mb-2 transition-all transform hover:scale-110 ${
+                  className={`w-12 h-12 rounded-full font-light text-lg mb-2 transition-all transform hover:scale-110 ${
                     etapeActive >= etape.num
-                      ? 'bg-gradient-to-br from-orange-500 to-red-600 text-white shadow-lg'
-                      : 'bg-slate-200 text-gray-600'
+                      ? 'bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30'
+                      : 'bg-slate-700/50 text-slate-400 border border-slate-600/30'
                   } flex items-center justify-center`}
                 >
                   {etape.num}
                 </button>
-                <span className="text-xs font-medium text-gray-700 text-center">{etape.label}</span>
+                <span className="text-xs font-light text-slate-300 text-center">{etape.label}</span>
                 {idx < 3 && (
-                  <div className={`h-1 w-full mx-1 mt-2 ${etapeActive > etape.num ? 'bg-orange-500' : 'bg-slate-300'}`}></div>
+                  <div className={`h-1 w-full mx-1 mt-2 rounded ${etapeActive > etape.num ? 'bg-orange-500' : 'bg-slate-700'}`}></div>
                 )}
               </div>
             ))}
@@ -213,29 +213,29 @@ Calcul détaillé du CIA:
         </div>
 
         {/* ÉTAPE 1: IFSE Mensuel */}
-        <div className={`rounded-2xl shadow-lg overflow-hidden transition-all animate-slide-up-delay-1 ${etapeActive >= 1 ? 'ring-2 ring-orange-400' : ''}`}>
-          <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 text-white p-6">
+        <div className={`rounded-2xl overflow-hidden transition-all ${etapeActive >= 1 ? 'ring-2 ring-orange-500/50' : ''}`}>
+          <div className="bg-gradient-to-r from-orange-600/80 to-amber-600/80 text-white p-5">
             <div className="flex items-center gap-3">
-              <div className="text-3xl">💰</div>
+              <div className="text-2xl">💰</div>
               <div>
-                <h4 className="font-bold text-xl uppercase tracking-wide">◆ Étape 1</h4>
-                <p className="text-orange-50 text-sm mt-1">Votre IFSE mensuel - La base de votre calcul</p>
+                <h4 className="font-light text-lg">◆ Étape 1 - IFSE Mensuel</h4>
+                <p className="text-orange-100/80 text-sm font-light">La base de votre calcul CIA</p>
               </div>
             </div>
           </div>
           
           {etapeActive < 2 && (
-          <div className="bg-gradient-to-b from-orange-50 via-amber-50 to-red-50 border-t-4 border-t-orange-200 p-8 space-y-6">
+          <div className="bg-gradient-to-br from-slate-800/80 to-orange-900/30 border border-orange-500/20 p-6 space-y-5">
             {/* Section 1: Montant IFSE */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-l-orange-500 space-y-4">
-              <h5 className="text-sm font-semibold text-orange-600 uppercase tracking-wide">📊 Montant IFSE mensuel</h5>
+            <div className="bg-slate-800/50 rounded-xl p-5 border border-orange-500/20 space-y-4">
+              <h5 className="text-sm font-light text-orange-400 uppercase tracking-wide">📊 Montant IFSE mensuel</h5>
               
               <div>
-                <label className="block text-xs uppercase tracking-wide text-gray-700 font-semibold mb-3">
+                <label className="block text-xs uppercase tracking-wide text-slate-400 font-light mb-3">
                   Montant que vous percevez mensuellement
                 </label>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold text-orange-600">€</span>
+                  <span className="text-2xl font-light text-orange-400">€</span>
                   <input
                     type="number"
                     value={ifseMensuel || ''}
@@ -244,48 +244,45 @@ Calcul détaillé du CIA:
                       setIfseMensuel(val);
                     }}
                     placeholder="Ex: 250"
-                    className="flex-1 px-4 py-3 rounded-lg bg-white border-2 border-orange-200 text-gray-800 font-semibold placeholder-gray-400 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 focus:outline-none transition-all"
+                    className="flex-1 px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600/50 text-white font-light placeholder-slate-500 focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 focus:outline-none transition-all"
                   />
                 </div>
-                <p className="text-xs text-gray-600 mt-2">Veuillez regarder sur votre fiche de paie</p>
+                <p className="text-xs text-slate-500 mt-2 font-light">Veuillez regarder sur votre fiche de paie</p>
               </div>
             </div>
 
             {ifseMensuelTotal > 0 && (
-              <div className="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 rounded-2xl p-6 border-l-4 border-l-orange-300 shadow-lg">
-                <p className="text-white font-bold text-lg flex items-center gap-3 mb-2">
-                  <span className="text-2xl">📊</span>
+              <div className="bg-gradient-to-r from-orange-600/30 to-amber-600/30 rounded-xl p-5 border border-orange-500/30">
+                <p className="text-white font-light text-base flex items-center gap-3 mb-2">
+                  <span className="text-xl">📊</span>
                   Estimation des week-ends
                 </p>
-                <p className="text-orange-50 text-sm font-semibold">Depuis IFSE3 déclaratif, estimez le nombre de samedi/dimanche par mois</p>
-                <div className="mt-3 pt-3 border-t border-orange-300/40">
-                  <p className="text-xs text-orange-100 italic">💡 Ce nombre servira à calculer votre complément IFSE</p>
-                </div>
+                <p className="text-orange-200/80 text-sm font-light">Depuis IFSE3 déclaratif, estimez le nombre de samedi/dimanche par mois</p>
               </div>
             )}
 
             {/* Section 2: Week-ends et Taux */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-l-orange-500 space-y-4">
-              <h5 className="text-sm font-semibold text-orange-600 uppercase tracking-wide">📈 Paramètres supplémentaires</h5>
+            <div className="bg-slate-800/50 rounded-xl p-5 border border-orange-500/20 space-y-4">
+              <h5 className="text-sm font-light text-orange-400 uppercase tracking-wide">📈 Paramètres supplémentaires</h5>
               
               {/* Choix mode: Estimation ou Nombre exact */}
-              <div className="flex gap-3 p-3 bg-orange-100 rounded-lg">
+              <div className="flex gap-3 p-2 bg-slate-900/50 rounded-lg">
                 <button
                   onClick={() => setWeekendMode('estimate')}
-                  className={`flex-1 py-2 px-3 rounded-lg font-semibold text-xs uppercase transition-all ${
+                  className={`flex-1 py-2 px-3 rounded-lg font-light text-xs uppercase transition-all ${
                     weekendMode === 'estimate'
-                      ? 'bg-orange-600 text-white shadow-md'
-                      : 'bg-white text-orange-600 hover:bg-orange-50'
+                      ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30'
+                      : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700'
                   }`}
                 >
                   📊 Estimation
                 </button>
                 <button
                   onClick={() => setWeekendMode('exact')}
-                  className={`flex-1 py-2 px-3 rounded-lg font-semibold text-xs uppercase transition-all ${
+                  className={`flex-1 py-2 px-3 rounded-lg font-light text-xs uppercase transition-all ${
                     weekendMode === 'exact'
-                      ? 'bg-orange-600 text-white shadow-md'
-                      : 'bg-white text-orange-600 hover:bg-orange-50'
+                      ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30'
+                      : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700'
                   }`}
                 >
                   🎯 Nombre exact
@@ -296,13 +293,13 @@ Calcul détaillé du CIA:
               {weekendMode === 'estimate' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wide text-gray-700 font-semibold mb-2">
+                    <label className="block text-xs uppercase tracking-wide text-slate-400 font-light mb-2">
                       Week-ends (samedi/dimanche) en N-1
                     </label>
                     <select
                       value={weekendServices}
                       onChange={(e) => setWeekendServices(Number(e.target.value))}
-                      className="w-full px-4 py-3 rounded-lg bg-white border-2 border-orange-200 text-gray-800 font-semibold focus:ring-2 focus:ring-orange-200 focus:border-orange-500 focus:outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600/50 text-white font-light focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 focus:outline-none transition-all"
                     >
                       {weekendOptions.map((value) => (
                         <option key={value} value={value}>{value} week-end{value > 1 ? 's' : ''}</option>
@@ -310,13 +307,13 @@ Calcul détaillé du CIA:
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wide text-gray-700 font-semibold mb-2">
+                    <label className="block text-xs uppercase tracking-wide text-slate-400 font-light mb-2">
                       Taux appliqué par week-end
                     </label>
                     <select
                       value={weekendRate}
                       onChange={(e) => setWeekendRate(Number(e.target.value))}
-                      className="w-full px-4 py-3 rounded-lg bg-white border-2 border-orange-200 text-gray-800 font-semibold focus:ring-2 focus:ring-orange-200 focus:border-orange-500 focus:outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600/50 text-white font-light focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 focus:outline-none transition-all"
                     >
                       {[40, 60, 80].map(rate => (
                         <option key={rate} value={rate}>{rate} €</option>
@@ -330,7 +327,7 @@ Calcul détaillé du CIA:
               {weekendMode === 'exact' && (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs uppercase tracking-wide text-gray-700 font-semibold mb-2">
+                    <label className="block text-xs uppercase tracking-wide text-slate-400 font-light mb-2">
                       Je connais le nombre exact de week-ends réalisés
                     </label>
                     <div className="flex gap-2">
@@ -344,9 +341,9 @@ Calcul détaillé du CIA:
                           setWeekendExact(val);
                         }}
                         placeholder="0 - 52"
-                        className="flex-1 px-4 py-3 rounded-lg bg-white border-2 border-orange-200 text-gray-800 font-semibold placeholder-gray-400 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 focus:outline-none transition-all"
+                        className="flex-1 px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-600/50 text-white font-light placeholder-slate-500 focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 focus:outline-none transition-all"
                       />
-                      <span className="text-sm text-gray-700 font-semibold py-3 px-2">week-ends</span>
+                      <span className="text-sm text-slate-400 font-light py-3 px-2">week-ends</span>
                     </div>
                     <p className="text-xs text-gray-600 mt-2">Maximum 52 week-ends par année</p>
                   </div>
