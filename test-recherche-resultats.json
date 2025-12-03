@@ -1,0 +1,175 @@
+{
+  "date": "2025-12-03T06:22:09.526Z",
+  "scoreFinal": "100%",
+  "testsReussis": "6/6",
+  "resultats": [
+    {
+      "id": 1,
+      "question": "Combien de jours de congés annuels ai-je droit ?",
+      "reponseAttendue": [
+        "25",
+        "jours"
+      ],
+      "categorie": "Congés annuels",
+      "sections": [
+        "temps_ch2_conges_annuels"
+      ],
+      "reponse": "À la Mairie de Gennevilliers, le nombre de jours de congés annuels auquel vous avez droit dépend de votre **obligation hebdomadaire de travail** :\n\n- **5 jours travaillés/semaine** : 25 jours de congés annuels\n- **4,5 jours travaillés/semaine** : 22,5 jours de congés annuels\n- **4 jours travaillés/semaine** : 20 jours de congés annuels\n- **3,5 jours travaillés/semaine** : 17,5 jours de congés annu",
+      "tempsMs": 10796,
+      "score": 2,
+      "total": 2,
+      "pourcentage": 100,
+      "details": [
+        {
+          "element": "25",
+          "trouve": true
+        },
+        {
+          "element": "jours",
+          "trouve": true
+        }
+      ],
+      "reussi": true
+    },
+    {
+      "id": 2,
+      "question": "Combien de RTT avec un cycle de 38h ?",
+      "reponseAttendue": [
+        "18",
+        "jours"
+      ],
+      "categorie": "RTT",
+      "sections": [
+        "temps_ch2_rtt"
+      ],
+      "reponse": "Je ne trouve pas cette information dans la documentation fournie par la Mairie de Gennevilliers.\n\nLa documentation disponible traite des jours d'A.R.T.T (Aménagement et Réduction du Temps de Travail) et non des RTT. Selon le document sur les congés de Gennevilliers, pour un cycle de 38 heures par semaine, un agent à temps complet bénéficie de **18 jours d'A.R.T.T**.\n\nSi vous avez une question spéc",
+      "tempsMs": 6671,
+      "score": 2,
+      "total": 2,
+      "pourcentage": 100,
+      "details": [
+        {
+          "element": "18",
+          "trouve": true
+        },
+        {
+          "element": "jours",
+          "trouve": true
+        }
+      ],
+      "reussi": true
+    },
+    {
+      "id": 3,
+      "question": "Combien de jours pour le décès de mon père ?",
+      "reponseAttendue": [
+        "5",
+        "jours"
+      ],
+      "categorie": "Décès",
+      "sections": [
+        "temps_ch3_deces"
+      ],
+      "reponse": "Selon la documentation de la Mairie de Gennevilliers, en cas de décès de votre père, vous avez droit à **5 jours ouvrés** d'autorisation d'absence.\n\nCette autorisation doit être présentée sur présentation d'un certificat de décès, au plus tard à votre retour.",
+      "tempsMs": 6692,
+      "score": 2,
+      "total": 2,
+      "pourcentage": 100,
+      "details": [
+        {
+          "element": "5",
+          "trouve": true
+        },
+        {
+          "element": "jours",
+          "trouve": true
+        }
+      ],
+      "reussi": true
+    },
+    {
+      "id": 4,
+      "question": "Quelles sont les plages fixes de présence obligatoire ?",
+      "reponseAttendue": [
+        "9h30",
+        "16h30"
+      ],
+      "categorie": "Horaires",
+      "sections": [
+        "temps_ch1_plages"
+      ],
+      "reponse": "Selon la documentation de la Mairie de Gennevilliers, les plages fixes de présence obligatoire sont les horaires de travail de présence obligatoire proposés par la collectivité.\n\n## Horaires des plages fixes\n\n**Du lundi au jeudi :**\n- Matin : de 9h30 à 12h\n- Pause déjeuner : 45 minutes\n- Après-midi : de 14h à 16h30\n\n**Le vendredi :**\n- Matin : de 9h30 à 12h\n- Pause déjeuner : 45 minutes\n- Après-mi",
+      "tempsMs": 8123,
+      "score": 2,
+      "total": 2,
+      "pourcentage": 100,
+      "details": [
+        {
+          "element": "9h30",
+          "trouve": true
+        },
+        {
+          "element": "16h30",
+          "trouve": true
+        }
+      ],
+      "reussi": true
+    },
+    {
+      "id": 5,
+      "question": "Combien de jours de télétravail par semaine maximum ?",
+      "reponseAttendue": [
+        "2",
+        "jours"
+      ],
+      "categorie": "Télétravail",
+      "sections": [
+        "teletravail_jours"
+      ],
+      "reponse": "À la Mairie de Gennevilliers, le télétravail est limité à **1 jour fixe par semaine accompagné d'un forfait annuel de 15 jours dans la limite de 3 jours maximum par mois**.\n\nCela signifie que vous ne pouvez pas dépasser **2 jours de télétravail par semaine** en tenant compte de l'articulation entre le jour fixe et l'utilisation du forfait annuel.\n\nEn contrepartie, **la présence sur site est obliga",
+      "tempsMs": 7678,
+      "score": 2,
+      "total": 2,
+      "pourcentage": 100,
+      "details": [
+        {
+          "element": "2",
+          "trouve": true
+        },
+        {
+          "element": "jours",
+          "trouve": true
+        }
+      ],
+      "reussi": true
+    },
+    {
+      "id": 6,
+      "question": "Combien d'heures CPF acquises par an ?",
+      "reponseAttendue": [
+        "25",
+        "heures"
+      ],
+      "categorie": "Formation CPF",
+      "sections": [
+        "formation_cpf"
+      ],
+      "reponse": "Selon le règlement intérieur formation de la Mairie de Gennevilliers, l'alimentation du Compte Personnel de Formation (CPF) est la suivante :\n\n**Pour les agents standard :**\n- **25 heures par an**, avec un plafond de **150 heures**\n\n**Pour les agents de catégorie C n'ayant pas atteint un niveau de formation sanctionné par un diplôme ou un titre professionnel correspondant au niveau 3 :**\n- **50 he",
+      "tempsMs": 8827,
+      "score": 2,
+      "total": 2,
+      "pourcentage": 100,
+      "details": [
+        {
+          "element": "25",
+          "trouve": true
+        },
+        {
+          "element": "heures",
+          "trouve": true
+        }
+      ],
+      "reussi": true
+    }
+  ]
+}
