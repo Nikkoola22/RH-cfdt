@@ -53,7 +53,7 @@ const STEPS = [
     icon: CalendarDays,
     color: 'purple',
     description: 'Vos jours d\'absence de l\'année précédente impactent la seconde moitié du CIA (50%).',
-    tip: '💡 < 5 jours = 100% | 5-10 jours = 50% | > 10 jours = 0% de la deuxième moitié'
+    tip: "⚠️ Attention : si vous êtes arrêté du vendredi matin au mardi soir, il faut compter le week-end, donc 5 jours !"
   },
   { 
     id: 5, 

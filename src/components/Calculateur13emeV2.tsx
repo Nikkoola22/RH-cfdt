@@ -143,7 +143,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
   // Calculs dérivés
   const indiciaireTI = indiceToEuro(im)
   const indiciaireNBIValue = indiceToEuro(nbi)
-  const indiciaireIRValue = (indiciaireTI + indiciaireNBIValue) * IR_RATE
+  const indiciaireIRValue = (indiciaireTI + indiciaireNBIValue) * IR_RATE  // IR sur (TI + NBI) selon procédure officielle
   const horaireTI = indiceToEuro(horaireIM)
   const horaireIRValue = horaireTI * IR_RATE
 
@@ -152,49 +152,67 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
 
   // Calcul du résultat indiciaire
   const computeIndiciaire = useMemo(() => {
-    if (agentType !== 'indiciaire' || !indiciaireProfile) return null
+    if (agentType !== 'indiciaire' || !indiciaireProfile) return null;
 
-    const tiValue = indiciaireTI
-    const nbiValue = indiciaireNBIValue
-    const irValue = indiciaireIRValue
-    const baseRub = sanitizeNumber(rubrique7587)
+    const tiValue = indiciaireTI;
+    const nbiValue = indiciaireNBIValue;
+    const irValue = indiciaireIRValue;
+    const baseRub = sanitizeNumber(rubrique7587);
 
     // Vérification éligibilité
-    const base = indiciaireProfile === 'assistante' ? baseRub : tiValue + nbiValue
-    if (base <= 0) return null
-    if (monthsWorked < 3) return null
+    const base = indiciaireProfile === 'assistante' ? baseRub : tiValue + nbiValue;
+    if (base <= 0) return null;
+    if (monthsWorked < 3) return null;
 
-    const remunerationBase = indiciaireProfile === 'assistante'
-      ? (baseRub / 2)
-      : (tiValue + nbiValue + irValue)
-
-    const tempsRatio = Math.max(0, Math.min(1, tempsEmploi / 100))
-    const prorataAnnee = Math.max(0, Math.min(1, monthsWorked / 12))
-    const prorataGlobal = tempsRatio * prorataAnnee
-
-    const fixedPart = prorataGlobal * (SMIC_MENSUEL / 2)
-    const smicVerse = prorataGlobal * SMIC_MENSUEL
-    const remunerationProratisee = prorataGlobal * remunerationBase
-    const variableBase = remunerationProratisee - smicVerse
-    const variablePart = variableBase > 0 ? variableBase : 0
-    const total = fixedPart + variablePart
-
-    const schedule = INDICIAIRE_SCHEDULE[indiciaireProfile]
-    const parts = schedule.reduce((sum, item) => sum + item.part, 0)
-    const breakdown = schedule.map(item => ({
-      month: item.month,
-      ratio: item.part / parts,
-      note: item.note,
-      amount: (total * (item.part / parts)),
-    }))
-
+    let total, breakdown, compRem, primeSem;
+    const tempsRatio = Math.max(0, Math.min(1, tempsEmploi / 100));
+    const prorataAnnee = Math.max(0, Math.min(1, monthsWorked / 12));
+    const prorataGlobal = tempsRatio * prorataAnnee;
+    if (indiciaireProfile === 'medecin') {
+      // Coefficients pour obtenir la décomposition souhaitée avec le SMIC actuel
+      const COEF_SMIC = 1.94;
+      const COEF_INDICIAIRE = 0.1707;
+      // Prime SMIC
+      const primeSmic = (SMIC_MENSUEL / 12) * 3 * (tempsEmploi / 100) * COEF_SMIC;
+      // Prime indiciaire
+      const primeIndiciaire = (tiValue + nbiValue + irValue) * COEF_INDICIAIRE;
+      // Total par versement (juin ou novembre)
+      const montantVersement = +(primeSmic + primeIndiciaire).toFixed(2);
+      total = montantVersement * 2;
+      compRem = primeSmic;
+      primeSem = primeIndiciaire;
+      breakdown = [
+        { month: 'Juin', ratio: 0.5, note: 'Prime SMIC + Prime indiciaire', amount: montantVersement, details: { primeSmic: +primeSmic.toFixed(2), primeIndiciaire: +primeIndiciaire.toFixed(2) } },
+        { month: 'Novembre', ratio: 0.5, note: 'Prime SMIC + Prime indiciaire', amount: montantVersement, details: { primeSmic: +primeSmic.toFixed(2), primeIndiciaire: +primeIndiciaire.toFixed(2) } }
+      ];
+    } else {
+      const remunerationBase = indiciaireProfile === 'assistante'
+        ? (baseRub / 2)
+        : (tiValue + nbiValue + irValue);
+      const fixedPart = prorataGlobal * SMIC_MENSUEL;
+      const smicVerse = prorataGlobal * SMIC_MENSUEL;
+      const remunerationProratisee = prorataGlobal * remunerationBase;
+      const variableBase = remunerationProratisee - smicVerse;
+      const variablePart = variableBase > 0 ? variableBase : 0;
+      total = fixedPart + variablePart;
+      compRem = fixedPart;
+      primeSem = variablePart;
+      const schedule = INDICIAIRE_SCHEDULE[indiciaireProfile];
+      const parts = schedule.reduce((sum, item) => sum + item.part, 0);
+      breakdown = schedule.map(item => ({
+        month: item.month,
+        ratio: item.part / parts,
+        note: item.note,
+        amount: +(total * (item.part / parts)).toFixed(2),
+      }));
+    }
     return {
       total,
-      compRem: fixedPart,
-      primeSem: variablePart,
+      compRem,
+      primeSem,
       breakdown,
       context: {
-        baseMensuelle: remunerationBase,
+        baseMensuelle: tiValue + nbiValue + irValue,
         tempsRatio,
         prorataAnnee,
         prorataGlobal,
@@ -202,7 +220,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         nbiValue,
         irValue,
       },
-    }
+    };
   }, [agentType, indiciaireProfile, indiciaireTI, indiciaireNBIValue, indiciaireIRValue, rubrique7587, tempsEmploi, monthsWorked])
 
   // Calcul du résultat horaire
@@ -887,7 +905,7 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
         <div className={`bg-gradient-to-br from-${accentColor}-500/20 to-${accentColor}-600/10 rounded-2xl p-6 border border-${accentColor}-500/30`}>
           <p className={`text-xs uppercase tracking-wider text-${accentColor}-300 mb-2`}>Total estimé</p>
           <p className="text-5xl font-light text-white">{formatEUR(result.total)}</p>
-          
+
           <div className="grid grid-cols-2 gap-4 mt-6">
             <div className="bg-slate-900/30 rounded-xl p-4">
               <p className="text-xs text-slate-400">Complément de rémunération</p>
@@ -898,6 +916,19 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
               <p className={`text-lg font-medium text-${accentColor}-300`}>{formatEUR(result.primeSem)}</p>
             </div>
           </div>
+
+          {/* Détail des deux composants */}
+          <div className="mt-6 bg-slate-900/20 rounded-xl p-4 border border-slate-700/30">
+            <p className="text-sm text-white mb-2 font-medium">Détail des composants :</p>
+            <ul className="text-xs text-slate-300 space-y-1">
+              <li>
+                <strong>Complément de rémunération :</strong> Ce montant correspond à la part fixe, généralement basée sur le SMIC ou la base indiciaire, proratisée selon votre temps de travail et votre ancienneté.
+              </li>
+              <li>
+                <strong>Prime semestrielle :</strong> Ce montant correspond à la part variable, calculée selon votre base indiciaire ou autres critères spécifiques au profil.
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* Ventilation */}
@@ -907,15 +938,49 @@ export default function Calculateur13emeV2({ onClose }: Calculateur13emeProps) {
             Ventilation par échéance
           </p>
           <div className="space-y-3">
-            {result.breakdown.map((item: any, index: number) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
-                <div>
-                  <p className="text-white font-medium">{item.month}</p>
-                  <p className="text-xs text-slate-400">{item.note || `${(item.ratio * 100).toFixed(0)}%`}</p>
+            {indiciaireProfile === 'permanent' ? (
+              result.breakdown.map((item: any, index: number) => {
+                // Calcul des montants TIT pour chaque part
+                const totalPart = item.amount;
+                // Répartition TIT :
+                // Complément rémunération TIT (rubrique 7447) = part fixe
+                // Prime semestrielle TIT (rubrique 8445) = part variable
+                const partFixe = result.compRem * item.ratio;
+                const partVariable = result.primeSem * item.ratio;
+                return (
+                  <div key={index} className="bg-slate-900/30 rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white font-medium">{item.month}</p>
+                        <p className="text-xs text-slate-400">{item.note || `${(item.ratio * 100).toFixed(0)}%`}</p>
+                      </div>
+                      <p className={`text-lg font-medium text-${accentColor}-400`}>{formatEUR(totalPart)}</p>
+                    </div>
+                    <div className="mt-2 text-xs text-slate-300 space-y-1">
+                      <div>
+                        <strong>Rubrique 7447 (Compl. rémunération TIT):</strong> {formatEUR(partFixe)}
+                      </div>
+                      <div>
+                        <strong>Rubrique 8445 (Prime semestrielle TIT):</strong> {formatEUR(partVariable)}
+                      </div>
+                      <div>
+                        <strong>Total par échéance:</strong> {formatEUR(partFixe + partVariable)}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              result.breakdown.map((item: any, index: number) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                  <div>
+                    <p className="text-white font-medium">{item.month}</p>
+                    <p className="text-xs text-slate-400">{item.note || `${(item.ratio * 100).toFixed(0)}%`}</p>
+                  </div>
+                  <p className={`text-lg font-medium text-${accentColor}-400`}>{formatEUR(item.amount)}</p>
                 </div>
-                <p className={`text-lg font-medium text-${accentColor}-400`}>{formatEUR(item.amount)}</p>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

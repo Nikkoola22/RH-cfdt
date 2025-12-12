@@ -101,8 +101,8 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
   const [selectedSpecialPrimes, setSelectedSpecialPrimes] = useState<Set<number>>(new Set())
   const [weekendSaturdays, setWeekendSaturdays] = useState(0)
   const [weekendSundays, setWeekendSundays] = useState(0)
-  const [weekendRateSat] = useState(40)
-  const [weekendRateSun] = useState(40)
+  const [weekendRateSat, setWeekendRateSat] = useState(40)
+  const [weekendRateSun, setWeekendRateSun] = useState(40)
 
   // Calculs
   const ifse1Amount = useMemo(() => {
@@ -575,7 +575,7 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm text-slate-400 block font-medium mb-2">Samedis travaillés / mois</label>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-2">
                       {[0, 1, 2, 3, 4, 5].map(n => (
                         <button
                           key={n}
@@ -590,13 +590,23 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         </button>
                       ))}
                     </div>
+                    <label className="text-xs text-slate-400 block mb-1">Forfait par samedi :</label>
+                    <select
+                      value={weekendRateSat}
+                      onChange={e => setWeekendRateSat(Number(e.target.value))}
+                      className="w-full px-2 py-2 rounded border border-purple-400 bg-slate-900 text-purple-200 text-sm"
+                    >
+                      {[40, 60, 80].map(rate => (
+                        <option key={rate} value={rate}>{rate} €</option>
+                      ))}
+                    </select>
                     {weekendSaturdays > 0 && (
                       <p className="text-purple-300 text-sm mt-2">{weekendSaturdays} × {weekendRateSat}€ = {weekendSaturdays * weekendRateSat}€</p>
                     )}
                   </div>
                   <div>
                     <label className="text-sm text-slate-400 block font-medium mb-2">Dimanches travaillés / mois</label>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-2">
                       {[0, 1, 2, 3, 4, 5].map(n => (
                         <button
                           key={n}
@@ -611,18 +621,26 @@ export default function CalculateurPrimesV2({ onClose }: CalculateurPrimesProps)
                         </button>
                       ))}
                     </div>
+                    <label className="text-xs text-slate-400 block mb-1">Forfait par dimanche :</label>
+                    <select
+                      value={weekendRateSun}
+                      onChange={e => setWeekendRateSun(Number(e.target.value))}
+                      className="w-full px-2 py-2 rounded border border-purple-400 bg-slate-900 text-purple-200 text-sm"
+                    >
+                      {[40, 60, 80].map(rate => (
+                        <option key={rate} value={rate}>{rate} €</option>
+                      ))}
+                    </select>
                     {weekendSundays > 0 && (
                       <p className="text-purple-300 text-sm mt-2">{weekendSundays} × {weekendRateSun}€ = {weekendSundays * weekendRateSun}€</p>
                     )}
                   </div>
                 </div>
-                
                 {ifse3Total > 0 && (
                   <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl text-center">
                     <p className="text-purple-300">Total IFSE 3 : <strong className="text-xl">{ifse3Total}€/mois</strong></p>
                   </div>
                 )}
-
                 {ifse3Total === 0 && (
                   <div className="p-4 bg-slate-700/30 rounded-lg text-center">
                     <p className="text-slate-400 text-sm">Vous ne travaillez pas les week-ends ? Pas de souci, passez à l'étape suivante.</p>

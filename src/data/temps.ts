@@ -397,8 +397,6 @@ Alimentation (Nombre de jours maxi) :
        Jours de fractionnement : 2 J
        Jour de A.R.T.T
 *L'agent doit obligatoirement avoir pris au minimum 20 jours de congés annuels dans l'année en cours
-
-Le nombre total de jours que tu peux épargner sur ton CET est plafonné à 60 jours.
 ARTICLE 6 - LES CONGES LIES AUX NAISSANCES
 CONGE MATERNITE
 La constatation médicale de grossesse doit être effectuée par un médecin ou par une sage-femme.

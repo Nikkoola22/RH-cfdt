@@ -102,51 +102,67 @@ export const sommaireUnifie: SectionIndex[] = [
   // Chapitre 2 : Les congés
   {
     id: 'temps_ch2_conges_annuels',
-    titre: 'Congés annuels',
-    motsCles: ['congés annuels', 'congé annuel', 'congés', 'vacances', '25 jours', 'CA', 'planning', 'estivaux', 'report', 'priorité', 'droit', 'combien'],
+    titre: 'Congés annuels (CA)',
+    motsCles: ['congés annuels', 'congé annuel', 'congés', 'vacances', '25 jours', 'CA', 'C.A', 'planning', 'estivaux', 'report', 'priorité', 'droit', 'combien', 'jours ouvrés', '22.5', '20', '17.5', '15', '12.5', 'prorata', 'fractionnement', '31 jours', 'consécutifs', 'pose congé', 'demande congé', '1er mars', '15 mars', 'délai', 'refus', 'contractuel'],
     source: 'temps',
     chapitre: 2,
-    resume: '25 jours ouvrés/an, règles de pose, priorités, report exceptionnel'
+    resume: '25 jours ouvrés/an (5j x 5 sem). Prorata selon temps travail. Estivaux: demande avant 1er mars. Max 31j consécutifs'
+  },
+  {
+    id: 'temps_ch2_fractionnement',
+    titre: 'Jours de fractionnement',
+    motsCles: ['fractionnement', 'jours supplémentaires', 'bonification', '1 jour', '2 jours', '5 jours', '7 jours', '8 jours', 'janvier', 'avril', 'novembre', 'décembre', 'hiver'],
+    source: 'temps',
+    chapitre: 2,
+    resume: '+1 jour si 5-7 CA pris jan-avr ou nov-déc, +2 jours si 8+ CA pris sur ces périodes'
   },
   {
     id: 'temps_ch2_conge_bonifie',
     titre: 'Congé bonifié (outre-mer)',
-    motsCles: ['congé bonifié', 'outre-mer', 'DOM', 'Guadeloupe', 'Martinique', 'Réunion', 'Guyane', 'Mayotte'],
+    motsCles: ['congé bonifié', 'outre-mer', 'DOM', 'Guadeloupe', 'Martinique', 'Réunion', 'Guyane', 'Mayotte', 'Saint Pierre', 'Miquelon', 'Saint Barthélémy', 'Saint Martin', '31 jours', '2 ans', 'métropole'],
     source: 'temps',
     chapitre: 2,
-    resume: 'Congé pour fonctionnaires originaires des DOM, tous les 2 ans, max 31 jours'
+    resume: 'Pour fonctionnaires originaires DOM, tous les 2 ans, max 31 jours calendaires'
   },
   {
     id: 'temps_ch2_rtt',
     titre: 'Jours RTT / ARTT',
-    motsCles: ['RTT', 'ARTT', 'réduction temps travail', '12 jours', '15 jours', '18 jours', '23 jours', 'décompte', 'maladie'],
+    motsCles: ['RTT', 'ARTT', 'A.R.T.T', 'réduction temps travail', '12 jours', '15 jours', '18 jours', '23 jours', 'décompte', 'maladie', 'absence', 'quotient', 'temps partiel', 'proratisé', '37h', '37.5h', '38h', '39h', '15 septembre', '50%', 'CET', 'jours de repos'],
     source: 'temps',
     chapitre: 2,
-    resume: 'RTT selon cycle (12j à 37h, 15j à 37.5h, 18j à 38h, 23j à 39h), déduction si maladie'
+    resume: 'RTT: 12j (37h), 15j (37.5h), 18j (38h), 23j (39h). 50% pris avant 15/09. Réduit si maladie'
   },
   {
     id: 'temps_ch2_don_jours',
     titre: 'Don de jours de repos',
-    motsCles: ['don jours', 'enfant malade', 'proche aidant', 'solidarité', 'anonyme'],
+    motsCles: ['don jours', 'don de jours', 'enfant malade', 'enfant gravement malade', 'proche aidant', 'aidant familial', 'solidarité', 'anonyme', '5 jours', 'moins de 20 ans', 'handicap', 'accident', 'perte autonomie'],
     source: 'temps',
     chapitre: 2,
-    resume: 'Don anonyme de RTT/CA (max 5j/an) pour collègue avec enfant malade ou aidant'
+    resume: 'Don anonyme de RTT/CA (max 5j/an) pour collègue avec enfant malade <20 ans ou proche aidant'
   },
   {
     id: 'temps_ch2_cet',
     titre: 'Compte Épargne Temps (CET)',
-    motsCles: ['CET', 'compte épargne temps', 'épargne', 'capitalisation', 'jours non pris'],
+    motsCles: ['CET', 'compte épargne temps', 'épargne', 'capitalisation', 'jours non pris', '5 jours', '1 an', 'service', 'ouverture', 'alimentation', 'stagiaire', 'titularisation', 'indemnisation'],
     source: 'temps',
     chapitre: 2,
-    resume: 'Épargne de jours CA (max 5j) et RTT, ouvert après 1 an de service'
+    resume: 'Épargne max 5j CA + RTT/an, ouvert après 1 an de service. Pas pour stagiaires'
   },
   {
-    id: 'temps_ch2_naissance',
-    titre: 'Congés maternité et paternité',
-    motsCles: ['maternité', 'paternité', 'naissance', 'accouchement', 'grossesse', 'prénatal', 'postnatal', '16 semaines', '25 jours'],
+    id: 'temps_ch2_maternite',
+    titre: 'Congé maternité',
+    motsCles: ['maternité', 'congé maternité', 'grossesse', 'accouchement', 'prénatal', 'postnatal', '16 semaines', '26 semaines', '34 semaines', '46 semaines', 'jumeaux', 'triplés', 'couches pathologiques', '2 semaines', '4 semaines', 'déclaration', '4ème mois', 'plein traitement'],
     source: 'temps',
     chapitre: 2,
-    resume: 'Maternité 16 semaines (+ si 3e enfant/jumeaux), paternité 25 jours calendaires'
+    resume: 'Durée: 16 sem (1er/2e enfant), 26 sem (3e+), 34 sem (jumeaux), 46 sem (triplés). Plein traitement'
+  },
+  {
+    id: 'temps_ch2_paternite',
+    titre: 'Congé paternité',
+    motsCles: ['paternité', 'congé paternité', 'naissance', 'père', 'accueil enfant', '25 jours', '32 jours', '4 jours', '21 jours', '28 jours', '6 mois', 'calendaires', 'hospitalisation', 'naissance multiple'],
+    source: 'temps',
+    chapitre: 2,
+    resume: '25 jours (32 si multiple): 4j obligatoires après naissance + 21j/28j dans les 6 mois'
   },
   
   // Chapitre 3 : Autorisations spéciales d'absence
