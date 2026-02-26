@@ -844,6 +844,7 @@ ${contenuCible}
             <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 lg:gap-8">
               {/* Carte Juridique */}
               <button
+                onClick={() => window.open('https://www.cfdt-interco12.fr/actualites/actualites-jurdiques/', '_blank')}
                 className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-red-900/70 to-slate-800/70 backdrop-blur-md border border-red-500/30 rounded-2xl p-6 sm:p-10 hover:border-rose-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 via-transparent to-rose-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
@@ -869,6 +870,7 @@ ${contenuCible}
 
               {/* Carte Formation */}
               <button
+                onClick={() => window.open('https://www.cnfpt.fr/se-former/suivre-formation/rechercher-formation/offre-2025-telechargez-nos-mini-catalogues-thematiques/hauts-france##organisation_gestion_ressources', '_blank')}
                 className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-violet-900/70 to-slate-800/70 backdrop-blur-md border border-violet-500/30 rounded-2xl p-6 sm:p-10 hover:border-purple-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
@@ -894,6 +896,7 @@ ${contenuCible}
 
               {/* Carte Guide des Primes */}
               <button
+                onClick={() => window.open('https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf', '_blank')}
                 className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-amber-900/70 to-slate-800/70 backdrop-blur-md border border-amber-500/30 rounded-2xl p-6 sm:p-10 hover:border-yellow-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-transparent to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
