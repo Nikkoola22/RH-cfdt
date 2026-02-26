@@ -200,7 +200,7 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
         backdropFilter: 'blur(24px) saturate(180%)',
         borderBottom: '1px solid rgba(255,28,116,0.22)',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: '0.03em', color: '#F2EAF6' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 'clamp(14px, 4vw, 17px)', letterSpacing: '0.03em', color: '#F2EAF6' }}>
           <svg width="26" height="26" viewBox="0 0 28 28" fill="none" style={{ filter: 'drop-shadow(0 0 10px rgba(255,28,116,0.85))' }}>
             <path d="M14 2L2 10L14 26L26 10L14 2Z" fill="rgba(255,28,116,0.14)" stroke="#FF1C74" strokeWidth="1.5" strokeLinejoin="round"/>
             <path d="M14 2L9 10L14 26L19 10L14 2Z" fill="rgba(255,28,116,0.1)" stroke="#FF1C74" strokeWidth="0.75" strokeLinejoin="round"/>
@@ -209,7 +209,7 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
           Atlas
         </div>
 
-        <ul style={{ display: 'flex', alignItems: 'center', gap: 26, listStyle: 'none', margin: 0, padding: 0 }}>
+        <ul style={{ display: 'none', alignItems: 'center', gap: 26, listStyle: 'none', margin: 0, padding: 0 }}>
           {['Home', 'Tokenomics & Revenue model'].map(link => (
             <li key={link}>
               <a href="#" className="lp-nav-link" style={{ fontSize: 12.5, fontWeight: 400, color: 'rgba(242,234,246,0.48)', textDecoration: 'none', letterSpacing: '0.012em', transition: 'color 0.18s' }}>
@@ -223,10 +223,10 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
           className="lp-launch-btn"
           onClick={onQuizz}
           style={{
-            padding: '8px 20px', borderRadius: 100, border: 'none',
+            padding: 'clamp(6px, 2vw, 8px) clamp(16px, 4vw, 20px)', borderRadius: 100, border: 'none',
             background: 'linear-gradient(135deg, #FF1C74, #CC0055)',
             color: '#fff', fontFamily: "'Outfit', sans-serif",
-            fontSize: 13, fontWeight: 600, letterSpacing: '0.025em',
+            fontSize: 'clamp(11px, 2.5vw, 13px)', fontWeight: 600, letterSpacing: '0.025em',
             cursor: 'pointer',
             boxShadow: '0 0 22px rgba(255,28,116,0.38)',
             transition: 'box-shadow 0.2s, transform 0.15s',
@@ -238,46 +238,46 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
 
       {/* Stat card — top left */}
       <div ref={cardTlRef} className="lp-card lp-card-tl" style={{
-        position: 'absolute', top: 94, left: 44, zIndex: 30,
+        position: 'absolute', top: 'clamp(20px, 5vh, 94px)', left: 'clamp(12px, 3vw, 44px)', zIndex: 30,
         background: 'rgba(5,1,10,0.72)',
         backdropFilter: 'blur(20px) saturate(200%)',
         border: '1px solid rgba(255,28,116,0.22)',
-        borderRadius: 18, padding: '20px 24px', minWidth: 228,
+        borderRadius: 18, padding: 'clamp(16px, 3vw, 20px)', minWidth: 'clamp(160px, 80vw, 228px)',
       }}>
-        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 28, lineHeight: 1, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #FF88BB, #FF1C74)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 'clamp(20px, 5vw, 28px)', lineHeight: 1, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #FF88BB, #FF1C74)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Mise à jour
         </div>
         <div style={{ width: 30, height: 1, background: 'rgba(255,28,116,0.4)', margin: '12px 0' }} />
-        <div style={{ fontSize: 11, fontWeight: 400, color: 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+        <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 400, color: 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
           Alternative Investments Intelligence
         </div>
       </div>
 
       {/* Stat card — bottom right */}
       <div ref={cardBrRef} className="lp-card lp-card-br" style={{
-        position: 'absolute', bottom: 138, right: 44, zIndex: 30,
+        position: 'absolute', bottom: 'clamp(20px, 10vh, 138px)', right: 'clamp(12px, 3vw, 44px)', zIndex: 30,
         background: 'rgba(5,1,10,0.72)',
         backdropFilter: 'blur(20px) saturate(200%)',
         border: '1px solid rgba(255,28,116,0.22)',
-        borderRadius: 18, padding: '20px 24px', minWidth: 228,
+        borderRadius: 18, padding: 'clamp(16px, 3vw, 20px)', minWidth: 'clamp(160px, 80vw, 228px)',
       }}>
-        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 28, lineHeight: 1, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #FF88BB, #FF1C74)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 'clamp(20px, 5vw, 28px)', lineHeight: 1, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #FF88BB, #FF1C74)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           Docs Internes
         </div>
         <div style={{ width: 30, height: 1, background: 'rgba(255,28,116,0.4)', margin: '12px 0' }} />
-        <div style={{ fontSize: 11, fontWeight: 400, color: 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+        <div style={{ fontSize: 'clamp(9px, 2vw, 11px)', fontWeight: 400, color: 'rgba(242,234,246,0.48)', lineHeight: 1.5, maxWidth: 175, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
           Assets backed by the vault at launch
         </div>
       </div>
 
       {/* Hero — bottom left */}
-      <div className="lp-hero-left" style={{ position: 'absolute', bottom: 50, left: 44, zIndex: 40 }}>
+      <div className="lp-hero-left" style={{ position: 'absolute', bottom: 'clamp(20px, 5vh, 50px)', left: 'clamp(12px, 3vw, 44px)', zIndex: 40 }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 7,
           padding: '5px 14px 5px 10px', borderRadius: 100,
           background: 'rgba(255,28,116,0.10)',
           border: '1px solid rgba(255,28,116,0.30)',
-          fontSize: 10.5, fontWeight: 500, color: '#FF77AA',
+          fontSize: 'clamp(9px, 2vw, 10.5px)', fontWeight: 500, color: '#FF77AA',
           letterSpacing: '0.07em', textTransform: 'uppercase' as const,
           marginBottom: 14,
         }}>
@@ -286,7 +286,7 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
         </div>
         <div style={{
           fontFamily: "'Syne', sans-serif", fontWeight: 800,
-          fontSize: 'clamp(58px, 8vw, 98px)', lineHeight: 0.9, letterSpacing: '-0.04em',
+          fontSize: 'clamp(40px, 12vw, 98px)', lineHeight: 0.9, letterSpacing: '-0.04em',
           background: 'linear-gradient(165deg, #FFFFFF 22%, rgba(255,110,160,0.72) 100%)',
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
         }}>
@@ -295,8 +295,8 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
       </div>
 
       {/* Hero — bottom right */}
-      <div className="lp-hero-right" style={{ position: 'absolute', bottom: 50, right: 44, zIndex: 40, textAlign: 'right' }}>
-        <p style={{ fontSize: 14, fontWeight: 300, color: 'rgba(242,234,246,0.48)', lineHeight: 1.65, letterSpacing: '0.01em', marginBottom: 20 }}>
+      <div className="lp-hero-right" style={{ position: 'absolute', bottom: 'clamp(20px, 5vh, 50px)', right: 'clamp(12px, 3vw, 44px)', zIndex: 40, textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+        <p style={{ fontSize: 'clamp(12px, 3vw, 14px)', fontWeight: 300, color: 'rgba(242,234,246,0.48)', lineHeight: 1.65, letterSpacing: '0.01em', marginBottom: 20 }}>
           Votre syndicat CFDT,<br />De GENNEVILLIERS
         </p>
         <button
@@ -304,10 +304,10 @@ export default function LandingPage({ onEnter, onQuizz }: Props) {
           onClick={onEnter}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 9,
-            padding: '13px 26px', borderRadius: 12, border: 'none',
+            padding: 'clamp(10px, 2.5vw, 13px) clamp(20px, 4vw, 26px)', borderRadius: 12, border: 'none',
             background: 'linear-gradient(135deg, #FF1C74, #CC0055)',
             color: '#fff', fontFamily: "'Outfit', sans-serif",
-            fontSize: 15, fontWeight: 600, letterSpacing: '0.02em',
+            fontSize: 'clamp(13px, 3vw, 15px)', fontWeight: 600, letterSpacing: '0.02em',
             cursor: 'pointer',
             boxShadow: '0 0 0 1px rgba(255,28,116,0.25), 0 6px 28px rgba(204,0,85,0.42), inset 0 1px 0 rgba(255,255,255,0.12)',
             transition: 'transform 0.2s, box-shadow 0.2s',

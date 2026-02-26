@@ -166,7 +166,7 @@ const FAQ: React.FC<Props> = ({ onBack }) => {
   const toggle = (id: number) => setOpenIds((s) => ({ ...s, [id]: !s[id] }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-8 sm:py-12 px-2 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Back button */}
         {onBack && (
@@ -174,7 +174,7 @@ const FAQ: React.FC<Props> = ({ onBack }) => {
             <button
               onClick={onBack}
               aria-label="Retour"
-              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-full text-sm font-semibold shadow-lg transition-all duration-200 transform hover:scale-105 glass-pill"
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-lg transition-all duration-200 transform hover:scale-105 glass-pill"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour
@@ -186,10 +186,10 @@ const FAQ: React.FC<Props> = ({ onBack }) => {
         <FAQQuiz />
 
         {/* Header */}
-        <div className="mb-8 animate-fade-in">
-          <div className="mb-6">
-            <h1 className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">FAQ</h1>
-            <p className="mt-2 text-base sm:text-lg text-gray-600">Questions fréquentes — guide rapide pour les agents</p>
+        <div className="mb-6 sm:mb-8 animate-fade-in">
+          <div className="mb-4 sm:mb-6">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">FAQ</h1>
+            <p className="mt-2 text-sm sm:text-base lg:text-lg text-gray-600">Questions fréquentes — guide rapide pour les agents</p>
           </div>
         </div>
 

@@ -815,8 +815,8 @@ ${contenuCible}
       <section className="relative w-full min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 z-20">
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-slate-800/95 to-blue-900/95 backdrop-blur-md border-b border-blue-500/30 z-30">
-          <div className="max-w-6xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
+          <div className="max-w-6xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-2">
               <button
                 onClick={() => {
                   if (activeCalculator) {
@@ -825,66 +825,67 @@ ${contenuCible}
                     setChatState({ ...chatState, currentView: 'menu' })
                   }
                 }}
-                className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors duration-100 font-light"
+                className="flex items-center gap-1 sm:gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-2 sm:px-4 py-2 rounded-lg transition-colors duration-100 font-light text-xs sm:text-sm whitespace-nowrap"
               >
-                <ArrowLeft className="w-4 h-4" />
-                <span>{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
+                <ArrowLeft className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline">{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
+                <span className="sm:hidden">{activeCalculator ? 'Retour' : 'Menu'}</span>
               </button>
-              <h2 className="text-xl font-light text-white">Calculateurs CFDT</h2>
+              <h2 className="text-base sm:text-xl font-light text-white">Calculateurs CFDT</h2>
             </div>
           </div>
         </div>
 
         {/* Page d'accueil avec les 3 icônes */}
         {!activeCalculator && (
-          <div className="max-w-6xl mx-auto px-4 py-12 calc-landing-enter">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-light text-white mb-4">Choisissez un calculateur</h3>
-              <p className="text-slate-400 font-light">Cliquez sur une icône pour accéder au calculateur</p>
+          <div className="max-w-6xl mx-auto px-2 sm:px-4 py-6 sm:py-12 calc-landing-enter">
+            <div className="text-center mb-6 sm:mb-12">
+              <h3 className="text-2xl sm:text-3xl font-light text-white mb-2 sm:mb-4">Choisissez un calculateur</h3>
+              <p className="text-slate-400 font-light text-sm sm:text-base">Cliquez sur une icône pour accéder au calculateur</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
               {/* Carte Primes IFSE */}
               <button
                 onClick={() => setActiveCalculator('primes')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-cyan-900/50 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-cyan-900/50 backdrop-blur-md border border-cyan-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
-                <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-6 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
-                    <TrendingUp className="w-16 h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-xl sm:rounded-2xl"></div>
+                <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6">
+                  <div className="p-3 sm:p-6 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-xl sm:rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
+                    <TrendingUp className="w-8 sm:w-16 h-8 sm:h-16 text-white" />
                   </div>
-                  <h4 className="text-2xl font-light text-white group-hover:text-cyan-200 transition-colors duration-100">Primes IFSE</h4>
-                  <p className="text-center text-slate-400 font-light text-sm">Calculez vos primes IFSE 1 et IFSE 2 selon votre grade et direction</p>
+                  <h4 className="text-lg sm:text-2xl font-light text-white group-hover:text-cyan-200 transition-colors duration-100">Primes IFSE</h4>
+                  <p className="text-center text-slate-400 font-light text-xs sm:text-sm">Calculez vos primes IFSE 1 et IFSE 2 selon votre grade et direction</p>
                 </div>
               </button>
 
               {/* Carte CIA */}
               <button
                 onClick={() => setActiveCalculator('cia')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-orange-900/50 backdrop-blur-md border border-orange-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-orange-900/50 backdrop-blur-md border border-orange-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
-                <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-6 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
-                    <Calculator className="w-16 h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-xl sm:rounded-2xl"></div>
+                <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6">
+                  <div className="p-3 sm:p-6 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-xl sm:rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
+                    <Calculator className="w-8 sm:w-16 h-8 sm:h-16 text-white" />
                   </div>
-                  <h4 className="text-2xl font-light text-white group-hover:text-orange-200 transition-colors duration-100">CIA</h4>
-                  <p className="text-center text-slate-400 font-light text-sm">Complément Indemnitaire Annuel - Simulez votre prime CIA</p>
+                  <h4 className="text-lg sm:text-2xl font-light text-white group-hover:text-orange-200 transition-colors duration-100">CIA</h4>
+                  <p className="text-center text-slate-400 font-light text-xs sm:text-sm">Complément Indemnitaire Annuel - Simulez votre prime CIA</p>
                 </div>
               </button>
 
               {/* Carte 13ème Mois */}
               <button
                 onClick={() => setActiveCalculator('13eme')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-green-900/50 backdrop-blur-md border border-green-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-green-900/50 backdrop-blur-md border border-green-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
-                <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-6 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
-                    <DollarSign className="w-16 h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-xl sm:rounded-2xl"></div>
+                <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6">
+                  <div className="p-3 sm:p-6 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-xl sm:rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
+                    <DollarSign className="w-8 sm:w-16 h-8 sm:h-16 text-white" />
                   </div>
-                  <h4 className="text-2xl font-light text-white group-hover:text-green-200 transition-colors duration-100">13ème Mois</h4>
-                  <p className="text-center text-slate-400 font-light text-sm">Calculez votre prime de 13ème mois selon votre situation</p>
+                  <h4 className="text-lg sm:text-2xl font-light text-white group-hover:text-green-200 transition-colors duration-100">13ème Mois</h4>
+                  <p className="text-center text-slate-400 font-light text-xs sm:text-sm">Calculez votre prime de 13ème mois selon votre situation</p>
                 </div>
               </button>
             </div>
@@ -904,18 +905,18 @@ ${contenuCible}
       </section>
       )}
 
-      <main className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 z-10">
+      <main className="relative max-w-full mx-auto px-2 sm:px-4 lg:px-8 py-2 z-10">
         {chatState.currentView === "chat" && (
           <div
             ref={chatContainerRef}
-            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 backdrop-blur-md border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 glass-card animate-chat-enter"
+            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 backdrop-blur-md border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 glass-card animate-chat-enter max-w-4xl mx-auto"
           >
-            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 backdrop-blur text-white p-6 glass-banner">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Search className="w-7 h-7 text-pink-200" />
-                  <div>
-                    <h3 className="text-lg font-light tracking-tight">
+            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 backdrop-blur text-white p-3 sm:p-6 glass-banner">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                  <Search className="w-5 sm:w-7 h-5 sm:h-7 text-pink-200 flex-shrink-0" />
+                  <div className="min-w-0">
+                    <h3 className="text-sm sm:text-lg font-light tracking-tight truncate">
                       Assistant CFDT Unifié
                     </h3>
                     <p className="text-purple-100 text-xs font-light">CFDT Gennevilliers</p>
@@ -923,20 +924,20 @@ ${contenuCible}
                 </div>
                 <button
                   onClick={returnToMenu}
-                  className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-all duration-200 backdrop-blur-sm font-light glass-pill"
+                  className="flex items-center gap-1 sm:gap-2 bg-white/20 hover:bg-white/30 px-2 sm:px-4 py-2 rounded-lg transition-all duration-200 backdrop-blur-sm font-light glass-pill flex-shrink-0"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span className="hidden sm:inline text-sm">Retour</span>
                 </button>
               </div>
             </div>
-            <div className="min-h-[400px] max-h-[700px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-slate-800/40 to-purple-900/40 glass-card">
+            <div className="min-h-[300px] sm:min-h-[400px] max-h-[500px] sm:max-h-[700px] overflow-y-auto p-3 sm:p-6 space-y-3 sm:space-y-4 bg-gradient-to-b from-slate-800/40 to-purple-900/40 glass-card">
               {chatState.messages.map((message, index) => (
                 <div key={index} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl backdrop-blur-sm font-light glass-card ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
+                    className={`max-w-xs sm:max-w-md px-3 sm:px-4 py-2 sm:py-3 rounded-xl backdrop-blur-sm font-light glass-card text-sm sm:text-base ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
                   >
-                    <div className="whitespace-pre-wrap break-words text-sm">{message.content}</div>
+                    <div className="whitespace-pre-wrap break-words">{message.content}</div>
                     <div className={`text-xs mt-2 ${message.type === "user" ? "text-purple-100" : "text-slate-400"}`}>
                       {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </div>
@@ -974,22 +975,22 @@ ${contenuCible}
               )}
               <div ref={messagesEndRef} />
             </div>
-            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 backdrop-blur-md p-4 glass-banner">
-              <div className="flex gap-3">
+            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 backdrop-blur-md p-2 sm:p-4 glass-banner">
+              <div className="flex gap-2 sm:gap-3">
                 <input
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ex: Combien de jours de congés ? Comment utiliser mon CPF ? Télétravail possible ?"
-                  className="flex-1 px-4 py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 backdrop-blur-sm text-sm font-light text-slate-100 placeholder-slate-400"
+                  placeholder="Posez votre question..."
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 backdrop-blur-sm text-xs sm:text-sm font-light text-slate-100 placeholder-slate-400"
                   disabled={chatState.isProcessing}
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || chatState.isProcessing}
-                  className={`px-6 py-3 bg-gradient-to-r from-purple-600/70 to-pink-600/70 backdrop-blur-sm text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl font-light${inputValue.trim() && !chatState.isProcessing ? ' send-btn-pulse' : ''}`}
+                  className={`px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-600/70 to-pink-600/70 backdrop-blur-sm text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1 sm:gap-2 shadow-lg hover:shadow-xl font-light flex-shrink-0${inputValue.trim() && !chatState.isProcessing ? ' send-btn-pulse' : ''}`}
                 >
                   <Send className="w-4 h-4" />
                   <span className="hidden sm:inline text-sm">Envoyer</span>
@@ -1020,27 +1021,27 @@ ${contenuCible}
           backgroundAttachment: 'fixed'
         }}
       >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center items-center gap-3 mb-8">
-            <span className="text-pink-400 font-light text-base tracking-wide">CFDT Gennevilliers</span>
+        <div className="max-w-6xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center gap-2 sm:gap-3 mb-4 sm:mb-8">
+            <span className="text-pink-400 font-light text-sm sm:text-base tracking-wide">CFDT Gennevilliers</span>
           </div>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-6">
+          <div className="flex flex-col gap-3 sm:gap-8 mb-4 sm:mb-6">
             <a
               href="tel:0140856464"
-              className="flex items-center gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-110 font-light text-sm"
+              className="flex items-center justify-center sm:justify-start gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-105 font-light text-xs sm:text-sm"
             >
-              <Phone className="w-5 h-5" />
+              <Phone className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
               <span>01 40 85 64 64</span>
             </a>
             <a
               href="mailto:cfdt-interco@ville-gennevilliers.fr"
-              className="flex items-center gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-110 font-light text-sm"
+              className="flex items-center justify-center sm:justify-start gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-105 font-light text-xs sm:text-sm break-all"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
               <span>cfdt-interco@ville-gennevilliers.fr</span>
             </a>
-            <div className="flex items-center gap-2 text-pink-400/90 font-light text-sm">
-              <MapPin className="w-5 h-5" />
+            <div className="flex items-center justify-center sm:justify-start gap-2 text-pink-400/90 font-light text-xs sm:text-sm">
+              <MapPin className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
               <span>177 av. Gabriel-Péri</span>
             </div>
           </div>

@@ -697,7 +697,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Standardiste",
     "Direction": "DMRU",
-    "Service": "Services Intérieurs"
+    "Service": "Service du suivi des demandes des usagers"
   },
   {
     "Motif": "Prime accueil 1",
@@ -754,6 +754,13 @@
     "Metiers_concernes": "Assistante de direction",
     "Direction": "DMRU",
     "Service": "Direction Administrative"
+  },
+  {
+    "Motif": "Prime accueil 2",
+    "Montant": "50 €",
+    "Metiers_concernes": "Standartiste",
+    "Direction": "DMRU",
+    "Service": "Service du suivi des demandes des usagers"
   },
   {
     "Motif": "Prime accueil 2",
@@ -1047,7 +1054,7 @@
     "Montant": "50 €",
     "Metiers_concernes": "Standardiste",
     "Direction": "DMRU",
-    "Service": "Services Intérieurs"
+    "Service": "Service du suivi des demandes des usagers"
   },
   {
     "Motif": "Prime accueil 2",

@@ -21,14 +21,38 @@ body {
   background-attachment: fixed;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   font-weight: 300;
-  font-size: 18px;
+  font-size: 14px;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Base font size increase */
+@media (min-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Base font size - responsive */
 html {
-  font-size: 20px;
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
 }
 
 :root {
@@ -42,6 +66,46 @@ html {
 .glass-banner {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
+}
+
+/* Mobile-optimized banner height */
+@media (max-width: 640px) {
+  .glass-banner .marquee-track {
+    font-size: 0.875rem;
+  }
+}
+
+/* Touch-friendly button sizes for mobile */
+@media (max-width: 640px) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, textarea, select {
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Improve spacing on very small screens */
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+  
+  main {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* Optimize for landscape mode (small height) */
+@media (max-height: 600px) and (orientation: landscape) {
+  main .glass-card {
+    max-height: 80vh;
+  }
+
 }
 
 .glass-pill {
