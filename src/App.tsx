@@ -705,27 +705,27 @@ ${contenuCible}
                   </section>
                 )}
 
-                <div className="flex justify-center mb-1 gap-8">
+                <div className="flex flex-col sm:flex-row justify-center mb-1 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-0">
                   <button
                     onClick={() => handleDomainSelection(0)}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-purple-900/70 to-slate-800/70 backdrop-blur-md border border-purple-500/30 rounded-2xl p-10 hover:border-pink-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150 glass-card animate-card-enter-1 card-border-sweep btn-ripple"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-purple-900/70 to-slate-800/70 backdrop-blur-md border border-purple-500/30 rounded-2xl p-6 sm:p-10 hover:border-pink-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card animate-card-enter-1 card-border-sweep btn-ripple"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
+                    <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
                       <div className="relative">
                         <span className="absolute -inset-3 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-6 bg-gradient-to-br from-purple-500/80 to-pink-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
-                          <Search className="w-16 h-16 text-white" />
+                        <div className="relative p-4 sm:p-6 bg-gradient-to-br from-purple-500/80 to-pink-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
+                          <Search className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
                         </div>
                       </div>
-                      <h4 className="text-2xl font-light tracking-tight text-white card-title-purple">
+                      <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white card-title-purple">
                         Recherche Unifiée
                       </h4>
-                      <p className="text-center text-slate-300 font-light text-sm">
+                      <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
                         Temps de travail, formation, télétravail - Recherche dans tous les documents
                       </p>
                       <div className="flex items-center gap-2 text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-light text-sm">Accéder à l&apos;assistant</span>
+                        <span className="font-light text-xs sm:text-sm">Accéder à l&apos;assistant</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
@@ -733,24 +733,24 @@ ${contenuCible}
 
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'calculators' })}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-10 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150 glass-card animate-card-enter-2 card-border-sweep card-border-sweep-blue btn-ripple"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-6 sm:p-10 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card animate-card-enter-2 card-border-sweep card-border-sweep-blue btn-ripple"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
+                    <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
                       <div className="relative">
                         <span className="absolute -inset-3 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
-                          <Calculator className="w-16 h-16 text-white" />
+                        <div className="relative p-4 sm:p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
+                          <Calculator className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
                         </div>
                       </div>
-                      <h4 className="text-2xl font-light tracking-tight text-white card-title-blue">
+                      <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white card-title-blue">
                         Calculateurs
                       </h4>
-                      <p className="text-center text-slate-300 font-light text-sm">
+                      <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
                         Primes IFSE - Calcul CIA - Outils de simulation
                       </p>
                       <div className="flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-light text-sm">Accéder aux calculateurs</span>
+                        <span className="font-light text-xs sm:text-sm">Accéder aux calculateurs</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
@@ -759,24 +759,24 @@ ${contenuCible}
                   {/* Carte Grilles Indiciaires */}
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'metiers' })}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-10 hover:border-green-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150 glass-card animate-card-enter-3 card-border-sweep card-border-sweep-green btn-ripple"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-6 sm:p-10 hover:border-green-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card animate-card-enter-3 card-border-sweep card-border-sweep-green btn-ripple"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-transparent to-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
+                    <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
                       <div className="relative">
                         <span className="absolute -inset-3 bg-gradient-to-br from-emerald-400/30 to-green-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-6 bg-gradient-to-br from-emerald-500/80 to-green-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
-                          <LayoutGrid className="w-16 h-16 text-white" />
+                        <div className="relative p-4 sm:p-6 bg-gradient-to-br from-emerald-500/80 to-green-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
+                          <LayoutGrid className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
                         </div>
                       </div>
-                      <h4 className="text-2xl font-light tracking-tight text-white card-title-green">
+                      <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white card-title-green">
                         Grilles Indiciaires
                       </h4>
-                      <p className="text-center text-slate-300 font-light text-sm">
+                      <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
                         Filières, métiers et grilles de rémunération FPT
                       </p>
                       <div className="flex items-center gap-2 text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-light text-sm">Voir les grilles</span>
+                        <span className="font-light text-xs sm:text-sm">Voir les grilles</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
