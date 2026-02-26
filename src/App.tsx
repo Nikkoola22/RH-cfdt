@@ -870,7 +870,7 @@ ${contenuCible}
 
               {/* Carte Formation */}
               <button
-                onClick={() => window.open('https://www.cnfpt.fr/se-former/suivre-formation/rechercher-formation/offre-2025-telechargez-nos-mini-catalogues-thematiques/hauts-france##organisation_gestion_ressources', '_blank')}
+                onClick={() => window.open('https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1', '_blank')}
                 className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-violet-900/70 to-slate-800/70 backdrop-blur-md border border-violet-500/30 rounded-2xl p-6 sm:p-10 hover:border-purple-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
