@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale, FileText, Building2 } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { chapitres } from "./data/temps.ts"
@@ -919,6 +919,84 @@ ${contenuCible}
                   </p>
                   <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                     <span className="font-light text-xs sm:text-sm">En savoir plus</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Carte Légifrance */}
+              <button
+                onClick={() => window.open('https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551/', '_blank')}
+                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-6 sm:p-10 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                  <div className="relative">
+                    <span className="absolute -inset-3 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl">
+                      <FileText className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                    </div>
+                  </div>
+                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
+                    Légifrance
+                  </h4>
+                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                    Code général de la fonction publique
+                  </p>
+                  <div className="flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <span className="font-light text-xs sm:text-sm">Accéder</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Carte Recherche Jurisprudence */}
+              <button
+                onClick={() => window.open('https://opendata.justice-administrative.fr/recherche', '_blank')}
+                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-6 sm:p-10 hover:border-teal-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-transparent to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                  <div className="relative">
+                    <span className="absolute -inset-3 bg-gradient-to-br from-emerald-400/30 to-teal-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-emerald-500/80 to-teal-500/80 backdrop-blur rounded-2xl shadow-2xl">
+                      <Search className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                    </div>
+                  </div>
+                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
+                    Jurisprudence
+                  </h4>
+                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                    Décisions et jurisprudence administrative
+                  </p>
+                  <div className="flex items-center gap-2 text-teal-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <span className="font-light text-xs sm:text-sm">Rechercher</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Carte CIG */}
+              <button
+                onClick={() => window.open('https://www.cig929394.fr', '_blank')}
+                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-pink-900/70 to-slate-800/70 backdrop-blur-md border border-pink-500/30 rounded-2xl p-6 sm:p-10 hover:border-fuchsia-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-transparent to-fuchsia-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                  <div className="relative">
+                    <span className="absolute -inset-3 bg-gradient-to-br from-pink-400/30 to-fuchsia-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-pink-500/80 to-fuchsia-500/80 backdrop-blur rounded-2xl shadow-2xl">
+                      <Building2 className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                    </div>
+                  </div>
+                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
+                    CIG
+                  </h4>
+                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                    Centre de gestion - Ressources pour agents publics
+                  </p>
+                  <div className="flex items-center gap-2 text-fuchsia-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <span className="font-light text-xs sm:text-sm">Visiter</span>
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
