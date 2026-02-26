@@ -788,14 +788,14 @@
     "Montant": "50 €",
     "Metiers_concernes": "Auxiliaire de puériculture",
     "Direction": "DMSP",
-    "Service": "PMI Timbaud & PMI Timbaud"
+    "Service": "PMI Timbaud & PMI Timsit"
   },
   {
     "Motif": "Prime accueil 2",
     "Montant": "50 €",
     "Metiers_concernes": "Responsable de service",
     "Direction": "DMSP",
-    "Service": "PMI Timbaud"
+    "Service": "PMI Timbaud & PMI Timsit"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1733,7 +1733,7 @@
     "Montant": "20 €",
     "Metiers_concernes": "Responsable de service",
     "Direction": "DMSP",
-    "Service": "PMI Timbaud"
+    "Service": "PMI Timbaud & PMI Timsit"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -1887,14 +1887,14 @@
     "Montant": "50 €",
     "Metiers_concernes": "Auxiliaire de puériculture",
     "Direction": "DMSP",
-    "Service": "PMI Timbaud & PMI Timbaud"
+    "Service": "PMI Timbaud & PMI Timsit"
   },
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
     "Metiers_concernes": "Responsable de service",
     "Direction": "DMSP",
-    "Service": "PMI Timbaud"
+    "Service": "PMI Timbaud & PMI Timsit"
   },
   {
     "Motif": "Prime accueil 1",
