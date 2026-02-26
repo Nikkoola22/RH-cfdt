@@ -121,6 +121,47 @@ app.post('/api/completions', async (req, res) => {
   }
 });
 
+// Route pour récupérer les actualités CFDT Interco
+app.get('/api/interco-rss', async (req, res) => {
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const xml2js = await import('xml2js');
+    const parser = new xml2js.default.Parser();
+
+    const rssUrl = "https://interco.cfdt.fr/feed/rss";
+    console.log(`📡 Récupération du flux Interco CFDT: ${rssUrl}`);
+
+    const response = await fetch(rssUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`❌ Erreur fetch Interco RSS (${response.status}):`, response.statusText);
+      return res.status(response.status).json({ error: 'Erreur récupération RSS Interco' });
+    }
+
+    const xmlText = await response.text();
+    const jsonData = await parser.parseStringPromise(xmlText);
+
+    const articles = (jsonData.rss?.channel?.[0]?.item || []).slice(0, 10).map((item) => ({
+      title: item.title?.[0] || 'Sans titre',
+      link: item.link?.[0] || '#',
+      pubDate: item.pubDate?.[0] || new Date().toISOString(),
+      category: Array.isArray(item.category) ? item.category[0] : (item.category || ''),
+      description: item.description?.[0]?.replace(/<[^>]*>/g, '').trim().substring(0, 150) || ''
+    }));
+
+    console.log(`✅ ${articles.length} actualités Interco CFDT trouvées`);
+    res.status(200).json({ items: articles });
+
+  } catch (error) {
+    console.error("💥 Erreur Interco RSS:", error);
+    res.status(500).json({ error: "Erreur récupération RSS Interco", details: error.message });
+  }
+});
+
 // Route pour récupérer les flux RSS (évite les problèmes CORS)
 app.get('/api/rss', async (req, res) => {
   try {

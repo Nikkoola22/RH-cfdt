@@ -1,1053 +1,667 @@
-import { useState } from 'react';
-import { faqData } from '../data/FAQdata';
+import React, { useState, useCallback } from "react";
 
-interface QuizProps {
-  onBack?: () => void;
-}
-
+// ─── Types ────────────────────────────────────────────────────────────────────
 interface Question {
-  id: number;
   question: string;
   options: string[];
   correctIndex: number;
+  explanation: string;
 }
 
-// Build quiz questions from the FAQ data: take the FAQ question as the quiz question
-// and use a short first-sentence excerpt of the FAQ answer as the correct option.
-// Distractors are pulled from other FAQ answers.
-const extractShort = (text: string) => {
-  if (!text) return 'Voir la FAQ';
-  const clean = text.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
-  const parts = clean.split(/[\.\n\!\?]+/).map((p) => p.trim()).filter(Boolean);
-  return parts.length ? parts[0].slice(0, 140) : clean.slice(0, 140);
-};
-
-// helper: tokenize text (simple French-friendly tokenizer)
-const stopwords = new Set([
-  'le','la','les','de','des','du','un','une','et','à','a','en','pour','par','sur','dans','ne','pas','que','qui',
-  'e','au','aux','est','sont','avec','ou','son','sa','ses','ce','cette','ces','plus','moins','d','l','lors','chez','entre','comme','aujourd','hui'
-]);
-
-const tokenize = (s: string) => {
-  return s
-    .toLowerCase()
-    .replace(/[\p{P}\p{S}]/gu, ' ')
-    .split(/\s+/)
-    .map((w) => w.trim())
-    .filter(Boolean)
-    .filter((w) => !stopwords.has(w));
-};
-
-const similarityScore = (a: string, b: string) => {
-  const ta = new Set(tokenize(a));
-  const tb = new Set(tokenize(b));
-  if (!ta.size || !tb.size) return 0;
-  let common = 0;
-  ta.forEach((w) => {
-    if (tb.has(w)) common++;
-  });
-  // Jaccard-like score
-  const union = new Set([...ta, ...tb]).size;
-  return common / union;
-};
-
-// Build a pool of short excerpts with refs back to their faq index and category
-const excerpts = faqData
-  .map((f, i) => ({
-    idx: i,
-    text: extractShort(f.answer),
-    category: f.category || 'general'
-  }))
-  .filter((e) => e.text && e.text.length > 0);
-
-// Custom override for question 10 (index 9)
-const CUSTOM_Q10 = {
-  question: 'Combien de fois peut-on me refuser ma formation ?',
-  answer: 'On ne peut pas te refuser plus de deux fois la même formation sans avis de la commission paritaire compétente.'
-};
-
-const pickDistractors = (sourceIdx: number, needed = 3) => {
-  const source = excerpts.find((e) => e.idx === sourceIdx);
-  if (!source) return [] as string[];
-
-  // candidates exclude the source exact text
-  const candidates = excerpts.filter((e) => e.idx !== sourceIdx && e.text !== source.text);
-
-  // 1) prefer same category
-  const sameCat = candidates.filter((c) => c.category === source.category);
-
-  // score them by similarity to the source text
-  // Try to generate numeric / strong-similarity synthetic distractors first
-  const generateNumericVariants = (text: string, count: number) => {
-    const variants: string[] = [];
-    // find numbers of 2-4 digits (years/hours) and small numbers (hours per week)
-    const nums = Array.from(text.matchAll(/\d{1,4}/g)).map((m) => ({ raw: m[0], idx: m.index ?? 0 }));
-    if (nums.length === 0) return variants;
-
-    // helper to replace nth occurrence
-    const replaceNth = (s: string, n: number, newVal: string) => {
-      let i = 0;
-      return s.replace(/\d{1,4}/g, (m) => {
-        i++;
-        return i === n ? newVal : m;
-      });
-    };
-
-    // common numeric tweaks
-    const commonReplacements = [
-      (v: number) => Math.max(1, Math.round(v * 0.9)),
-      (v: number) => Math.round(v * 1.1),
-      (v: number) => v + 100,
-      (v: number) => Math.max(1, v - 100),
-      (v: number) => v + 500,
-      (v: number) => Math.max(1, v - 500)
-    ];
-
-    // also some fixed plausible alternatives
-    const fixedAlternatives = [1500, 2500, 1800, 2000, 1200];
-
-    // create variants by changing each numeric token
-    for (let ni = 0; ni < nums.length && variants.length < count * 3; ni++) {
-      const nRaw = nums[ni].raw;
-      const nVal = parseInt(nRaw, 10);
-      if (Number.isNaN(nVal)) continue;
-
-      // apply percent/offset tweaks
-      for (const fn of commonReplacements) {
-        const newNum = fn(nVal);
-        const candidate = replaceNth(text, ni + 1, String(newNum));
-        if (candidate !== text && !variants.includes(candidate)) variants.push(candidate);
-        if (variants.length >= count) break;
-      }
-
-      if (variants.length >= count) break;
-
-      // try fixed alternatives
-      for (const alt of fixedAlternatives) {
-        const candidate = replaceNth(text, ni + 1, String(alt));
-        if (candidate !== text && !variants.includes(candidate)) variants.push(candidate);
-        if (variants.length >= count) break;
-      }
-    }
-
-    // if still few, generate cross-combinations of replacing multiple tokens
-    if (variants.length < count && nums.length >= 2) {
-      const first = parseInt(nums[0].raw, 10);
-      const second = parseInt(nums[1].raw, 10);
-      const combos = [
-        [Math.round(first * 0.9), Math.round(second * 1.1)],
-        [Math.round(first * 1.2), Math.round(second * 0.8)]
-      ];
-
-      for (const c of combos) {
-        let candidate = text;
-        // replace sequentially
-        candidate = replaceNth(candidate, 1, String(c[0]));
-        candidate = replaceNth(candidate, 2, String(c[1]));
-        if (candidate !== text && !variants.includes(candidate)) variants.push(candidate);
-        if (variants.length >= count) break;
-      }
-    }
-
-    return variants.slice(0, count);
-  };
-
-  // generate variants that are textually close: change number words, swap small phrases
-  const generateCloseVariants = (text: string, count: number) => {
-    const variants: string[] = [];
-
-    const wordNums: Record<string, string[]> = {
-      un: ['une', '1', 'une fois'],
-      une: ['un', '1', 'une fois'],
-      deux: ['1', '3', 'trois'],
-      trois: ['2', '4', 'quatre'],
-      '0': ['aucune', 'zéro', 'aucun'],
-      quelques: ['plusieurs', 'quelquefois']
-    };
-
-    // replace number words with close alternatives
-    const numWordRegex = /\b(un|une|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|aucune|aucun|quelques|plusieurs)\b/gi;
-    const foundNums = Array.from(text.matchAll(numWordRegex)).map((m) => m[0]);
-
-    for (const fn of foundNums) {
-      const lower = fn.toLowerCase();
-      const alts = wordNums[lower] || ['1', '2', '3'];
-      for (const alt of alts) {
-        const candidate = text.replace(new RegExp(fn, 'g'), alt);
-        if (candidate !== text && !variants.includes(candidate)) variants.push(candidate);
-        if (variants.length >= count) break;
-      }
-      if (variants.length >= count) break;
-    }
-
-    if (variants.length < count) {
-      // phrase-level paraphrases
-      const phraseSwaps: [RegExp, string[]][] = [
-        [/sans avis de la commission paritaire compétente/gi, ['avec avis de la commission paritaire compétente', 'sans avis formel', 'après avis de la DRH']],
-        [/commission paritaire compétente/gi, ['commission paritaire', 'direction des ressources humaines', 'instance compétente']],
-        [/sans avis/gi, ['avec avis', 'après avis', 'sans décision']]
-      ];
-
-      for (const [rx, subs] of phraseSwaps) {
-        if (rx.test(text)) {
-          for (const s of subs) {
-            const cand = text.replace(rx, s);
-            if (cand !== text && !variants.includes(cand)) variants.push(cand);
-            if (variants.length >= count) break;
-          }
-        }
-        if (variants.length >= count) break;
-      }
-    }
-
-    // fallback: small negation/number tweaks
-    const fallbackCandidates = [
-      text.replace(/\bne\s+peut pas\b/gi, 'peut'),
-      `${text} (sous conditions)`,
-      text.replace(/la même formation/gi, 'une formation similaire')
-    ].filter(Boolean) as string[];
-
-    for (const f of fallbackCandidates) {
-      if (variants.length >= count) break;
-      if (f !== text && !variants.includes(f)) variants.push(f);
-    }
-
-    return variants.slice(0, count);
-  };
-
-  // prioritize close paraphrase-like variants (including number-word swaps)
-  const closeVariants = generateCloseVariants(source.text, needed);
-  const synthetic = [...closeVariants, ...generateNumericVariants(source.text, needed)].filter((s) => s !== source.text);
-
-  const scored = candidates
-    .map((c) => ({
-      ...c,
-      // boost same-category before sorting
-      score: similarityScore(source.text, c.text) * (c.category === source.category ? 1.25 : 1)
-    }))
-    .sort((a, b) => b.score - a.score);
-
-  const picked: string[] = [];
-
-  // use synthetic numeric distractors first (these are aggressive and close)
-  for (const s of synthetic) {
-    if (picked.length >= needed) break;
-    if (!picked.includes(s) && s !== source.text) picked.push(s);
-  }
-
-  // take from same category top-scoring next
-  if (sameCat.length) {
-    const sameScored = scored.filter((s) => s.category === source.category);
-    for (const s of sameScored) {
-      if (picked.length >= needed) break;
-      if (!picked.includes(s.text)) picked.push(s.text);
-    }
-  }
-
-  // then take top-scoring from other categories
-  for (const s of scored) {
-    if (picked.length >= needed) break;
-    if (!picked.includes(s.text)) picked.push(s.text);
-  }
-
-  // if still not enough, fill randomly (but similar length)
-  if (picked.length < needed) {
-    const remaining = candidates.map((c) => c.text).filter((t) => !picked.includes(t));
-    for (let i = remaining.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [remaining[i], remaining[j]] = [remaining[j], remaining[i]];
-    }
-    for (const t of remaining) {
-      if (picked.length >= needed) break;
-      picked.push(t);
-    }
-  }
-
-  return picked.slice(0, needed);
-};
-
-const INITIAL_QUESTIONS: Question[] = faqData.slice(0, 10).map((f, idx) => {
-  const sourceAnswer = idx === 9 ? CUSTOM_Q10.answer : f.answer;
-  const correctFinal = extractShort(sourceAnswer);
-  let opts: string[] = [];
-  let correctIndex = 0;
-
-  if (idx === 9) {
-    // explicit options ordered as requested (correct answer is the 4th)
-    opts = [
-      'On ne peut pas te refuser plus de 4 fois la même formation sans avis de la commission paritaire compétente',
-      'On ne peut pas te refuser plus de 3 fois la même formation sans avis de la commission paritaire compétente',
-      'On ne peut pas te refuser plus de 1 fois la même formation sans avis de la commission paritaire compétente',
-      'On ne peut pas te refuser plus de deux fois la même formation sans avis de la commission paritaire compétente'
-    ];
-    correctIndex = 3;
-  } else if (idx === 0) {
-    // explicit options for 'J\'ai droit à combien de jours de forfait ?' (faq slice index 0)
-    opts = [
-      'À la mairie de Gennevilliers, le forfait télétravail annuel est de 14 jours par an, à utiliser dans la limite de 3 jours maximum par mois',
-      'À la mairie de Gennevilliers, le forfait télétravail annuel est de 17 jours par an, à utiliser dans la limite de 3 jours maximum par mois',
-      'À la mairie de Gennevilliers, le forfait télétravail annuel est de 15 jours par an, à utiliser dans la limite de 3 jours maximum par mois (sous conditions)',
-      'À la mairie de Gennevilliers, le forfait télétravail annuel est de 15 jours par an, à utiliser dans la limite de 4 jours maximum par mois'
-    ];
-    correctIndex = 2; // third option is correct (15 jours, sous conditions)
-  } else if (idx === 1) {
-    // explicit options for 'Je peux mettre combien de jours dans mon CET ?' (faq slice index 1)
-    opts = [
-      'Tu peux mettre au maximum 6 jours de congés annuels et 2 jours de fractionnement ainsi que 50 % des jours de RTT',
-      'Tu peux mettre au maximum 105 jours de congés annuels et 2 jours de fractionnement ainsi que 50 % des jours de RTT',
-      'Tu peux mettre au maximum 10 jours de congés annuels et 2 jours de fractionnement ainsi que 50 % des jours de RTT',
-      'Tu peux mettre au maximum 5 jours de congés annuels et 2 jours de fractionnement ainsi que 50 % des jours de RTT'
-    ];
-    correctIndex = 3; // fourth option is correct (5 jours)
-  } else if (idx === 2) {
-    // explicit options for 'Quelle est la durée légale du temps de travail ?' (faq slice index 2)
-    opts = [
-      'La durée légale du temps de travail est de 1768 heures par an, répartie sur la base de 35 heures par semaine',
-      'La durée légale du temps de travail est de 1607 heures par an, répartie sur la base de 35 heures par semaine',
-      'La durée légale du temps de travail est de 1446 heures par an, répartie sur la base de 35 heures par semaine',
-      'La durée légale du temps de travail est de 1600 heures par an, répartie sur la base de 35 heures par semaine'
-    ];
-    correctIndex = 1; // second option is correct (1607 heures)
-  } else if (idx === 6) {
-    // explicit options for 'Combien dure la journée de solidarité ?' (faq slice index 6 in the slice)
-    opts = [
-      'La journée de solidarité représente 7 heures de travail supplémentaires par an (sous conditions)',
-      'La journée de solidarité représente 8 heures de travail supplémentaires par an',
-      'La journée de solidarité représente 6 heures de travail supplémentaires par an',
-      'La journée de solidarité représente 7,36 heures de travail supplémentaires par an'
-    ];
-    correctIndex = 0; // first option is correct (7 heures)
-  } else if (idx === 7) {
-    // explicit options for 'Combien de jours de congés annuels ai-je droit ?' (faq slice index 7)
-    opts = [
-      'Vous avez droit à 23 jours ouvrés de congés annuels par an (soit 5 semaines)',
-      'Vous avez droit à 28 jours ouvrés de congés annuels par an (soit 5 semaines)',
-      'Vous avez droit à 25 jours ouvrés de congés annuels par an (soit 5 semaines)',
-      'Vous avez droit à 24 jours ouvrés de congés annuels par an (soit 5 semaines)'
-    ];
-    correctIndex = 2; // third option is correct (25 jours)
-  } else if (idx === 3) {
-    // explicit options for 'Comment fonctionnent les plages fixes et les plages de souplesse ?' (faq slice index 3)
-    opts = [
-      'Les plages fixes sont des périodes où la présence est obligatoire pour tous les agents — les plages de souplesse laissent le choix (flexibilité)',
-      'Les plages fixes sont des périodes où la présence est optionelle pour tous les agents',
-      'Les plages de souplesse sont des périodes où la présence est aux choix pour tous les agents',
-      'Les plages de souplesse sont des périodes où la présence est obligatoire pour tous les agents'
-    ];
-    correctIndex = 0; // combined option is correct
-  } else if (idx === 4) {
-    // explicit options for 'Quelles sont les conditions pour bénéficier du temps partiel ?' (faq slice index 4)
-    opts = [
-      'Le temps partiel peut être accordé de droit ou sur autorisation selon les situations',
-      'Le temps partiel peut être accordé de droit uniquement pour les femmes.',
-      'Le temps partiel peut être accordé sur autorisation pour se reposer',
-      'Le temps partiel peut être accordé de droit ou sur autorisation a 40 %'
-    ];
-    correctIndex = 0; // first option is correct
-  } else if (idx === 5) {
-    // explicit options for 'Comment sont rémunérées les heures supplémentaires ?' (faq slice index 5)
-    opts = [
-      'Les heures supplémentaires sont rémunérées uniquement les 15 premieres',
-      'Les heures supplémentaires sont rémunérées uniquement si elles sont effectuées à la demande de la hiérarchie.',
-      'Les heures supplémentaires sont rémunérées uniquement si vous le demandez',
-      'Les heures supplémentaires sont rémunérées uniquement si votre indice est en dessous de 545'
-    ];
-    correctIndex = 1; // second option is correct (à la demande de la hiérarchie)
-  } else if (idx === 8) {
-    // explicit options for 'Comment fonctionnent les jours d\'ARTT ?' (faq slice index 8)
-    opts = [
-      "Les jours d'ARTT (Aménagement et Réduction du Temps de Travail) sont des journées de repos attribuées pour compenser le fait de travailler week-end",
-      "Les jours d'ARTT (Aménagement et Réduction du Temps de Travail) sont des journées de repos attribuées pour compenser le fait de travailler trop tard",
-      "Les jours d'ARTT (Aménagement et Réduction du Temps de Travail) sont des journées de repos attribuées pour compenser la fatigue",
-      "Les jours d'ARTT (Aménagement et Réduction du Temps de Travail) sont des journées de repos attribuées pour compenser le fait de depasser les 35h",
-      "Les jours d'ARTT (Aménagement et Réduction du Temps de Travail) sont des heures de repos attribuées pour compenser le fait de travailler 5 jours / semaine"
-    ];
-    correctIndex = 3; // fourth option (annualisation) is correct
-  } else {
-    const distractors = pickDistractors(idx, 3);
-    opts = [correctFinal, ...distractors];
-    // shuffle options
-    for (let i = opts.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [opts[i], opts[j]] = [opts[j], opts[i]];
-    }
-    correctIndex = opts.findIndex((o) => o === correctFinal);
-  }
-  const questionText = idx === 9 ? CUSTOM_Q10.question : f.question;
-  return { id: idx + 1, question: questionText, options: opts, correctIndex } as Question;
-}).concat([
-  // 10 nouvelles questions (questions 11-20)
+// ─── Pool de 40 questions sans doublons ──────────────────────────────────────
+const ALL_QUESTIONS: Question[] = [
   {
-    id: 11,
-    question: 'Quelle est la procédure pour demander un congé sabbatique ?',
+    question: "Combien de jours de télétravail par semaine sont autorisés par défaut à Gennevilliers ?",
     options: [
-      "C'est un congé d'une durée de 6 mois à 3 ans accordé de droit après 10 ans d'ancienneté",
-      "C'est un congé payé d'une durée de 1 mois minimum accordé sur demande",
-      "C'est un congé non-rémunéré accordé après accord de la hiérarchie et du service RH",
-      "C'est un congé qui doit être pris avant 55 ans, sur autorisation préalable"
+      "1 jour par semaine",
+      "2 jours par semaine",
+      "3 jours par semaine",
+      "4 jours par semaine",
     ],
-    correctIndex: 0
+    correctIndex: 1,
+    explanation: "Le télétravail est autorisé jusqu'à 2 jours par semaine par défaut à Gennevilliers.",
   },
   {
-    id: 12,
-    question: 'Que sont les droits de visite médicale pour les agents ?',
+    question: "Quel est le délai de prévenance pour annuler une journée de télétravail ?",
     options: [
-      'La visite médicale obligatoire une fois par an pour tous les agents',
-      "La visite médicale est un droit de l'agent pour avoir un arrêt de travail",
-      'La visite médicale est obligatoire une fois tous les 5 ans uniquement',
-      "Les agents n'ont pas de droits concernant les visites médicales"
+      "24 heures",
+      "48 heures",
+      "72 heures",
+      "1 semaine",
     ],
-    correctIndex: 0
+    correctIndex: 1,
+    explanation: "Le délai de prévenance est de 48 heures pour annuler une journée de télétravail.",
   },
   {
-    id: 13,
-    question: "Quel est le délai de prévenance pour démissionner d'un poste ?",
+    question: "Quelle est la durée légale annuelle du temps de travail dans la fonction publique ?",
     options: [
-      '1 mois pour tous les agents sans exception',
-      '2 mois pour les cadres, 1 mois pour les autres agents',
-      'Le délai dépend de la durée du contrat',
-      "Il n'y a pas de délai obligatoire à respecter"
+      "1 500 heures par an",
+      "1 607 heures par an",
+      "1 650 heures par an",
+      "1 750 heures par an",
     ],
-    correctIndex: 2
+    correctIndex: 1,
+    explanation: "La durée légale du temps de travail est de 1 607 heures par an, soit 35 heures par semaine.",
   },
   {
-    id: 14,
-    question: 'Comment fonctionnent les jours de repos compensateur ?',
+    question: "Combien de jours de congés annuels a-t-on droit à Gennevilliers sur 5 jours de travail par semaine ?",
     options: [
-      'Ils sont automatiquement attribués après 4 heures de travail le dimanche',
-      'Ce sont des jours de repos accordés en compensation de travaux de nuit ou le dimanche',
-      "Ils doivent être pris dans les 3 mois suivant l'événement qui les génère",
-      "Ils s'ajoutent automatiquement aux congés annuels"
+      "20 jours ouvrés",
+      "22 jours ouvrés",
+      "25 jours ouvrés",
+      "28 jours ouvrés",
     ],
-    correctIndex: 1
+    correctIndex: 2,
+    explanation: "Un agent travaillant 5 jours par semaine a droit à 25 jours ouvrés de congés annuels.",
   },
   {
-    id: 15,
-    question: 'Quels sont les droits des agents en cas de maladie longue durée ?',
+    question: "Qu'est-ce que le RIFSEEP ?",
     options: [
-      'Les agents perdent leurs primes mais gardent leur salaire pendant 3 ans',
-      "Les agents continuent à percevoir leur traitement et peuvent bénéficier d'aménagements de poste",
-      'Les agents doivent prendre un congé sabbatique obligatoirement',
-      "Les agents n'ont aucune protection particulière"
+      "Un régime de retraite complémentaire",
+      "Un régime indemnitaire tenant compte des fonctions, sujétions, expertise et engagement professionnel",
+      "Une prime exceptionnelle annuelle",
+      "Un dispositif de formation professionnelle",
     ],
-    correctIndex: 0
+    correctIndex: 1,
+    explanation: "Le RIFSEEP est le régime indemnitaire principal dans la fonction publique territoriale depuis 2016.",
   },
   {
-    id: 16,
-    question: "Qu'est-ce que le compte personnel de formation (CPF) ?",
+    question: "Comment sont rémunérées les heures supplémentaires dans la fonction publique territoriale ?",
     options: [
-      "Un compte d'épargne rémunéré mis en place par la mairie",
-      "Un compte permettant d'accumuler des heures de formation tout au long de la carrière",
-      'Un compte bancaire obligatoire pour tous les agents',
-      'Un fonds destiné aux augmentations de salaire'
+      "Elles sont automatiquement payées en fin de mois",
+      "Elles sont toujours récupérées en temps de repos uniquement",
+      "Elles peuvent être indemnisées (IHTS) ou récupérées en repos si demandées par la hiérarchie",
+      "Elles ne sont jamais rémunérées",
     ],
-    correctIndex: 1
+    correctIndex: 2,
+    explanation: "Les heures supplémentaires peuvent être indemnisées via les IHTS ou compensées par du repos compensateur, à condition d'avoir été demandées par la hiérarchie.",
   },
   {
-    id: 17,
-    question: "Quelles sont les conditions pour bénéficier d'un congé parental ?",
+    question: "Quelle est la durée journalière de travail pour un agent à temps plein sur 5 jours ?",
     options: [
-      "C'est un droit accordé aux parents ayant au moins 1 enfant à charge",
-      "C'est accordé uniquement après 5 ans d'ancienneté dans la fonction publique",
-      "C'est un congé payé d'une durée maximale de 6 mois",
-      'Seules les mères peuvent en bénéficier'
+      "7 heures par jour",
+      "7h12 par jour",
+      "7h30 par jour",
+      "8 heures par jour",
     ],
-    correctIndex: 0
+    correctIndex: 1,
+    explanation: "Sur 5 jours, la durée journalière standard est de 7h12 (1607h / 52 semaines / 5 jours ≈ 7h12).",
   },
   {
-    id: 18,
-    question: "Comment se calcule la pension de retraite d'un agent public ?",
+    question: "Qu'est-ce que le COS (Comité des Œuvres Sociales) ?",
     options: [
-      'Elle est basée uniquement sur le dernier salaire perçu avant la retraite',
-      "Elle se calcule sur la moyenne des 6 derniers mois et le nombre d'années de service",
-      'Elle est forfaitaire et identique pour tous les agents',
-      "Elle dépend uniquement de l'age de départ en retraite"
+      "Un syndicat professionnel",
+      "Un organisme qui gère les activités sociales et culturelles des agents",
+      "Un comité de sécurité au travail",
+      "Une caisse de retraite complémentaire",
     ],
-    correctIndex: 1
+    correctIndex: 1,
+    explanation: "Le COS gère les activités sociales et culturelles proposées aux agents (loisirs, vacances, culture, etc.).",
   },
   {
-    id: 19,
-    question: 'Quel est le rôle du médecin de prévention ?',
+    question: "Quelle est la durée maximale d'un congé maladie ordinaire (CMO) ?",
     options: [
-      "C'est le médecin qui traite les maladies des agents",
-      'C’est un professionnel qui intervient en prévention et suivi médical au travail',
-      'C’est uniquement responsable des vaccinations obligatoires',
-      "Il n'y a pas de médecin de prévention dans la fonction publique territoriale"
+      "3 mois",
+      "6 mois",
+      "1 an",
+      "3 ans",
     ],
-    correctIndex: 1
+    correctIndex: 2,
+    explanation: "Le CMO peut durer jusqu'à 1 ans : 3 mois à 90% du traitement puis 9 mois à demi-traitement.",
   },
   {
-    id: 20,
-    question: "Qu'est-ce que le système de notation des agents ?",
+    question: "Qu'est-ce que le droit de retrait ?",
     options: [
-      "C'est un système permettant d'évaluer les compétences et le travail fourni par chaque agent",
-      "C'est une notation basée uniquement sur l'ancienneté",
-      "C'est un système de bonus/malus sur les congés",
-      "Les agents n'ont pas de notation formelle"
+      "Le droit de prendre sa retraite anticipée",
+      "Le droit de quitter son poste en cas de danger grave et imminent pour sa vie ou sa santé",
+      "Le droit de refuser une mutation",
+      "Le droit de demander un congé sans solde",
     ],
-    correctIndex: 0
+    correctIndex: 1,
+    explanation: "Le droit de retrait permet à un agent de quitter son poste s'il a un motif raisonnable de penser qu'il se trouve dans une situation de danger grave et imminent.",
   },
   {
-    id: 21,
-    question: 'Quelle est la durée légale annuelle du temps de travail dans la fonction publique ?',
+    question: "Qu'est-ce que le temps partiel dans la fonction publique ?",
     options: [
-      '1500 heures par année',
-      '1607 heures par année',
-      '1800 heures par année',
-      '2000 heures par année'
+      "Un temps partiel uniquement imposé par l'employeur",
+      "Le temps partiel peut être accordé de droit (naissance, adoption, handicap) ou sur autorisation selon les besoins du service",
+      "Un temps partiel réservé aux agents de catégorie C",
+      "Un temps partiel uniquement thérapeutique",
     ],
-    correctIndex: 1
+    correctIndex: 1,
+    explanation: "Le temps partiel peut être de droit (pour élever un enfant, en cas de handicap) ou sur autorisation selon les nécessités de service.",
   },
   {
-    id: 22,
-    question: "Combien de jours de formation obligatoire sont accordés lors de l'intégration en catégorie A ou B ?",
+    question: "Qu'est-ce que le temps partiel thérapeutique ?",
     options: [
-      '3 jours de formation',
-      '5 jours de formation',
-      '10 jours de formation',
-      '15 jours de formation'
+      "Un temps partiel choisi par l'agent pour convenance personnelle",
+      "Un temps partiel accordé après maladie pour favoriser la reprise progressive du travail",
+      "Un temps partiel imposé par l'employeur après une longue absence",
+      "Un temps partiel lié à une formation longue durée",
     ],
-    correctIndex: 2
+    correctIndex: 1,
+    explanation: "Le temps partiel thérapeutique est accordé après un congé maladie pour permettre une reprise progressive et sécurisée du travail.",
   },
   {
-    id: 23,
-    question: "Combien d'heures de formation sont crédités annuellement au Compte Personnel de Formation (CPF) ?",
+    question: "Quel est le délai pour contester une sanction disciplinaire devant le tribunal administratif ?",
     options: [
-      '10 heures par année',
-      '15 heures par année',
-      '25 heures par année',
-      '50 heures par année'
+      "15 jours",
+      "1 mois",
+      "2 mois",
+      "3 mois",
     ],
-    correctIndex: 2
+    correctIndex: 2,
+    explanation: "L'agent dispose de 2 mois pour contester une sanction disciplinaire devant le tribunal administratif.",
   },
   {
-    id: 24,
-    question: "Quel est le plafond maximal d'heures accumulables sur le CPF ?",
+    question: "Qu'est-ce que le CST (Comité Social Territorial) ?",
     options: [
-      '100 heures',
-      '120 heures',
-      '150 heures',
-      '200 heures'
+      "Comité des Salaires et Traitements",
+      "Instance de dialogue social remplaçant le CHSCT et le CT depuis 2023",
+      "Conseil Supérieur du Travail",
+      "Commission de Suivi des Titulaires",
     ],
-    correctIndex: 2
+    correctIndex: 1,
+    explanation: "Le CST (Comité Social Territorial) est la nouvelle instance de dialogue social qui a fusionné le Comité Technique (CT) et le CHSCT depuis la réforme de 2023.",
   },
   {
-    id: 25,
-    question: 'Combien de jours fixes de télétravail par semaine sont accordés selon le protocole de télétravail ?',
+    question: "Quelle est la durée du congé maternité pour un premier enfant ?",
     options: [
-      '1 jour fixe par semaine',
-      '2 jours fixes par semaine',
-      '3 jours fixes par semaine',
-      "Jusqu'à 5 jours par semaine"
+      "10 semaines",
+      "14 semaines",
+      "16 semaines",
+      "26 semaines",
     ],
-    correctIndex: 0
+    correctIndex: 2,
+    explanation: "Le congé maternité pour un premier enfant est de 16 semaines (6 semaines avant + 10 semaines après l'accouchement).",
   },
   {
-    id: 26,
-    question: 'Quel est le nombre maximal de jours de télétravail sur l\'année (au-delà du jour fixe) ?',
+    question: "Qu'est-ce que le CAP (Conseil d'Administration Paritaire) ?",
     options: [
-      '5 jours par année',
-      '10 jours par année',
-      '15 jours par année',
-      '30 jours par année'
+      "Une instance composée de représentants de l'administration et des personnels qui examine les situations individuelles des agents",
+      "Un comité de pilotage administratif permanent",
+      "Une commission d'attribution des primes",
+      "Un conseil d'administration des projets",
     ],
-    correctIndex: 2
+    correctIndex: 0,
+    explanation: "Le CAP est une instance paritaire qui examine les situations individuelles des agents (avancements, mutations, sanctions, etc.).",
   },
   {
-    id: 27,
-    question: 'Quelle est la limite maximale de jours de télétravail par mois (hors jour fixe) ?',
+    question: "Combien de jours de congés pour événements familiaux lors d'un mariage ou PACS ?",
     options: [
-      '1 jour par mois',
-      '2 jours par mois',
-      '3 jours par mois',
-      '5 jours par mois'
+      "1 jour",
+      "3 jours",
+      "5 jours",
+      "7 jours",
     ],
-    correctIndex: 2
+    correctIndex: 2,
+    explanation: "L'agent a droit à 5 jours de congés spéciaux lors de son propre mariage ou PACS.",
   },
   {
-    id: 28,
-    question: 'Le télétravail est-il obligatoire ou facultatif pour les agents ?',
+    question: "Qu'est-ce que la protection fonctionnelle ?",
     options: [
-      'Il est obligatoire pour tous les agents',
-      'Il est facultatif et réversible à tout moment',
-      'Il dépend uniquement de la décision du chef de service',
-      'Il est réservé aux agents de catégorie A'
+      "Une assurance professionnelle personnelle souscrite par l'agent",
+      "La protection accordée par l'employeur à l'agent victime d'attaques dans l'exercice de ses fonctions",
+      "Un dispositif de protection des données personnelles",
+      "Un système de protection contre le licenciement abusif",
     ],
-    correctIndex: 1
+    correctIndex: 1,
+    explanation: "La protection fonctionnelle est l'obligation pour l'employeur de protéger et défendre l'agent victime d'attaques, menaces ou poursuites dans l'exercice de ses fonctions.",
   },
   {
-    id: 29,
-    question: "Quel est le nombre maximal de jours d'absence incompressible pour raison de santé avant remplacement ?",
+    question: "Quel est le nombre de jours de congés supplémentaires accordés pour fractionnement ?",
     options: [
-      '30 jours',
-      '60 jours',
-      '90 jours',
-      '180 jours'
+      "1 ou 2 jours selon les conditions",
+      "3 jours automatiquement",
+      "5 jours maximum",
+      "Aucun jour supplémentaire",
     ],
-    correctIndex: 2
+    correctIndex: 0,
+    explanation: "Des jours supplémentaires (1 ou 2 jours) peuvent être accordés si l'agent prend une partie de ses congés en dehors de la période principale (1er mai – 31 octobre).",
   },
   {
-    id: 30,
-    question: 'Les heures supplémentaires au-delà de 1607 heures annuelles sont-elles majorées ?',
+    question: "Qu'est-ce que la NBI (Nouvelle Bonification Indiciaire) ?",
     options: [
-      'Non, elles sont payées au taux normal',
-      "Oui, avec des majorations progressives (25%, 27% et jusqu'à 100%)",
-      'Elles sont comptabilisées comme jours de congés',
-      'Les heures supplémentaires ne sont pas autorisées'
+      "Une prime liée aux résultats individuels",
+      "Des points d'indice supplémentaires attribués pour certaines fonctions particulières",
+      "Une nouvelle grille de rémunération nationale",
+      "Un bonus annuel exceptionnel",
     ],
-    correctIndex: 1
+    correctIndex: 1,
+    explanation: "La NBI est un supplément de points d'indice attribué aux agents exerçant certaines fonctions comportant une responsabilité ou une technicité particulière.",
   },
   {
-    id: 31,
-    question: "Quel est le nombre maximum d'heures supplémentaires par mois ?",
+    question: "Quelle est la durée maximale de télétravail hebdomadaire pour un agent à temps plein ?",
     options: [
-      '20 heures par mois',
-      '25 heures par mois',
-      '30 heures par mois',
-      '40 heures par mois'
+      "2 jours par semaine",
+      "3 jours par semaine",
+      "4 jours par semaine",
+      "5 jours par semaine",
     ],
-    correctIndex: 1
+    correctIndex: 1,
+    explanation: "Le plafond réglementaire est de 3 jours de télétravail par semaine pour un agent à temps plein.",
   },
   {
-    id: 32,
-    question: 'Les heures supplémentaires de nuit (22h à 7h) sont majorées de combien ?',
+    question: "Quelles sont les catégories hiérarchiques de la fonction publique territoriale ?",
     options: [
-      '25%',
-      '50%',
-      '100%',
-      '66%'
+      "Catégorie A, B et C uniquement",
+      "Catégorie A (cadres), B (techniciens/agents de maîtrise) et C (agents d'exécution)",
+      "Catégorie 1, 2 et 3",
+      "Catégorie junior, senior et expert",
     ],
-    correctIndex: 2
+    correctIndex: 1,
+    explanation: "La FPT est organisée en trois catégories : A (cadres et dirigeants), B (techniciens et agents de maîtrise) et C (agents d'exécution).",
   },
   {
-    id: 33,
-    question: "Quel est le cycle de travail hebdomadaire à Gennevilliers pour les agents des crèches ?",
+    question: "Qu'est-ce que le droit syndical dans la fonction publique ?",
     options: [
-      '37 heures par semaine',
-      '37.5 heures par semaine',
-      '38 heures par semaine',
-      '39 heures par semaine'
+      "Le droit de grève uniquement",
+      "Le droit de se syndiquer, participer à des réunions syndicales et bénéficier de décharges d'activité de service",
+      "Le droit de négocier son salaire individuellement",
+      "Le droit de refuser toute affectation",
     ],
-    correctIndex: 3
+    correctIndex: 1,
+    explanation: "Le droit syndical comprend : se syndiquer, assister à des réunions, bénéficier de décharges d'activité et d'un local syndical.",
   },
   {
-    id: 34,
-    question: 'Quelles sont les quotités de temps partiel proposées à Gennevilliers ?',
+    question: "Qu'est-ce qu'une promotion de grade dans la FPT ?",
     options: [
-      '40%, 60%, 80%',
-      '50%, 75%, 90%',
-      '50%, 60%, 70%, 80% ou 90%',
-      '55%, 70%, 85%'
+      "Un changement de corps ou de cadre d'emplois",
+      "Une progression à l'intérieur du même cadre d'emplois selon l'ancienneté et la valeur professionnelle",
+      "Une augmentation de salaire sans changement de grade",
+      "Un simple changement de poste",
     ],
-    correctIndex: 2
+    correctIndex: 1,
+    explanation: "La promotion de grade permet à un agent de progresser au sein de son cadre d'emplois, en fonction de son ancienneté et de sa valeur professionnelle reconnue.",
   },
   {
-    id: 35,
-    question: "À partir de combien de dimanches travaillés a-t-on droit à une compensation ?",
+    question: "Quelle est la durée du stage pour un fonctionnaire stagiaire dans la FPT ?",
     options: [
-      'À partir de 5 dimanches',
-      'À partir de 8 dimanches',
-      'À partir de 10 dimanches',
-      'À partir de 15 dimanches'
+      "3 mois",
+      "6 mois",
+      "1 an",
+      "2 ans",
     ],
-    correctIndex: 2
+    correctIndex: 2,
+    explanation: "La durée du stage est généralement d'1 an pour un fonctionnaire stagiaire dans la fonction publique territoriale avant titularisation.",
   },
   {
-    id: 36,
-    question: 'Combien de jours de congés annuels a-t-on droit à Gennevilliers sur 5 jours de travail par semaine ?',
+    question: "Qu'est-ce que le CIA dans le RIFSEEP ?",
     options: [
-      '20 jours ouvrés',
-      '22 jours ouvrés',
-      '25 jours ouvrés',
-      '30 jours ouvrés'
+      "Complément Indemnitaire Annuel versé selon l'engagement professionnel et les résultats",
+      "Commission d'Inspection Administrative",
+      "Compte Individuel d'Activité",
+      "Comité d'Intervention Administrative",
     ],
-    correctIndex: 2
+    correctIndex: 0,
+    explanation: "Le CIA (Complément Indemnitaire Annuel) est la part variable du RIFSEEP, versée en fonction des résultats et de l'engagement professionnel de l'agent.",
   },
   {
-    id: 37,
-    question: "Quel est le délai minimum de demande de congé pour 1 journée ?",
+    question: "Combien de jours de congés spéciaux lors du décès d'un parent proche ?",
     options: [
-      '2 jours ouvrés',
-      '5 jours ouvrés',
-      '10 jours ouvrés',
-      '15 jours ouvrés'
+      "1 jour",
+      "2 jours",
+      "3 jours",
+      "5 jours",
     ],
-    correctIndex: 1
+    correctIndex: 2,
+    explanation: "L'agent a droit à 3 jours de congés spéciaux lors du décès d'un parent proche (père, mère, conjoint, enfant).",
   },
   {
-    id: 38,
-    question: "Quelle est la durée maximale d'absence consecutive autorisée pour les congés annuels ?",
+    question: "Qu'est-ce que le droit à la déconnexion ?",
     options: [
-      '20 jours consécutifs',
-      '25 jours consécutifs',
-      '31 jours consécutifs',
-      '45 jours consécutifs'
+      "Le droit de ne pas avoir de téléphone professionnel",
+      "Le droit de ne pas être contacté professionnellement en dehors des heures de travail",
+      "Le droit de refuser l'accès à internet au travail",
+      "Le droit de désactiver son badge professionnel",
     ],
-    correctIndex: 2
+    correctIndex: 1,
+    explanation: "Le droit à la déconnexion est le droit pour l'agent de ne pas répondre aux sollicitations professionnelles en dehors de ses horaires de travail.",
   },
   {
-    id: 39,
-    question: "Qu'est-ce que le fractionnement de congés annuels ?",
+    question: "Qu'est-ce que le télétravail flottant ?",
     options: [
-      'Le partage des congés entre plusieurs années',
-      'Des jours de congé supplémentaires accordés pour congés pris en periods creuses',
-      "La division des congés entre les agents d'un service",
-      "L'obligation de prendre au moins 2 semaines consécutives"
+      "Des jours de télétravail non fixes, choisis librement dans un crédit mensuel défini",
+      "Du télétravail uniquement les jours fériés",
+      "Du télétravail depuis l'étranger",
+      "Du télétravail partagé entre deux agents sur un même poste",
     ],
-    correctIndex: 1
+    correctIndex: 0,
+    explanation: "Le télétravail flottant consiste en des jours de télétravail non prédéterminés, piochés librement dans un crédit mensuel accordé.",
   },
   {
-    id: 40,
-    question: "Après combien d'heures continues de travail minimum a-t-on droit à une pause ?",
+    question: "Qu'est-ce que l'entretien professionnel annuel ?",
     options: [
-      'Après 4 heures',
-      'Après 5 heures',
-      'Après 6 heures',
-      'Après 8 heures'
+      "Un entretien médical obligatoire avec la médecine du travail",
+      "Un entretien entre l'agent et son supérieur hiérarchique direct évaluant le travail et fixant les objectifs",
+      "Un entretien de recrutement interne",
+      "Un entretien syndical annuel obligatoire",
     ],
-    correctIndex: 2
-  }
-]);
+    correctIndex: 1,
+    explanation: "L'entretien professionnel annuel est conduit par le N+1 ; il évalue la manière de servir, fait le bilan de l'année et fixe les objectifs de l'année suivante.",
+  },
+  {
+    question: "Qu'est-ce que le congé de longue maladie (CLM) ?",
+    options: [
+      "Un congé de 6 mois maximum",
+      "Un congé de 3 ans pour une affection grave (1 an plein traitement + 2 ans demi-traitement)",
+      "Un congé équivalent au CMO mais sans limite de durée",
+      "Un congé accordé uniquement pour accident du travail",
+    ],
+    correctIndex: 1,
+    explanation: "Le CLM est accordé pour des affections graves : 1 an à plein traitement puis 2 ans à demi-traitement, soit 3 ans au total.",
+  },
+  {
+    question: "Qu'est-ce que le régime de travail en cycle ?",
+    options: [
+      "Un travail uniquement de nuit en rotation hebdomadaire",
+      "Une organisation du temps de travail sur une période de référence supérieure à la semaine",
+      "Un travail alterné entre télétravail et présentiel",
+      "Un système de rotation des postes entre collègues",
+    ],
+    correctIndex: 1,
+    explanation: "Le cycle de travail est une organisation sur une période > à la semaine, permettant de moduler les horaires tout en respectant les 1607h annuelles.",
+  },
+  {
+    question: "Qu'est-ce que le CNAS ?",
+    options: [
+      "Caisse Nationale d'Action Sociale — organisme proposant des prestations sociales et culturelles aux agents territoriaux",
+      "Comité National d'Administration Syndicale",
+      "Centre National d'Appui et de Soutien aux agents",
+      "Commission Nationale d'Avancement et de Salaire",
+    ],
+    correctIndex: 0,
+    explanation: "Le CNAS propose des prestations sociales, culturelles et de loisirs aux agents de la fonction publique territoriale.",
+  },
+  {
+    question: "Quel est le délai de réponse de l'administration à une demande de télétravail ?",
+    options: [
+      "15 jours",
+      "1 mois",
+      "2 mois",
+      "3 mois",
+    ],
+    correctIndex: 2,
+    explanation: "L'administration dispose de 2 mois pour répondre à une demande de télétravail. Passé ce délai, le silence vaut acceptation.",
+  },
+  {
+    question: "Qu'est-ce que le compte épargne-temps (CET) ?",
+    options: [
+      "Un compte bancaire dédié aux primes",
+      "Un dispositif permettant d'épargner des jours de congés non pris pour les utiliser ultérieurement ou les monétiser",
+      "Un compte de formation professionnelle",
+      "Un système d'épargne retraite complémentaire",
+    ],
+    correctIndex: 1,
+    explanation: "Le CET permet d'accumuler des jours de congés non pris (plafond 60 jours) pour les utiliser ultérieurement ou les monétiser.",
+  },
+  {
+    question: "Qu'est-ce que la disponibilité dans la fonction publique ?",
+    options: [
+      "Une période d'attente avant une nouvelle affectation",
+      "Une position hors cadres permettant à l'agent de cesser temporairement ses fonctions sans rémunération",
+      "Un congé exceptionnel accordé par l'administration",
+      "Une période de formation longue durée rémunérée",
+    ],
+    correctIndex: 1,
+    explanation: "La disponibilité place l'agent hors de son administration d'origine : il cesse ses fonctions et n'est plus rémunéré pendant cette période.",
+  },
+  {
+    question: "Combien de jours maximum peuvent être épargnés dans le CET par an ?",
+    options: [
+      "10 jours par an",
+      "15 jours par an",
+      "20 jours par an",
+      "30 jours par an",
+    ],
+    correctIndex: 0,
+    explanation: "Un agent peut épargner jusqu'à 10 jours par an dans son CET, dans la limite d'un plafond total de 60 jours.",
+  },
+  {
+    question: "Qu'est-ce que le congé parental ?",
+    options: [
+      "Un congé de maternité prolongé rémunéré",
+      "Un congé non rémunéré permettant d'élever son enfant jusqu'à ses 3 ans",
+      "Un congé payé pour s'occuper d'un enfant malade",
+      "Un congé accordé uniquement au père après la naissance",
+    ],
+    correctIndex: 1,
+    explanation: "Le congé parental est non rémunéré ; il permet à l'agent de cesser temporairement de travailler pour élever son enfant jusqu'au 3e anniversaire de celui-ci.",
+  },
+  {
+    question: "Combien d'heures de CPF (Compte Personnel de Formation) sont créditées par an pour un temps plein ?",
+    options: [
+      "10 heures par an",
+      "20 heures par an",
+      "24 heures par an",
+      "50 heures par an",
+    ],
+    correctIndex: 1,
+    explanation: "Le CPF est crédité de 20 heures par an pour un agent à temps plein, plafonné à 150 heures.",
+  },
+  {
+    question: "Qu'est-ce que le PPCR (Parcours Professionnels, Carrières et Rémunérations) ?",
+    options: [
+      "Un programme de prévention contre les risques professionnels",
+      "Une réforme restructurant les grilles indiciaires et les carrières dans la fonction publique depuis 2016",
+      "Un plan de formation professionnelle continue",
+      "Un protocole de protection et de conseil des représentants syndicaux",
+    ],
+    correctIndex: 1,
+    explanation: "Le PPCR est une réforme mise en place depuis 2016 qui a revu les grilles indiciaires, la structure des carrières et les modalités d'avancement.",
+  },
+  {
+    question: "Qu'est-ce qu'une grève et quelles en sont les modalités dans la FPT ?",
+    options: [
+      "Une absence injustifiée passible de sanction disciplinaire",
+      "Une cessation collective du travail nécessitant un préavis de 5 jours francs déposé par un syndicat représentatif",
+      "Un arrêt de travail individuel autorisé sans préavis",
+      "Une manifestation extérieure sans impact sur la rémunération",
+    ],
+    correctIndex: 1,
+    explanation: "La grève dans la FPT nécessite un préavis de 5 jours francs déposé par un syndicat représentatif. Chaque journée de grève entraîne une retenue de 1/30e du traitement mensuel.",
+  },
+];
 
-// Fonction pour sélectionner aléatoirement 10 questions parmi toutes les questions disponibles sans doublons
-function getRandomQuestions(): Question[] {
-  const allQuestions = [...INITIAL_QUESTIONS];
-  const selected: Question[] = [];
-  const usedIndices = new Set<number>();
-
-  while (selected.length < 10 && usedIndices.size < allQuestions.length) {
-    const randomIndex = Math.floor(Math.random() * allQuestions.length);
-    if (!usedIndices.has(randomIndex)) {
-      usedIndices.add(randomIndex);
-      selected.push(allQuestions[randomIndex]);
-    }
-  }
-
-  return selected;
+// ─── Tirage aléatoire de N questions uniques ──────────────────────────────────
+function getRandomQuestions(pool: Question[], count = 10): Question[] {
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
 }
 
-export default function FAQQuiz({ onBack }: QuizProps) {
-  const [randomQuestions] = useState<Question[]>(getRandomQuestions());
-  const [index, setIndex] = useState(0);
-  const [questions, setQuestions] = useState<Question[]>(randomQuestions);
-  const [answers, setAnswers] = useState<(number | null)[]>(Array(randomQuestions.length).fill(null));
-  const [submitted, setSubmitted] = useState(false);
-  const [selectedHovered, setSelectedHovered] = useState<number | null>(null);
-  const [animateScore, setAnimateScore] = useState(false);
-
-  const selectOption = (opt: number) => {
-    setAnswers((a) => {
-      const copy = [...a];
-      copy[index] = opt;
-      return copy;
-    });
-  };
-
-  const submit = () => {
-    setSubmitted(true);
-    setAnimateScore(true);
-  };
-
-  const restart = () => {
-    const newQuestions = getRandomQuestions();
-    setQuestions(newQuestions);
-    setAnswers(Array(newQuestions.length).fill(null));
-    setIndex(0);
-    setSubmitted(false);
-    setAnimateScore(false);
-  };
-
-  const score = answers.reduce(
-    (acc: number, ans, i) => (ans === questions[i].correctIndex ? acc + 1 : acc),
-    0
+// ─── Composant FAQQuiz ────────────────────────────────────────────────────────
+const FAQQuiz: React.FC = () => {
+  const [questions, setQuestions] = useState<Question[]>(() =>
+    getRandomQuestions(ALL_QUESTIONS)
   );
-  const progressPercent = Math.round(((index + 1) / questions.length) * 100);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [answered, setAnswered] = useState(false);
+  const [answers, setAnswers] = useState<(number | null)[]>(Array(10).fill(null));
 
-  return (
-    <section className="mt-16">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="mb-8 animate-fade-in">
-          <div className="flex flex-row items-center justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">QUIZZ</h2>
-              <p className="text-sm sm:text-base text-gray-600 mt-2">10 questions à choix multiple — obtenez votre score à la fin</p>
-            </div>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
-              {onBack && (
-                <button
-                  onClick={onBack}
-                  className="px-4 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm transition-all duration-200 transform hover:scale-105"
-                >
-                  Retour
-                </button>
-              )}
-              <button
-                onClick={restart}
-                className="px-4 py-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold text-sm transition-all duration-200 transform hover:scale-105"
-              >
-                Nouveau
-              </button>
-            </div>
-          </div>
+  const current = questions[currentIndex];
+
+  const handleSelect = useCallback(
+    (index: number) => {
+      if (answered) return;
+      setSelectedOption(index);
+      setAnswered(true);
+      const newAnswers = [...answers];
+      newAnswers[currentIndex] = index;
+      setAnswers(newAnswers);
+      if (index === current.correctIndex) {
+        setScore((s) => s + 1);
+      }
+    },
+    [answered, answers, currentIndex, current]
+  );
+
+  const handleNext = useCallback(() => {
+    if (currentIndex + 1 < questions.length) {
+      setCurrentIndex((i) => i + 1);
+      setSelectedOption(null);
+      setAnswered(false);
+    } else {
+      setShowResult(true);
+    }
+  }, [currentIndex, questions.length]);
+
+  const handleRestart = useCallback(() => {
+    setQuestions(getRandomQuestions(ALL_QUESTIONS));
+    setCurrentIndex(0);
+    setSelectedOption(null);
+    setScore(0);
+    setShowResult(false);
+    setAnswered(false);
+    setAnswers(Array(10).fill(null));
+  }, []);
+
+  // ── Écran résultats ──────────────────────────────────────────────────────────
+  if (showResult) {
+    const percentage = Math.round((score / questions.length) * 100);
+    const medal = percentage >= 80 ? "🏆" : percentage >= 60 ? "👍" : "📚";
+
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+        <div className="text-center mb-6">
+          <div className="text-6xl mb-3">{medal}</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-1">Quiz terminé !</h2>
+          <p className="text-4xl font-extrabold text-red-600 my-2">
+            {score} / {questions.length}
+          </p>
+          <p className="text-gray-500">{percentage}% de bonnes réponses</p>
         </div>
 
-        {!submitted ? (
-          <div className="space-y-6">
-            {/* Progress Bar */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 animate-fade-in">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-sm font-semibold text-gray-700">Question {index + 1} / {questions.length}</span>
-                <span className="text-sm font-semibold text-gray-700">{progressPercent}%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                <div
-                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-full transition-all duration-500 ease-out rounded-full"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-
-            {/* Question Container */}
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden animate-slide-up">
-              <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-6 sm:px-8 py-6">
-                <h3 className="text-xl sm:text-2xl font-bold text-white leading-tight">{questions[index].question}</h3>
-              </div>
-
-              <div className="p-6 sm:p-8">
-                {/* Options */}
-                <div className="space-y-3">
-                  {questions[index].options.map((opt: string, i: number) => {
-                    const checked = answers[index] === i;
-                    const isHovered = selectedHovered === i;
-
-                    return (
-                      <label
-                        key={i}
-                        className="block cursor-pointer"
-                        onMouseEnter={() => setSelectedHovered(i)}
-                        onMouseLeave={() => setSelectedHovered(null)}
-                      >
-                        <div
-                          className={
-                            `relative rounded-xl border-2 p-4 sm:p-5 transition-all duration-300 transform ${
-                              checked
-                                ? 'bg-gradient-to-r from-blue-100 to-purple-100 border-blue-500 shadow-lg scale-[1.02]'
-                                : isHovered
-                                  ? 'bg-gradient-to-r from-blue-50 to-purple-50 border-blue-300 shadow-md'
-                                  : 'bg-gray-50 border-gray-200 hover:border-blue-300'
-                            }`
-                          }
-                        >
-                          <div className="flex items-start gap-3">
-                            <div
-                              className={
-                                `flex-shrink-0 w-5 h-5 mt-1 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                                  checked
-                                    ? 'bg-blue-500 border-blue-500'
-                                    : 'border-gray-400 group-hover:border-blue-400'
-                                }`
-                              }
-                            >
-                              {checked && (
-                                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
-                              )}
-                            </div>
-                            <input
-                              type="radio"
-                              name={`q-${index}`}
-                              checked={checked}
-                              onChange={() => selectOption(i)}
-                              className="hidden"
-                            />
-                            <span className="align-middle text-gray-800 font-medium text-sm sm:text-base">{opt}</span>
-                          </div>
-                        </div>
-                      </label>
-                    );
-                  })}
-                </div>
-
-                {/* Navigation Buttons */}
-                <div className="mt-8 flex justify-center">
-                  <div>
-                    {index === questions.length - 1 ? (
-                      <button
-                        onClick={submit}
-                        disabled={answers.includes(null)}
-                        className="px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-sm sm:text-base shadow-lg hover:from-green-600 hover:to-emerald-600 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed transform hover:scale-105"
-                      >
-                        ✓ Terminer et voir le score
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => setIndex(index + 1)}
-                        disabled={answers[index] === null}
-                        className="px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold text-sm sm:text-base shadow-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed transform hover:scale-105"
-                      >
-                        Valider et continuer →
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* Results Screen */
-          <div className="space-y-6">
-            {/* Score Card */}
-            <div
-              className={`bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-700 ${
-                animateScore ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
-              }`}
-            >
-              <div className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 px-6 sm:px-8 py-12 text-center">
-                <p className="text-white text-lg sm:text-xl font-semibold mb-3">Votre résultat</p>
-                <div className="flex items-baseline justify-center gap-2">
-                  <span
-                    className={`text-7xl sm:text-8xl font-extrabold text-white transform transition-all duration-1000 ${
-                      animateScore ? 'scale-100 opacity-100' : 'scale-50 opacity-0'
-                    }`}
-                  >
-                    {score}
-                  </span>
-                  <span className="text-4xl sm:text-5xl text-white/80 font-bold">/ {questions.length}</span>
-                </div>
-                <div className="mt-6 text-white/90 font-medium text-base sm:text-lg">
-                  {score === questions.length && <span>🎉 Parfait ! Vous maîtrisez le sujet !</span>}
-                  {score >= Math.ceil(questions.length * 0.8) && score < questions.length && (
-                    <span>🌟 Excellent ! Vous connaissez bien le sujet !</span>
-                  )}
-                  {score >= Math.ceil(questions.length * 0.6) && score < Math.ceil(questions.length * 0.8) && (
-                    <span>👍 Bien ! Continuez vos efforts !</span>
-                  )}
-                  {score < Math.ceil(questions.length * 0.6) && <span>📚 Continuez à vous former !</span>}
-                </div>
-              </div>
-
-              {/* Score Bar */}
-              <div className="px-6 sm:px-8 py-6">
-                <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                  <div
-                    className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 h-full transition-all duration-1000 ease-out rounded-full"
-                    style={{ width: `${(score / questions.length) * 100}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Review Questions */}
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Révision de vos réponses</h3>
-              <div className="grid gap-4">
-                {questions.map((q: Question, i: number) => {
-                  const user = answers[i];
-                  const correct = q.correctIndex;
-                  const isGood = user === correct;
-
-                  return (
-                    <div
-                      key={q.id}
-                      className={`rounded-xl border-l-4 p-5 sm:p-6 bg-white shadow-md transform transition-all duration-300 hover:shadow-lg ${
-                        isGood
-                          ? 'border-l-green-500 bg-gradient-to-br from-green-50 to-white'
-                          : 'border-l-red-500 bg-gradient-to-br from-red-50 to-white'
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-start gap-3">
-                            <span
-                              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-white text-sm ${
-                                isGood ? 'bg-green-500' : 'bg-red-500'
-                              }`}
-                            >
-                              {i + 1}
-                            </span>
-                            <div className="flex-1">
-                              <div className="font-semibold text-gray-800 text-sm sm:text-base">{q.question}</div>
-                              <div className="mt-3 space-y-2">
-                                <div className="text-xs sm:text-sm">
-                                  <span className="font-semibold text-gray-600">Votre réponse: </span>
-                                  <span className={`font-semibold ${isGood ? 'text-green-700' : 'text-red-600'}`}>
-                                    {user !== null ? q.options[user] : '—'}
-                                  </span>
-                                </div>
-                                {!isGood && (
-                                  <div className="text-xs sm:text-sm">
-                                    <span className="font-semibold text-gray-600">Bonne réponse: </span>
-                                    <span className="text-green-700 font-semibold">{q.options[correct]}</span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          className={`ml-4 flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold ${
-                            isGood ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-                          }`}
-                        >
-                          {isGood ? '✓' : '✕'}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-              <button
-                onClick={restart}
-                className="w-full sm:w-auto px-8 py-3 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold shadow-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105"
+        <div className="space-y-3 mb-6">
+          {questions.map((q, i) => {
+            const userAnswer = answers[i];
+            const isCorrect = userAnswer === q.correctIndex;
+            return (
+              <div
+                key={i}
+                className={`p-3 rounded-xl border-l-4 text-sm ${
+                  isCorrect
+                    ? "border-green-500 bg-green-50"
+                    : "border-red-500 bg-red-50"
+                }`}
               >
-                🔄 Refaire le quizz
-              </button>
-              {onBack && (
-                <button
-                  onClick={onBack}
-                  className="w-full sm:w-auto px-8 py-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition-all duration-200 transform hover:scale-105"
-                >
-                  ← Retour au menu
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+                <p className="font-medium text-gray-800 mb-1">
+                  {i + 1}. {q.question}
+                </p>
+                {isCorrect ? (
+                  <p className="text-green-700 text-xs">
+                    ✓ {q.options[q.correctIndex]}
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-red-600 text-xs">
+                      ✗ Votre réponse :{" "}
+                      {userAnswer !== null ? q.options[userAnswer] : "Sans réponse"}
+                    </p>
+                    <p className="text-green-700 text-xs">
+                      ✓ Bonne réponse : {q.options[q.correctIndex]}
+                    </p>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
 
-        {/* CSS Animations */}
-        <style>{`
-          @keyframes fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-          @keyframes slide-up {
-            from { 
-              opacity: 0; 
-              transform: translateY(20px);
-            }
-            to { 
-              opacity: 1; 
-              transform: translateY(0);
-            }
-          }
-          .animate-fade-in {
-            animation: fade-in 0.6s ease-out;
-          }
-          .animate-slide-up {
-            animation: slide-up 0.5s ease-out;
-          }
-        `}</style>
+        <button
+          onClick={handleRestart}
+          className="w-full py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-colors"
+        >
+          🔄 Nouveau quiz (10 questions aléatoires)
+        </button>
       </div>
-    </section>
+    );
+  }
+
+  // ── Écran question ───────────────────────────────────────────────────────────
+  return (
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-sm font-medium text-gray-500">
+          Question {currentIndex + 1} / {questions.length}
+        </span>
+        <span className="text-sm font-bold text-red-600">
+          Score : {score}
+        </span>
+      </div>
+
+      <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+        <div
+          className="bg-red-600 h-2 rounded-full transition-all duration-300"
+          style={{ width: `${(currentIndex / questions.length) * 100}%` }}
+        />
+      </div>
+
+      <h3 className="text-lg font-semibold text-gray-800 mb-5">
+        {current.question}
+      </h3>
+
+      <div className="space-y-3 mb-6">
+        {current.options.map((option, i) => {
+          let style =
+            "w-full text-left px-4 py-3 rounded-xl border-2 font-medium transition-all duration-200 cursor-pointer ";
+          if (!answered) {
+            style += "border-gray-200 hover:border-red-500 hover:bg-red-50 text-gray-700";
+          } else if (i === current.correctIndex) {
+            style += "border-green-500 bg-green-50 text-green-800";
+          } else if (i === selectedOption) {
+            style += "border-red-500 bg-red-50 text-red-800";
+          } else {
+            style += "border-gray-200 text-gray-400 cursor-default";
+          }
+
+          return (
+            <button
+              key={i}
+              className={style}
+              onClick={() => handleSelect(i)}
+              disabled={answered && i !== current.correctIndex && i !== selectedOption}
+            >
+              <span className="mr-2 font-bold text-gray-400">
+                {String.fromCharCode(65 + i)}.
+              </span>
+              {option}
+            </button>
+          );
+        })}
+      </div>
+
+      {answered && (
+        <div
+          className={`p-4 rounded-xl mb-4 text-sm ${
+            selectedOption === current.correctIndex
+              ? "bg-green-50 border border-green-200 text-green-800"
+              : "bg-orange-50 border border-orange-200 text-orange-800"
+          }`}
+        >
+          <p className="font-bold mb-1">
+            {selectedOption === current.correctIndex
+              ? "✅ Bonne réponse !"
+              : "❌ Mauvaise réponse"}
+          </p>
+          <p>{current.explanation}</p>
+        </div>
+      )}
+
+      {answered && (
+        <button
+          onClick={handleNext}
+          className="w-full py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-colors"
+        >
+          {currentIndex + 1 < questions.length
+            ? "Question suivante →"
+            : "Voir les résultats 🏁"}
+        </button>
+      )}
+    </div>
   );
-}
+};
+
+export default FAQQuiz;

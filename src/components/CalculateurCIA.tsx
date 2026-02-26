@@ -170,7 +170,7 @@ Calcul détaillé du CIA:
             {onClose && (
               <button
                 onClick={onClose}
-                className="flex items-center gap-2 px-5 py-2.5 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white rounded-lg font-light transition-all duration-150 border border-slate-600/30"
+                className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-light transition-all duration-150 border border-red-500/50"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Retour

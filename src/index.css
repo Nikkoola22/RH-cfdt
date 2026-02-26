@@ -2,23 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Performance: désactiver les transitions globales qui causent des saccades */
-/* Appliquer les transitions uniquement où nécessaire */
-
-/* Boutons et liens avec transitions optimisées GPU */
-button, a {
-  transition: transform 0.15s ease-out, opacity 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
-  will-change: transform;
-}
-
+/* Transitions ciblées uniquement — will-change global sur button/a crée des centaines de couches GPU */
 button:active {
   transform: scale(0.97);
 }
 
 /* Subtle background effects - Inspired by creative dribbble design */
 body {
-  background: linear-gradient(135deg, #0f1419 0%, #1a1f3a 25%, #2d1b69 50%, #1f2555 75%, #0f1419 100%);
-  background-attachment: fixed;
+  /* Couleur unie — le gradient est rendu par body::before (position:fixed)
+     Un gradient sur body avec background-attachment:scroll repeint ses tuiles
+     à chaque nouveau px de scroll vers le bas */
+  background: #0f1419;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   font-weight: 300;
   font-size: 14px;
@@ -57,9 +51,11 @@ html {
 
 :root {
   --glass-border: rgba(148, 163, 184, 0.25);
-  --glass-shadow: 0 24px 60px rgba(2, 6, 23, 0.35), 0 10px 24px rgba(15, 23, 42, 0.35);
-  --glass-shadow-light: 0 24px 50px rgba(15, 23, 42, 0.12), 0 10px 20px rgba(15, 23, 42, 0.08);
-  --brand-glow: 0 12px 30px rgba(99, 102, 241, 0.35), 0 10px 24px rgba(236, 72, 153, 0.25);
+  /* Blur réduit de 60px à 14px — chaque px de blur étend la zone de paint
+     d'autant en dehors de l'élément, pré-déclenchant la peinture avant entrée viewport */
+  --glass-shadow: 0 8px 14px rgba(2, 6, 23, 0.4), 0 3px 6px rgba(15, 23, 42, 0.35);
+  --glass-shadow-light: 0 8px 14px rgba(15, 23, 42, 0.1), 0 3px 6px rgba(15, 23, 42, 0.07);
+  --brand-glow: 0 8px 20px rgba(99, 102, 241, 0.3), 0 4px 10px rgba(236, 72, 153, 0.2);
   --marquee-duration: 45s;
 }
 
@@ -115,7 +111,8 @@ html {
 
 .glass-card {
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(16px) saturate(120%);
+  /* backdrop-filter supprimé — en plein écran toutes les cartes créent des couches
+     compositing qui lisent les pixels derrière elles, très coûteux */
 }
 
 .glass-card-light {
@@ -146,7 +143,7 @@ select:focus-visible {
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
-/* Dynamic abstract background with blobs */
+/* Fond abstrait statique — une seule couche fixed, zéro animation */
 body::before {
   content: '';
   position: fixed;
@@ -154,66 +151,32 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
-  animation: blob-animation 15s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background:
-    radial-gradient(ellipse at 60% 70%, rgba(99, 102, 241, 0.1) 0%, transparent 60%),
-    radial-gradient(ellipse at 30% 30%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-  animation: blob-animation-reverse 20s ease-in-out infinite;
+    radial-gradient(circle at 20% 50%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 70%, rgba(99, 102, 241, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 30%, rgba(168, 85, 247, 0.07) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
-  will-change: transform;
-  backface-visibility: hidden;
 }
+/* body::after supprimé — fusionné dans body::before */
 
 @keyframes blob-animation {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(30px, -30px, 0) scale(1.1);
-  }
-  66% {
-    transform: translate3d(-20px, 20px, 0) scale(0.9);
-  }
+  /* scale() supprimé — sur un fixed 100vw×100vh il force une re-rasterisation plein écran à chaque frame */
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33%      { transform: translate3d(30px, -30px, 0); }
+  66%      { transform: translate3d(-20px, 20px, 0); }
 }
 
 @keyframes blob-animation-reverse {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(-40px, 40px, 0) scale(0.95);
-  }
-  66% {
-    transform: translate3d(20px, -25px, 0) scale(1.05);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33%      { transform: translate3d(-40px, 40px, 0); }
+  66%      { transform: translate3d(20px, -25px, 0); }
 }
 
-/* Animated mesh gradient lines */
-body {
-  background-image:
-    linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
-  background-size: 100px 100px;
-  background-position: 0 0, 10px 10px;
-}
+/* Grille de fond supprimée — avec background-attachment:scroll elle repeint via CPU
+   à chaque scroll sur toute la hauteur du document en plein écran */
 
 /* Smooth scrollbar */
 ::-webkit-scrollbar {
@@ -232,6 +195,23 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(96, 165, 250, 0.7), rgba(129, 140, 248, 0.7));
+}
+
+/* Carrousel actualités Interco CFDT - masquer la scrollbar */
+.interco-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+.interco-carousel-track {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* line-clamp utilitaire */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Styles pour le lecteur de podcast */
@@ -303,7 +283,9 @@ body {
   animation: marquee var(--marquee-duration, 45s) linear infinite;
   will-change: transform;
   backface-visibility: hidden;
+  transform: translateZ(0);
   -webkit-font-smoothing: antialiased;
+  contain: layout style;
 }
 
 .marquee-track {
@@ -419,7 +401,7 @@ body {
 .animate-cta-enter,
 .animate-view-enter,
 .animate-chat-enter {
-  will-change: transform, opacity;
+  /* will-change retiré — activé uniquement pendant l'animation via JS si besoin */
   backface-visibility: hidden;
 }
 
@@ -494,10 +476,11 @@ body {
    PROP 3 — ADDITIONAL BACKGROUND LAYERS
    ============================================================ */
 @keyframes blob-3 {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  20%      { transform: translate3d(-35px, 20px, 0) scale(1.08); }
-  50%      { transform: translate3d(20px, -30px, 0) scale(0.94); }
-  80%      { transform: translate3d(15px, 35px, 0) scale(1.03); }
+  /* scale() retiré pour les mêmes raisons que blob-animation */
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20%      { transform: translate3d(-35px, 20px, 0); }
+  50%      { transform: translate3d(20px, -30px, 0); }
+  80%      { transform: translate3d(15px, 35px, 0); }
 }
 
 @keyframes aurora-breathe {
@@ -511,11 +494,10 @@ body {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(circle at 72% 12%, rgba(99, 102, 241, 0.13) 0%, transparent 45%),
-    radial-gradient(circle at 8% 88%, rgba(236, 72, 153, 0.10) 0%, transparent 45%);
-  animation: blob-3 28s ease-in-out infinite;
-  will-change: transform;
-  backface-visibility: hidden;
+    radial-gradient(circle at 72% 12%, rgba(99, 102, 241, 0.09) 0%, transparent 45%),
+    radial-gradient(circle at 8% 88%, rgba(236, 72, 153, 0.07) 0%, transparent 45%);
+  /* Animation supprimée — 4e couche fixed animée trop lourde */
+  transform: translateZ(0);
 }
 
 .bg-noise {
@@ -544,9 +526,9 @@ body {
     rgba(99, 102, 241, 0.04) 45%,
     transparent 100%
   );
-  animation: aurora-breathe 35s ease-in-out infinite;
-  will-change: opacity;
-  backface-visibility: hidden;
+  /* Animation supprimée — statique pour éviter un repaint d'opacité continu */
+  opacity: 0.55;
+  transform: translateZ(0);
 }
 
 /* ============================================================
@@ -664,7 +646,8 @@ body {
   60%  { box-shadow: 0 0 0 6px rgba(168, 85, 247, 0); }
   100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
 }
-.send-btn-pulse { animation: send-ring-pulse 1.8s ease-out infinite; will-change: box-shadow; }
+/* send-ring-pulse désactivé — box-shadow animé non-composited */
+.send-btn-pulse { box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3); }
 
 /* Shine sweep diagonal sur bouton CTA */
 @keyframes btn-shine-sweep {
@@ -720,23 +703,23 @@ body {
   left: 0;
   right: 0;
   height: 1px;
+  /* border-streak supprimé — le header est sticky : toute animation
+     sur un élément sticky force des mises à jour de compositing pendant le scroll */
   background: linear-gradient(
     90deg,
-    transparent            0%,
-    rgba(168, 85,  247, 0.5) 25%,
-    rgba(236, 72,  153, 0.9) 50%,
-    rgba(99,  102, 241, 0.5) 75%,
-    transparent            100%
+    transparent 0%,
+    rgba(168, 85, 247, 0.5) 25%,
+    rgba(236, 72, 153, 0.7) 50%,
+    rgba(99, 102, 241, 0.5) 75%,
+    transparent 100%
   );
-  background-size: 200% 100%;
-  animation: border-streak 5s linear infinite;
-  will-change: background-position;
   pointer-events: none;
 }
 
 @keyframes logo-ambient {
-  0%, 100% { opacity: 0.35; transform: scale(1); }
-  50%      { opacity: 0.7;  transform: scale(1.05); }
+  /* scale() supprimé sur élément sticky — déclenche des repaints pendant le scroll */
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.65; }
 }
 .logo-glow-ambient { position: relative; }
 .logo-glow-ambient::before {
@@ -750,10 +733,9 @@ body {
     rgba(236, 72,  153, 0.12) 50%,
     transparent 70%
   );
-  animation: logo-ambient 5s ease-in-out infinite;
+  animation: logo-ambient 8s ease-in-out infinite;
   pointer-events: none;
-  will-change: opacity, transform;
-  backface-visibility: hidden;
+  will-change: opacity;
   z-index: -1;
 }
 
@@ -771,13 +753,14 @@ body {
   0%, 100% { box-shadow: 0 0 6px rgba(251, 146, 60, 0.35), inset 0 0 6px rgba(251, 146, 60, 0.08); }
   50%      { box-shadow: 0 0 18px rgba(251, 146, 60, 0.65), inset 0 0 12px rgba(251, 146, 60, 0.18); }
 }
-.news-pill-glow { animation: news-pill-glow 2.8s ease-in-out infinite; will-change: box-shadow; }
+/* box-shadow animé = repaint CPU — remplacé par valeur statique */
+.news-pill-glow { box-shadow: 0 0 10px rgba(251, 146, 60, 0.4), inset 0 0 8px rgba(251, 146, 60, 0.1); }
 
 @keyframes actu-pill-glow {
   0%, 100% { box-shadow: 0 0 6px rgba(99, 102, 241, 0.35), inset 0 0 6px rgba(99, 102, 241, 0.08); }
   50%      { box-shadow: 0 0 18px rgba(99, 102, 241, 0.65), inset 0 0 12px rgba(99, 102, 241, 0.18); }
 }
-.actu-pill-glow { animation: actu-pill-glow 2.8s ease-in-out 1.4s infinite; will-change: box-shadow; }
+.actu-pill-glow { box-shadow: 0 0 10px rgba(99, 102, 241, 0.4), inset 0 0 8px rgba(99, 102, 241, 0.1); }
 
 .marquee-pausable:hover .animate-marquee,
 .marquee-pausable:hover .animate-marquee-rss {
@@ -816,14 +799,11 @@ body {
   background: linear-gradient(
     90deg,
     transparent            0%,
-    rgba(251, 146, 60, 0.6) 25%,
-    rgba(255, 255, 255, 0.9) 50%,
-    rgba(251, 146, 60, 0.6) 75%,
+    rgba(251, 146, 60, 0.5) 30%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(251, 146, 60, 0.5) 70%,
     transparent            100%
   );
-  background-size: 200% 100%;
-  animation: border-streak 6s linear infinite;
-  will-change: background-position;
   pointer-events: none;
 }
 

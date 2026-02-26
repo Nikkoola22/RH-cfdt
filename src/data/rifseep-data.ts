@@ -129,7 +129,7 @@ export const ifse1Data: IFSE1Data[] = [
   { category: 'A', function: 'Gestionnaire spécialisé', functionCode: 'A-8', annualAmount: 8000, monthlyAmount: 666.67, implementationYear: 2025 },
   { category: 'A', function: 'Chargé de missions (sous un DGA)', functionCode: 'A-9', annualAmount: 8000, monthlyAmount: 666.67, implementationYear: 2025 },
   { category: 'A', function: 'Chargé de missions (sous directeur)', functionCode: 'A-9', annualAmount: 7500, monthlyAmount: 625, implementationYear: 2025 },
-  { category: 'A', function: 'Chargé de missions (sous responsable)', functionCode: 'A-9', annualAmount: 5500, monthlyAmount: 458.33, implementationYear: 2026 },
+  { category: 'A', function: 'Chargé de missions (sous responsable)', functionCode: 'A-9', annualAmount: 8370, monthlyAmount: 558, implementationYear: 2026 },
   { category: 'A', function: 'Adjoint responsable de structure', functionCode: 'A-10', annualAmount: 6000, monthlyAmount: 500, implementationYear: 2025 },
   { category: 'A', function: 'Infirmier', functionCode: 'A-11', annualAmount: 7500, monthlyAmount: 625, implementationYear: 2025 },
   { category: 'A', function: 'Travailleur social / Médico-social', functionCode: 'A-14', annualAmount: 6000, monthlyAmount: 500, implementationYear: 2026 },
