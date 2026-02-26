@@ -17,6 +17,7 @@ import Calculateur13emeV2 from "./components/Calculateur13emeV2.tsx"
 import Metiers from "./components/Metiers.tsx"
 import FAQ from "./components/FAQ.tsx"
 import LandingPage from "./components/LandingPage.tsx"
+import IntercoCarousel from "./components/IntercoCarousel.tsx"
 
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -110,7 +111,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "liens-utiles"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -803,6 +804,9 @@ ${contenuCible}
                     <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                   </button>
                 </div>
+
+                {/* Carrousel Actualités Interco CFDT */}
+                <IntercoCarousel />
               </div>
             </div>
           </>
