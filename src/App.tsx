@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { chapitres } from "./data/temps.ts"
@@ -795,7 +795,7 @@ ${contenuCible}
                   </button>
 
                   <button
-                    onClick={() => {}}
+                    onClick={() => setChatState({ ...chatState, currentView: 'liens-utiles' })}
                     className="group flex items-center gap-3 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 hover:from-blue-500 hover:via-cyan-500 hover:to-blue-600 text-slate-900 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter btn-shine"
                   >
                     <Link className="w-6 h-6" />
@@ -817,6 +817,108 @@ ${contenuCible}
       {/* --- SECTION FAQ --- */}
       {chatState.currentView === 'faq' && (
         <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
+      )}
+
+      {/* --- SECTION LIENS UTILES --- */}
+      {chatState.currentView === 'liens-utiles' && (
+        <section className="relative w-full min-h-screen bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 z-20">
+          {/* Header */}
+          <div className="sticky top-0 bg-gradient-to-r from-slate-800/95 to-purple-900/95 backdrop-blur-md border-b border-purple-500/30 z-30">
+            <div className="max-w-6xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
+              <div className="flex items-center justify-between gap-2">
+                <button
+                  onClick={() => setChatState({ ...chatState, currentView: 'menu' })}
+                  className="flex items-center gap-1 sm:gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-2 sm:px-4 py-2 rounded-lg transition-colors duration-100 font-light text-xs sm:text-sm"
+                >
+                  <ArrowLeft className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">Retour au menu</span>
+                  <span className="sm:hidden">Retour</span>
+                </button>
+                <h2 className="text-base sm:text-xl font-light text-white">Liens utiles</h2>
+              </div>
+            </div>
+          </div>
+
+          {/* Contenu principal */}
+          <div className="max-w-6xl mx-auto px-2 sm:px-4 py-8 sm:py-12">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 lg:gap-8">
+              {/* Carte Juridique */}
+              <button
+                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-red-900/70 to-slate-800/70 backdrop-blur-md border border-red-500/30 rounded-2xl p-6 sm:p-10 hover:border-rose-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 via-transparent to-rose-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                  <div className="relative">
+                    <span className="absolute -inset-3 bg-gradient-to-br from-red-400/30 to-rose-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-red-500/80 to-rose-500/80 backdrop-blur rounded-2xl shadow-2xl">
+                      <Scale className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                    </div>
+                  </div>
+                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
+                    Juridique
+                  </h4>
+                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                    Droits et obligations des agents publics
+                  </p>
+                  <div className="flex items-center gap-2 text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <span className="font-light text-xs sm:text-sm">En savoir plus</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Carte Formation */}
+              <button
+                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-violet-900/70 to-slate-800/70 backdrop-blur-md border border-violet-500/30 rounded-2xl p-6 sm:p-10 hover:border-purple-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                  <div className="relative">
+                    <span className="absolute -inset-3 bg-gradient-to-br from-violet-400/30 to-purple-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-violet-500/80 to-purple-500/80 backdrop-blur rounded-2xl shadow-2xl">
+                      <BookOpen className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                    </div>
+                  </div>
+                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
+                    Formation
+                  </h4>
+                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                    Plans et ressources de formation professionnelle
+                  </p>
+                  <div className="flex items-center gap-2 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <span className="font-light text-xs sm:text-sm">En savoir plus</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Carte Guide des Primes */}
+              <button
+                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-amber-900/70 to-slate-800/70 backdrop-blur-md border border-amber-500/30 rounded-2xl p-6 sm:p-10 hover:border-yellow-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-transparent to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
+                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                  <div className="relative">
+                    <span className="absolute -inset-3 bg-gradient-to-br from-amber-400/30 to-yellow-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
+                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-amber-500/80 to-yellow-500/80 backdrop-blur rounded-2xl shadow-2xl">
+                      <DollarSign className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                    </div>
+                  </div>
+                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
+                    Guide des Primes
+                  </h4>
+                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                    Détails et conditions de versement des primes
+                  </p>
+                  <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    <span className="font-light text-xs sm:text-sm">En savoir plus</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* --- SECTION CALCULATEURS FULL-WIDTH --- */}
