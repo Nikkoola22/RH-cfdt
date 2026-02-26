@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { chapitres } from "./data/temps.ts"
@@ -783,14 +783,23 @@ ${contenuCible}
                   </button>
                 </div>
 
-                {/* Bouton Questions Fréquentes */}
-                <div className="flex justify-center mt-8">
+                {/* Boutons Questions Fréquentes et Liens utiles */}
+                <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 px-2 sm:px-0">
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
                     className="group flex items-center gap-3 bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-500 hover:via-amber-500 hover:to-yellow-600 text-slate-900 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-yellow-500/30 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter btn-shine"
                   >
                     <HelpCircle className="w-6 h-6" />
                     <span className="text-lg">Questions Fréquentes</span>
+                    <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
+                  </button>
+
+                  <button
+                    onClick={() => {}}
+                    className="group flex items-center gap-3 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 hover:from-blue-500 hover:via-cyan-500 hover:to-blue-600 text-slate-900 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter btn-shine"
+                  >
+                    <Link className="w-6 h-6" />
+                    <span className="text-lg">Liens utiles</span>
                     <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                   </button>
                 </div>
