@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale, FileText, Building2 } from "lucide-react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale, FileText, Building2, Database } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { chapitres } from "./data/temps.ts"
@@ -7,10 +7,41 @@ import { formation } from "./data/formation.ts"
 import { teletravailData } from "./data/teletravail.ts"
 import { sommaireUnifie } from "./data/sommaireUnifie.ts"
 import { infoItems } from "./data/info-data.ts"
+import { searchFichesByKeywords, getAllFiches } from "./utils/ficheSearch.ts"
 import {  } from "./data/rifseep-data.ts"
 import { franceInfoRss } from "./data/rss-data.ts"
 import AdminPanel from "./components/AdminPanel.tsx"
 import AdminLogin from "./components/AdminLogin.tsx"
+
+// --- HELPER TYPES AND FUNCTIONS ---
+const ficheLocalPathByCode = new Map(
+  getAllFiches().map((entry: any) => [String(entry.code || ''), String(entry.localPath || '')])
+)
+
+function extractCodeFromUrl(url: string): string {
+  if (!url) return ''
+  const parts = url.split('/').filter(Boolean)
+  return parts[parts.length - 1] || ''
+}
+
+function normalizeFiche(fiche: any) {
+  const directCode = String(fiche.code || '')
+  const codeFromUrl = extractCodeFromUrl(String(fiche.url || ''))
+  const resolvedLocalPath =
+    fiche.localPath ||
+    ficheLocalPathByCode.get(directCode) ||
+    ficheLocalPathByCode.get(codeFromUrl) ||
+    ''
+
+  return {
+    code: fiche.code || 'unknown',
+    titre: fiche.titre || fiche.title || '',
+    categorie: fiche.categorie || fiche.section || '',
+    motsCles: fiche.motsCles || [],
+    localPath: resolvedLocalPath,
+    url: fiche.url || '',
+  }
+}
 import CalculateurCIAV2 from "./components/CalculateurCIAV2.tsx"
 import CalculateurPrimesV2 from "./components/CalculateurPrimesV2.tsx"
 import Calculateur13emeV2 from "./components/Calculateur13emeV2.tsx"
@@ -24,9 +55,7 @@ import IntercoCarousel from "./components/IntercoCarousel.tsx"
 const BASE_URL = import.meta.env.BASE_URL
 
 // --- CONFIGURATION API PERPLEXITY ---
-const BACKEND_API_URL = import.meta.env.DEV 
-  ? "http://localhost:3001/api/completions" 
-  : "/api/completions"
+const BACKEND_API_URL = "/api/completions"
 
 // --- RSS ITEM TYPE ---
 interface RssItem {
@@ -111,7 +140,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "liens-utiles"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "liens-utiles" | "bip"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -142,6 +171,8 @@ function App() {
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [showExpandSearch, setShowExpandSearch] = useState(false)
   const [lastQuestion, setLastQuestion] = useState<string>("")
+  const [bipSearchQuery, setBipSearchQuery] = useState<string>("")
+  const [bipSearchResults, setBipSearchResults] = useState<any[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -291,10 +322,12 @@ function App() {
   // Fonction de recherche élargie sur Légifrance (Code général de la fonction publique)
   const rechercherLegifrance = async (question: string) => {
     const systemPrompt = `
+� RÔLE : Tu es un Représentant CFDT RH spécialisé en droit de la fonction publique territoriale.
+
+Tu conseilles les agents territoriaux (fonctionnaires et contractuels) sur leurs droits légaux. Tu cites toujours les sources officielles de Légifrance et tu agis avec rigueur juridique.
+
 🚨 INSTRUCTION CRITIQUE : Tu réponds UNIQUEMENT sur la FONCTION PUBLIQUE TERRITORIALE (FPT).
 Si ta réponse contient "Code du travail" ou "L1226" ou "salarié" ou "employeur privé" = ERREUR GRAVE.
-
-👤 CONTEXTE : Agent territorial (fonctionnaire ou contractuel) d'une MAIRIE française.
 
 📚 SOURCES LÉGALES OBLIGATOIRES - RECHERCHE UNIQUEMENT DANS :
 
@@ -424,8 +457,50 @@ Question d'un agent territorial : ${question}
     return contenu.trim()
   }
 
+  // --- RECHERCHE DANS DOCUMENTS INTERNES (BIP + INDEX) ---
+  // Étape 1 : Identifier les fichiers/sections pertinentes
+  // Étape 2 : Extraire le contenu pertinent
+  // Étape 3 : Utiliser l'API pour générer une réponse basée sur ce contenu
+  
+  const rechercherDocumentsInternes = async (question: string): Promise<string | null> => {
+    const keywords = question.toLowerCase().split(/\s+/).filter(w => w.length > 2)
+    
+    if (keywords.length === 0) {
+      return null
+    }
+
+    // Chercher dans BIP et index (combined search)
+    const { results: allResults } = searchFichesByKeywords(keywords)
+
+    if (!allResults || allResults.length === 0) {
+      return null
+    }
+
+    // Extraire le contenu des résultats pertinents
+    let contenuPertinent = 'ÉLÉMENTS PERTINENTS TROUVÉS DANS LES DOCUMENTS :\n'
+    
+    // Traiter les résultats (peuvent être BipFiche ou FicheIndexEntry)
+    ;(allResults as any[]).slice(0, 5).forEach((fiche, idx) => {
+      if (fiche.content) {
+        // C'est une BipFiche
+        contenuPertinent += `\n[Source ${idx + 1}] ${fiche.title}\n`
+        contenuPertinent += `Section: ${fiche.section}\n`
+        contenuPertinent += `Contenu: ${fiche.content.substring(0, 600)}\n`
+        contenuPertinent += '---\n'
+      } else if (fiche.titre) {
+        // C'est une FicheIndexEntry
+        contenuPertinent += `\n[Source ${idx + 1}] ${fiche.titre}\n`
+        contenuPertinent += `Catégorie: ${fiche.categorie}\n`
+        contenuPertinent += `Mots-clés: ${fiche.motsCles.join(', ')}\n`
+        contenuPertinent += '---\n'
+      }
+    })
+
+    return contenuPertinent
+  }
+
   const traiterQuestion = async (question: string) => {
-    // ÉTAPE 1 : Identifier les sections pertinentes avec le sommaire léger
+    // --- ÉTAPE 0 : RECHERCHE CLASSIQUE VIA SOMMAIRE (PRIORITAIRE) ---
     const sommaire = genererSommaireTexte()
     const identificationPrompt = `Tu es un assistant qui identifie les sections pertinentes pour répondre à une question.
 
@@ -449,20 +524,22 @@ IDs des sections pertinentes :`
     // Parser la réponse pour extraire les IDs
     const responseClean = identificationResponse.toLowerCase().replace(/["']/g, '').replace(/\[/g, '').replace(/\]/g, '').trim()
     
-    if (responseClean === 'aucune' || responseClean.includes('aucune section')) {
-      return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
-    }
+    // Déterminer le contenu cible du sommaire
+    let contenuSommaire: string
+    let sommaireTrouve = false
+    
+    if (responseClean !== 'aucune' && !responseClean.includes('aucune section')) {
+      // Extraire les IDs valides
+      const idsExtraits = responseClean.split(/[,\s]+/).filter(id => 
+        sommaireUnifie.some(s => s.id === id.trim())
+      )
 
-    // Extraire les IDs valides
-    const idsExtraits = responseClean.split(/[,\s]+/).filter(id => 
-      sommaireUnifie.some(s => s.id === id.trim())
-    )
-
-    // Si aucun ID valide trouvé, fallback sur recherche complète (1 chapitre)
-    let contenuCible: string
-    if (idsExtraits.length === 0) {
-      // Fallback : charger tout (ancien comportement)
-      contenuCible = `
+      if (idsExtraits.length > 0) {
+        contenuSommaire = chargerContenuSections(idsExtraits)
+        sommaireTrouve = true
+      } else {
+        // Fallback : charger tout
+        contenuSommaire = `
 CHAPITRE 1 - LE TEMPS DE TRAVAIL :\n${(chapitres as Record<number, string>)[1] || ''}
 
 CHAPITRE 2 - LES CONGÉS :\n${(chapitres as Record<number, string>)[2] || ''}
@@ -474,33 +551,60 @@ CHAPITRE 4 - LES ABSENCES POUR MALADIES ET ACCIDENTS :\n${(chapitres as Record<n
 RÈGLEMENT FORMATION :\n${formation || ''}
 
 PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
-    } else {
-      // ÉTAPE 2 : Charger uniquement les sections identifiées
-      contenuCible = chargerContenuSections(idsExtraits)
+        sommaireTrouve = true
+      }
     }
 
+    // --- ÉTAPE 1 : ENRICHISSEMENT AVEC BIP (OPTIONNEL) ---
+    // Chercher du contenu BIP spécifique pour enrichir
+    const contenuDocumentsInternes = await rechercherDocumentsInternes(question)
+    
+    // Combiner sommaire + BIP si les deux existent
+    let contenuFinal: string
+    if (sommaireTrouve && contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
+      // Les deux existent : combiner
+      contenuFinal = `
+📚 DOCUMENTATION GÉNÉRALE (SOMMAIRE) :
+${contenuSommaire}
+
+📌 FICHES SPÉCIALISÉES PERTINENTES (BIP) :
+${contenuDocumentsInternes}`
+    } else if (contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
+      // Seulement BIP (sommaire vide/aucune)
+      contenuFinal = contenuDocumentsInternes
+    } else if (sommaireTrouve) {
+      // Seulement sommaire
+      contenuFinal = contenuSommaire
+    } else {
+      // Rien trouvé
+      return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
+    }
+
+    // --- ÉTAPE 2 : GÉNÉRER LA RÉPONSE AVEC PERPLEXITY ---
     const systemPrompt = `
-Tu es un assistant CFDT pour la Mairie de Gennevilliers.
+👤 RÔLE : Tu es un Représentant CFDT RH pour la Mairie de Gennevilliers.
+
+Tu conseilles les salariés et agents territoriaux sur leurs droits, conditions de travail, primes, congés et avantages. Tu agis avec bienveillance, clarté et expertise syndicale.
 
 RÈGLES STRICTES :
 1. Réponds UNIQUEMENT en utilisant les documents ci-dessous
 2. Ne cherche JAMAIS sur internet, n'utilise JAMAIS tes connaissances externes
 3. Sois précis sur les chiffres et délais mentionnés dans les documents
-4. Réponds comme un collègue syndical bienveillant
-5. Ne mentionne JAMAIS [CHAPITRE X - ARTICLE Y] dans ta réponse. Réponds naturellement.
+4. Adopte le ton d'un conseiller syndical expérimenté - professionnel mais accessible
+5. Privilégie les fiches BIP (📌) si disponibles, sinon utilise le sommaire (📚)
 
 ⚠️ RÈGLE CRITIQUE - SI TU TROUVES L'INFO :
 - Donne directement la réponse, sans dire "Je ne trouve pas"
 - Cite les détails précis des documents
+- Utilise le "nous" CFDT si approprié pour créer du lien
 
 ⚠️ RÈGLE CRITIQUE - SI TU NE TROUVES PAS L'INFO :
 - Réponds UNIQUEMENT : "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
 - ARRÊTE-TOI IMMÉDIATEMENT après cette phrase
 - N'ajoute AUCUNE information supplémentaire
-- Ne commence JAMAIS par "Je ne trouve pas" puis donne une réponse ensuite
 
-DOCUMENTATION :
-${contenuCible}
+📚 DOCUMENTATION :
+${contenuFinal}
     `
 
     const conversationHistory = chatState.messages.slice(1).map((msg) => ({
@@ -784,7 +888,7 @@ ${contenuCible}
                   </button>
                 </div>
 
-                {/* Boutons Questions Fréquentes et Liens utiles */}
+                {/* Boutons Questions Fréquentes, Répertoire BIP et Liens utiles */}
                 <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 px-2 sm:px-0">
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
@@ -822,6 +926,7 @@ ${contenuCible}
       {chatState.currentView === 'faq' && (
         <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
       )}
+
 
       {/* --- SECTION LIENS UTILES --- */}
       {chatState.currentView === 'liens-utiles' && (

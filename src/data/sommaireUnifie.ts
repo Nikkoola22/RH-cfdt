@@ -1,12 +1,19 @@
+import { bipIndex } from './bip-index';
 
 export interface SectionIndex {
   id: string;
   titre: string;
   motsCles: string[];
-  source: 'temps' | 'formation' | 'teletravail';
+  source: 'temps' | 'formation' | 'teletravail' | 'bip';
   chapitre?: number;
   article?: number;
   resume?: string;
+  // Champs optionnels pour les fiches BIP
+  code?: string;
+  url?: string;
+  localPath?: string;
+  content?: string;
+  type?: string;
 }
 
 export const sommaireUnifie: SectionIndex[] = [
@@ -55,10 +62,10 @@ export const sommaireUnifie: SectionIndex[] = [
       },
       {
         id: 'teletravail_reversibilite',
-        titre: 'Réversibilité et évolution',
-        motsCles: ['télétravail', 'réversibilité', 'évolution', 'délibération', 'protocole', 'présence obligatoire'],
+        titre: 'Réversibilité et fin du télétravail',
+        motsCles: ['réversibilité', 'fin', 'arrêt', 'préavis', '1 mois', '2 mois', 'adaptation'],
         source: 'teletravail',
-        resume: 'Modalités de réversibilité, évolution du protocole, présence obligatoire sur site.'
+        resume: 'Fin possible à tout moment : 1 mois préavis pendant adaptation, 2 mois après'
       },
     // CHAPITRE 4 : ABSENCES POUR MALADIES ET ACCIDENTS
     {
@@ -441,10 +448,18 @@ export const sommaireUnifie: SectionIndex[] = [
   {
     id: 'temps_ch4_remuneration',
     titre: 'Prise en charge rémunération maladie',
-    motsCles: ['rémunération', 'plein traitement', 'demi-traitement', 'CLM', 'CLD', 'grave maladie', 'CNRACL', 'IRCANTEC'],
+    motsCles: ['rémunération', 'plein traitement', 'demi-traitement', 'CLM', 'CLD', 'grave maladie', 'CNRACL', 'IRCANTEC', 'longue maladie', 'congé longue maladie', 'durée', 'ans'],
     source: 'temps',
     chapitre: 4,
     resume: 'Maladie ordinaire: 3 mois à 90% + 9 mois demi, CLM/CLD: 1-3 ans plein'
+  },
+  {
+    id: 'temps_ch4_clm_details',
+    titre: 'Congé de longue maladie (CLM) - Durée et rémunération',
+    motsCles: ['congé longue maladie', 'CLM', 'durée CLM', '3 ans', 'maladie longue', 'affection grave', 'plein traitement', 'longue durée', 'indisponibilité'],
+    source: 'temps',
+    chapitre: 4,
+    resume: 'CLM: jusqu\'à 3 ans consécutifs rémunérés à plein traitement pour affection grave requérant repos prolongé'
   },
 
   // ============================================
@@ -641,7 +656,20 @@ export const sommaireUnifie: SectionIndex[] = [
     motsCles: ['réversibilité', 'fin', 'arrêt', 'préavis', '1 mois', '2 mois', 'adaptation'],
     source: 'teletravail',
     resume: 'Fin possible à tout moment : 1 mois préavis pendant adaptation, 2 mois après'
-  }
+  },
+  // --- FICHES BIP DYNAMIQUEMENT CONVERTIES ---
+  ...bipIndex.map(fiche => ({
+    id: fiche.code,
+    titre: fiche.title,
+    motsCles: fiche.motsCles,
+    resume: fiche.content.substring(0, 150) + '...',
+    source: 'bip' as const,
+    code: fiche.code,
+    url: fiche.url,
+    localPath: fiche.localPath,
+    content: fiche.content,
+    type: fiche.type,
+  }))
 ];
 
 /**
@@ -716,7 +744,8 @@ export function genererPromptSommaire(): string {
       const sourceLabel = {
         temps: '\n📅 TEMPS DE TRAVAIL ET CONGÉS',
         formation: '\n🎓 FORMATION',
-        teletravail: '\n🏠 TÉLÉTRAVAIL'
+        teletravail: '\n🏠 TÉLÉTRAVAIL',
+        bip: '\n📚 FICHES BIP (BASE DE DONNÉES COLLABORATIVE)'
       }[currentSource];
       if (sourceLabel) {
         lines.push(sourceLabel);

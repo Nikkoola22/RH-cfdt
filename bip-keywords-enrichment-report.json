@@ -1,0 +1,135 @@
+{
+  "date": "2026-02-27T20:56:21.491Z",
+  "totalFiches": 185,
+  "enrichedCount": 108,
+  "enrichmentRate": "58.38",
+  "topImprovements": [
+    {
+      "code": "visacc",
+      "keywordsAdded": 11,
+      "oldCount": 9,
+      "newCount": 20
+    },
+    {
+      "code": "conact",
+      "keywordsAdded": 3,
+      "oldCount": 9,
+      "newCount": 12
+    },
+    {
+      "code": "ntidef",
+      "keywordsAdded": 5,
+      "oldCount": 3,
+      "newCount": 8
+    },
+    {
+      "code": "ntigen",
+      "keywordsAdded": 5,
+      "oldCount": 3,
+      "newCount": 8
+    },
+    {
+      "code": "ccpdis",
+      "keywordsAdded": 5,
+      "oldCount": 4,
+      "newCount": 9
+    },
+    {
+      "code": "ccpele",
+      "keywordsAdded": 8,
+      "oldCount": 8,
+      "newCount": 16
+    },
+    {
+      "code": "ccpfon",
+      "keywordsAdded": 5,
+      "oldCount": 6,
+      "newCount": 11
+    },
+    {
+      "code": "ccpgen",
+      "keywordsAdded": 5,
+      "oldCount": 6,
+      "newCount": 11
+    },
+    {
+      "code": "colcab",
+      "keywordsAdded": 5,
+      "oldCount": 4,
+      "newCount": 9
+    },
+    {
+      "code": "ntico1",
+      "keywordsAdded": 9,
+      "oldCount": 5,
+      "newCount": 14
+    },
+    {
+      "code": "ntico2",
+      "keywordsAdded": 21,
+      "oldCount": 5,
+      "newCount": 26
+    },
+    {
+      "code": "nticdi",
+      "keywordsAdded": 4,
+      "oldCount": 5,
+      "newCount": 9
+    },
+    {
+      "code": "ntidis",
+      "keywordsAdded": 5,
+      "oldCount": 4,
+      "newCount": 9
+    },
+    {
+      "code": "reempr",
+      "keywordsAdded": 9,
+      "oldCount": 9,
+      "newCount": 18
+    },
+    {
+      "code": "tit2012",
+      "keywordsAdded": 12,
+      "oldCount": 10,
+      "newCount": 22
+    },
+    {
+      "code": "ntient",
+      "keywordsAdded": 5,
+      "oldCount": 4,
+      "newCount": 9
+    },
+    {
+      "code": "ntiint",
+      "keywordsAdded": 5,
+      "oldCount": 7,
+      "newCount": 12
+    },
+    {
+      "code": "ntiter",
+      "keywordsAdded": 5,
+      "oldCount": 6,
+      "newCount": 11
+    },
+    {
+      "code": "ntifor",
+      "keywordsAdded": 8,
+      "oldCount": 3,
+      "newCount": 11
+    },
+    {
+      "code": "ntirec",
+      "keywordsAdded": 5,
+      "oldCount": 3,
+      "newCount": 8
+    }
+  ],
+  "suggestions": [
+    "✓ Ajouter des variantes de termes techniques (ex: CLM, COLOMA)",
+    "✓ Créer des liens entre domaines connexes",
+    "✓ Enrichir avec des abréviations courantes",
+    "✓ Ajouter des termes synonymes en français",
+    "✓ Inclure les codes officiels (ex: RIFSEEP, IFSE)"
+  ]
+}

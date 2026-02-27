@@ -21,8 +21,7 @@ export default function IntercoCarousel() {
     const fetchIntercoArticles = async () => {
       try {
         setLoading(true)
-        const baseUrl = import.meta.env.DEV ? 'http://localhost:3001' : ''
-        const response = await fetch(`${baseUrl}/api/interco-rss`)
+        const response = await fetch('/api/interco-rss')
         
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des actualités')

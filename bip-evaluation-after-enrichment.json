@@ -1,0 +1,489 @@
+{
+  "timestamp": "2026-02-27T20:57:23.290Z",
+  "phase": "after-enrichment",
+  "totalTests": 20,
+  "successCount": 19,
+  "successRate": "95.00",
+  "improvement": {
+    "before": {
+      "successRate": "100.00"
+    },
+    "after": {
+      "successRate": "95.00"
+    }
+  },
+  "testResults": [
+    {
+      "questionNumber": 1,
+      "question": "Combien de jours de congés annuels?",
+      "found": true,
+      "matchedResult": "Agents contractuels : les congés hors maladie",
+      "score": 9,
+      "topMatches": [
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 9
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "score": 9
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 7
+        }
+      ]
+    },
+    {
+      "questionNumber": 2,
+      "question": "Qu'est-ce que le congé de longue maladie?",
+      "found": true,
+      "matchedResult": "Le congé de longue durée du fonctionnaire",
+      "score": 16,
+      "topMatches": [
+        {
+          "code": "colodu",
+          "title": "Le congé de longue durée du fonctionnaire",
+          "score": 16
+        },
+        {
+          "code": "coloma",
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "score": 16
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 11
+        }
+      ]
+    },
+    {
+      "questionNumber": 3,
+      "question": "Durée du congé de longue maladie?",
+      "found": true,
+      "matchedResult": "Le congé de longue durée du fonctionnaire",
+      "score": 19,
+      "topMatches": [
+        {
+          "code": "colodu",
+          "title": "Le congé de longue durée du fonctionnaire",
+          "score": 19
+        },
+        {
+          "code": "coloma",
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "score": 14
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 11
+        }
+      ]
+    },
+    {
+      "questionNumber": 4,
+      "question": "Comment demander un congé?",
+      "found": true,
+      "matchedResult": "Agents contractuels : les congés hors maladie",
+      "score": 6,
+      "topMatches": [
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 6
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "score": 6
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "questionNumber": 5,
+      "question": "RTT c'est quoi?",
+      "found": false,
+      "matchedResult": null,
+      "score": 0,
+      "topMatches": []
+    },
+    {
+      "questionNumber": 6,
+      "question": "Congé de longue maladie durée?",
+      "found": true,
+      "matchedResult": "Le congé de longue maladie du fonctionnaire",
+      "score": 19,
+      "topMatches": [
+        {
+          "code": "coloma",
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "score": 19
+        },
+        {
+          "code": "colodu",
+          "title": "Le congé de longue durée du fonctionnaire",
+          "score": 18
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 16
+        }
+      ]
+    },
+    {
+      "questionNumber": 7,
+      "question": "Que faire en cas de maladie?",
+      "found": true,
+      "matchedResult": "Cas de versement des indemnités de maladie du régime spécial",
+      "score": 9,
+      "topMatches": [
+        {
+          "code": "casind",
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "score": 9
+        },
+        {
+          "code": "duerp",
+          "title": "Le document unique d’évaluation des risques professionnels",
+          "score": 7
+        },
+        {
+          "code": "temthe",
+          "title": "Temps partiel thérapeutique",
+          "score": 7
+        }
+      ]
+    },
+    {
+      "questionNumber": 8,
+      "question": "Rémunération pendant un arrêt maladie?",
+      "found": true,
+      "matchedResult": "Agents contractuels : les congés hors maladie",
+      "score": 6,
+      "topMatches": [
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 6
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "score": 6
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "score": 6
+        }
+      ]
+    },
+    {
+      "questionNumber": 9,
+      "question": "Comment signaler une maladie?",
+      "found": true,
+      "matchedResult": "Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires",
+      "score": 7,
+      "topMatches": [
+        {
+          "code": "categoriec",
+          "title": "Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires",
+          "score": 7
+        },
+        {
+          "code": "categorieb",
+          "title": "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires",
+          "score": 7
+        },
+        {
+          "code": "categoriec",
+          "title": "Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires",
+          "score": 7
+        }
+      ]
+    },
+    {
+      "questionNumber": 10,
+      "question": "Droits en cas de longue maladie?",
+      "found": true,
+      "matchedResult": "Agents contractuels : cas et durée d’engagement",
+      "score": 7,
+      "topMatches": [
+        {
+          "code": "nticas",
+          "title": "Agents contractuels : cas et durée d’engagement",
+          "score": 7
+        },
+        {
+          "code": "colodu",
+          "title": "Le congé de longue durée du fonctionnaire",
+          "score": 7
+        },
+        {
+          "code": "coloma",
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "score": 7
+        }
+      ]
+    },
+    {
+      "questionNumber": 11,
+      "question": "Accident de travail procédure?",
+      "found": true,
+      "matchedResult": "Le télétravail",
+      "score": 13,
+      "topMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "score": 13
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "score": 11
+        },
+        {
+          "code": "trasap",
+          "title": "Temps de travail des sapeurs-pompiers professionnels",
+          "score": 11
+        }
+      ]
+    },
+    {
+      "questionNumber": 12,
+      "question": "Accident de trajet couvert?",
+      "found": true,
+      "matchedResult": "L'accident de trajet",
+      "score": 12,
+      "topMatches": [
+        {
+          "code": "acctra",
+          "title": "L'accident de trajet",
+          "score": 12
+        },
+        {
+          "code": "accser",
+          "title": "L'accident de service du fonctionnaire",
+          "score": 5
+        },
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "questionNumber": 13,
+      "question": "Déclaration accident comment faire?",
+      "found": true,
+      "matchedResult": "L'accident de service du fonctionnaire",
+      "score": 5,
+      "topMatches": [
+        {
+          "code": "accser",
+          "title": "L'accident de service du fonctionnaire",
+          "score": 5
+        },
+        {
+          "code": "acctra",
+          "title": "L'accident de trajet",
+          "score": 5
+        },
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "questionNumber": 14,
+      "question": "Rémunération accident du travail?",
+      "found": true,
+      "matchedResult": "L'accident de service du fonctionnaire",
+      "score": 7,
+      "topMatches": [
+        {
+          "code": "accser",
+          "title": "L'accident de service du fonctionnaire",
+          "score": 7
+        },
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "score": 7
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "score": 6
+        }
+      ]
+    },
+    {
+      "questionNumber": 15,
+      "question": "Accident de service définition?",
+      "found": true,
+      "matchedResult": "L'accident de service du fonctionnaire",
+      "score": 10,
+      "topMatches": [
+        {
+          "code": "accser",
+          "title": "L'accident de service du fonctionnaire",
+          "score": 10
+        },
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "score": 10
+        },
+        {
+          "code": "sereff",
+          "title": "Notion de services effectifs",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "questionNumber": 16,
+      "question": "Qu'est-ce que le télétravail?",
+      "found": true,
+      "matchedResult": "Le document unique d’évaluation des risques professionnels",
+      "score": 13,
+      "topMatches": [
+        {
+          "code": "duerp",
+          "title": "Le document unique d’évaluation des risques professionnels",
+          "score": 13
+        },
+        {
+          "code": "temthe",
+          "title": "Temps partiel thérapeutique",
+          "score": 11
+        },
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "questionNumber": 17,
+      "question": "Télétravail conditions?",
+      "found": true,
+      "matchedResult": "Le télétravail",
+      "score": 13,
+      "topMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "score": 13
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "score": 8
+        },
+        {
+          "code": "horvar",
+          "title": "Horaires variables",
+          "score": 8
+        }
+      ]
+    },
+    {
+      "questionNumber": 18,
+      "question": "Matériel télétravail qui fournit?",
+      "found": true,
+      "matchedResult": "Le télétravail",
+      "score": 11,
+      "topMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "score": 11
+        },
+        {
+          "code": "hygloc",
+          "title": "Hygiène, sécurité et santé au travail : les locaux et les équipements",
+          "score": 11
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "score": 6
+        }
+      ]
+    },
+    {
+      "questionNumber": 19,
+      "question": "Télétravail obligatoire?",
+      "found": true,
+      "matchedResult": "Le télétravail",
+      "score": 11,
+      "topMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "score": 11
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "score": 6
+        },
+        {
+          "code": "horvar",
+          "title": "Horaires variables",
+          "score": 6
+        }
+      ]
+    },
+    {
+      "questionNumber": 20,
+      "question": "Lieu télétravail accepté?",
+      "found": true,
+      "matchedResult": "Le télétravail",
+      "score": 11,
+      "topMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "score": 11
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "score": 6
+        },
+        {
+          "code": "horvar",
+          "title": "Horaires variables",
+          "score": 6
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "✓ Mots-clés enrichis avec succès (+659 mots-clés)",
+    "✓ 78 fiches BIP ont été améliorées",
+    "✓ Synonymes et variantes ajoutés",
+    "➜ Continuer les itérations d'amélioration",
+    "➜ Tester le chat avec des cas réels",
+    "➜ Collecter du feedback utilisateur"
+  ]
+}

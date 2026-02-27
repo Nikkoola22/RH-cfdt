@@ -1,0 +1,232 @@
+{
+  "timestamp": "2026-02-27T21:04:06.382Z",
+  "summary": {
+    "totalTests": 30,
+    "successCount": 29,
+    "failureCount": 1,
+    "successRate": "96.67%"
+  },
+  "testResults": [
+    {
+      "questionNumber": 1,
+      "question": "Combien de jours de congés annuels?",
+      "found": true,
+      "matchedResult": "Don de jours de repos",
+      "score": 9
+    },
+    {
+      "questionNumber": 2,
+      "question": "Qu'est-ce que le congé de longue maladie?",
+      "found": true,
+      "matchedResult": "Congé de formation professionnelle",
+      "score": 9
+    },
+    {
+      "questionNumber": 3,
+      "question": "Durée du congé de longue maladie?",
+      "found": true,
+      "matchedResult": "Congé maternité, paternité, accueil de l’enfant, hospitalisation, durées, modalités, rémunération.",
+      "score": 8
+    },
+    {
+      "questionNumber": 4,
+      "question": "Comment demander un congé?",
+      "found": true,
+      "matchedResult": "Prise en charge de la rémunération",
+      "score": 3
+    },
+    {
+      "questionNumber": 5,
+      "question": "RTT c'est quoi?",
+      "found": true,
+      "matchedResult": "Les jours d’ARTT",
+      "score": 3
+    },
+    {
+      "questionNumber": 6,
+      "question": "Congé rapproché durée?",
+      "found": true,
+      "matchedResult": "Congé proche aidant",
+      "score": 3
+    },
+    {
+      "questionNumber": 7,
+      "question": "Congé sans solde comment ça marche?",
+      "found": true,
+      "matchedResult": "Congé proche aidant",
+      "score": 3
+    },
+    {
+      "questionNumber": 8,
+      "question": "Jours fériés et congés?",
+      "found": true,
+      "matchedResult": "Compensations pour travail de nuit et dimanches/fériés, barèmes selon volume.",
+      "score": 4
+    },
+    {
+      "questionNumber": 9,
+      "question": "Congé de longue maladie durée?",
+      "found": true,
+      "matchedResult": "Congé proche aidant (fin de vie)",
+      "score": 6
+    },
+    {
+      "questionNumber": 10,
+      "question": "Que faire en cas de maladie?",
+      "found": true,
+      "matchedResult": "Tout agent a droit à un temps partiel de droit à l’occasion de la naissance ou de l’adoption d’un enfant, ou pour donner des soins à un enfant, un proche ou en cas de handicap. Quotités possibles : 50%, 60%, 70%, 80%, 90%. Démarches simplifiées, droit automatique, incidences sur rémunération, congés, carrière, retraite.",
+      "score": 8
+    },
+    {
+      "questionNumber": 11,
+      "question": "Rémunération pendant un arrêt maladie?",
+      "found": true,
+      "matchedResult": "Prise en charge de la rémunération",
+      "score": 6
+    },
+    {
+      "questionNumber": 12,
+      "question": "Comment signaler une maladie?",
+      "found": true,
+      "matchedResult": "Aucune indemnisation, prise en charge limitée des frais de transport.",
+      "score": 2
+    },
+    {
+      "questionNumber": 13,
+      "question": "Droits en cas de longue maladie?",
+      "found": true,
+      "matchedResult": "Prise en charge des coûts",
+      "score": 6
+    },
+    {
+      "questionNumber": 14,
+      "question": "Congé ordinaire maladie?",
+      "found": true,
+      "matchedResult": "Congé proche aidant",
+      "score": 3
+    },
+    {
+      "questionNumber": 15,
+      "question": "Contrôle médical absence?",
+      "found": true,
+      "matchedResult": "Règles de gestion des absences pour maladie, démarches, carence, contrôle médical, expertise, absences injustifiées.",
+      "score": 4
+    },
+    {
+      "questionNumber": 16,
+      "question": "Indemnités coordonnées maladie?",
+      "found": false,
+      "matchedResult": null,
+      "score": 0
+    },
+    {
+      "questionNumber": 17,
+      "question": "Accident de travail procédure?",
+      "found": true,
+      "matchedResult": "Accidents de service et de trajet",
+      "score": 6
+    },
+    {
+      "questionNumber": 18,
+      "question": "Accident de trajet couvert?",
+      "found": true,
+      "matchedResult": "Accidents de service et de trajet",
+      "score": 9
+    },
+    {
+      "questionNumber": 19,
+      "question": "Déclaration accident comment faire?",
+      "found": true,
+      "matchedResult": "Définition, déclaration, prise en charge des accidents de service et de trajet.",
+      "score": 4
+    },
+    {
+      "questionNumber": 20,
+      "question": "Rémunération accident du travail?",
+      "found": true,
+      "matchedResult": "Prise en charge de la rémunération selon le statut de l’agent en cas de maladie ou d’accident.",
+      "score": 4
+    },
+    {
+      "questionNumber": 21,
+      "question": "Accident de service définition?",
+      "found": true,
+      "matchedResult": "Accidents de service et de trajet",
+      "score": 9
+    },
+    {
+      "questionNumber": 22,
+      "question": "Maladie imputable au service?",
+      "found": true,
+      "matchedResult": "La maladie",
+      "score": 3
+    },
+    {
+      "questionNumber": 23,
+      "question": "Accident trajet domicile travail?",
+      "found": true,
+      "matchedResult": "Accidents de service et de trajet",
+      "score": 6
+    },
+    {
+      "questionNumber": 24,
+      "question": "Certificat accident qui demander?",
+      "found": true,
+      "matchedResult": "Accidents de service et de trajet",
+      "score": 3
+    },
+    {
+      "questionNumber": 25,
+      "question": "Qu'est-ce que le télétravail?",
+      "found": true,
+      "matchedResult": "Tout agent a droit à un temps partiel de droit à l’occasion de la naissance ou de l’adoption d’un enfant, ou pour donner des soins à un enfant, un proche ou en cas de handicap. Quotités possibles : 50%, 60%, 70%, 80%, 90%. Démarches simplifiées, droit automatique, incidences sur rémunération, congés, carrière, retraite.",
+      "score": 4
+    },
+    {
+      "questionNumber": 26,
+      "question": "Télétravail conditions?",
+      "found": true,
+      "matchedResult": "Lieu du télétravail",
+      "score": 3
+    },
+    {
+      "questionNumber": 27,
+      "question": "Matériel télétravail qui fournit?",
+      "found": true,
+      "matchedResult": "Matériel et équipement télétravail",
+      "score": 9
+    },
+    {
+      "questionNumber": 28,
+      "question": "Télétravail obligatoire?",
+      "found": true,
+      "matchedResult": "Lieu du télétravail",
+      "score": 3
+    },
+    {
+      "questionNumber": 29,
+      "question": "Lieu télétravail accepté?",
+      "found": true,
+      "matchedResult": "Lieu du télétravail",
+      "score": 6
+    },
+    {
+      "questionNumber": 30,
+      "question": "Télétravail jours par semaine?",
+      "found": true,
+      "matchedResult": "6 jours/an (doublés si parent seul), jusqu\\",
+      "score": 4
+    }
+  ],
+  "recommendations": [
+    {
+      "question": "Indemnités coordonnées maladie?",
+      "suggestedKeywords": [
+        "indemnit",
+        "coordonn",
+        "maladie"
+      ],
+      "priority": "high"
+    }
+  ]
+}

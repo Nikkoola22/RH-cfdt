@@ -1,0 +1,635 @@
+{
+  "timestamp": "2026-02-27T20:56:21.495Z",
+  "synonymMap": {
+    "congé": [
+      "absence",
+      "repos",
+      "permission",
+      "break"
+    ],
+    "congé maladie": [
+      "arrêt maladie",
+      "CLM",
+      "COMAOR",
+      "arrêt",
+      "absence maladie"
+    ],
+    "congé de longue maladie": [
+      "CLM",
+      "longue maladie",
+      "COLOMA",
+      "congé maladie prolongé"
+    ],
+    "congé maternité": [
+      "maternité",
+      "congé parental",
+      "naissance",
+      "adoption"
+    ],
+    "congé formation": [
+      "formation professionnelle",
+      "bilan compétences",
+      "reconversion"
+    ],
+    "RTT": [
+      "réduction repos",
+      "jour de repos",
+      "repos compensateur",
+      "ARTT",
+      "repos supplémentaire"
+    ],
+    "rémunération": [
+      "salaire",
+      "traitement indiciaire",
+      "prime"
+    ],
+    "demi-traitement": [
+      "50% traitement",
+      "moitié salaire",
+      "rémunération réduite"
+    ],
+    "plein traitement": [
+      "100% salaire",
+      "traitement complet",
+      "salaire intégral"
+    ],
+    "prime": [
+      "indemnité",
+      "bonus",
+      "allocation",
+      "IFSE",
+      "RIFSEEP",
+      "supplément"
+    ],
+    "sécurité sociale": [
+      "régime général",
+      "couverture sociale",
+      "CNRACL",
+      "IRCANTEC"
+    ],
+    "accident": [
+      "sinistre",
+      "incident",
+      "dommage",
+      "blessure"
+    ],
+    "accident de travail": [
+      "accident au travail",
+      "accident professionnel",
+      "accident service"
+    ],
+    "accident de trajet": [
+      "accident trajet",
+      "accident trajet domicile-travail"
+    ],
+    "télétravail": [
+      "travail à distance",
+      "travail domicile",
+      "remote work",
+      "home office"
+    ],
+    "matériel": [
+      "équipement",
+      "outils",
+      "ordinateur",
+      "logiciel",
+      "matériel informatique"
+    ],
+    "agents contractuels": [
+      "contrat",
+      "contractuel",
+      "CDI",
+      "CDD",
+      "non titulaire"
+    ],
+    "fonctionnaires": [
+      "titulaire",
+      "fonctionnaire titulaire",
+      "agent public"
+    ],
+    "temps partiel": [
+      "temps réduit",
+      "quotité réduite",
+      "50%",
+      "70%",
+      "80%",
+      "90%"
+    ],
+    "travail à temps partiel": [
+      "temps réduit",
+      "quotité partielle"
+    ],
+    "déclaration": [
+      "signalement",
+      "notification",
+      "avis",
+      "communication"
+    ],
+    "demande": [
+      "demande",
+      "requête",
+      "candidature",
+      "postulation"
+    ],
+    "dossier": [
+      "dossier",
+      "documentation",
+      "pièces justificatives"
+    ],
+    "an": [
+      "année",
+      "12 mois",
+      "365 jours"
+    ],
+    "mois": [
+      "mois",
+      "30-31 jours"
+    ],
+    "jour": [
+      "journée",
+      "jour ouvrable",
+      "jour calendaire"
+    ],
+    "période": [
+      "durée",
+      "lapse",
+      "étape",
+      "phase"
+    ],
+    "maladie": [
+      "pathologie",
+      "affection",
+      "état de santé",
+      "problème de santé"
+    ],
+    "diagnostic": [
+      "diagnostic médical",
+      "constat médical",
+      "avis médical"
+    ],
+    "médecin": [
+      "médecin",
+      "conseil médical",
+      "expert médical",
+      "praticien"
+    ],
+    "traitement": [
+      "soin",
+      "cure",
+      "thérapie",
+      "traitement médical"
+    ],
+    "RIFSEEP": [
+      "grille RIFSEEP",
+      "prime RIFSEEP",
+      "rémunération",
+      "grille indiciaire",
+      "classification"
+    ],
+    "grade": [
+      "échelon",
+      "classification",
+      "niveau",
+      "catégorie"
+    ]
+  },
+  "applicableFiches": [
+    {
+      "code": "visacc",
+      "improvement": "9 → 20 mots-clés"
+    },
+    {
+      "code": "conact",
+      "improvement": "9 → 12 mots-clés"
+    },
+    {
+      "code": "ntidef",
+      "improvement": "3 → 8 mots-clés"
+    },
+    {
+      "code": "ntigen",
+      "improvement": "3 → 8 mots-clés"
+    },
+    {
+      "code": "ccpdis",
+      "improvement": "4 → 9 mots-clés"
+    },
+    {
+      "code": "ccpele",
+      "improvement": "8 → 16 mots-clés"
+    },
+    {
+      "code": "ccpfon",
+      "improvement": "6 → 11 mots-clés"
+    },
+    {
+      "code": "ccpgen",
+      "improvement": "6 → 11 mots-clés"
+    },
+    {
+      "code": "colcab",
+      "improvement": "4 → 9 mots-clés"
+    },
+    {
+      "code": "ntico1",
+      "improvement": "5 → 14 mots-clés"
+    },
+    {
+      "code": "ntico2",
+      "improvement": "5 → 26 mots-clés"
+    },
+    {
+      "code": "nticdi",
+      "improvement": "5 → 9 mots-clés"
+    },
+    {
+      "code": "ntidis",
+      "improvement": "4 → 9 mots-clés"
+    },
+    {
+      "code": "reempr",
+      "improvement": "9 → 18 mots-clés"
+    },
+    {
+      "code": "tit2012",
+      "improvement": "10 → 22 mots-clés"
+    },
+    {
+      "code": "ntient",
+      "improvement": "4 → 9 mots-clés"
+    },
+    {
+      "code": "ntiint",
+      "improvement": "7 → 12 mots-clés"
+    },
+    {
+      "code": "ntiter",
+      "improvement": "6 → 11 mots-clés"
+    },
+    {
+      "code": "ntifor",
+      "improvement": "3 → 11 mots-clés"
+    },
+    {
+      "code": "ntirec",
+      "improvement": "3 → 8 mots-clés"
+    },
+    {
+      "code": "conpro",
+      "improvement": "4 → 8 mots-clés"
+    },
+    {
+      "code": "nticas",
+      "improvement": "5 → 10 mots-clés"
+    },
+    {
+      "code": "ntimod",
+      "improvement": "4 → 9 mots-clés"
+    },
+    {
+      "code": "ntirem",
+      "improvement": "3 → 11 mots-clés"
+    },
+    {
+      "code": "ntico3",
+      "improvement": "4 → 25 mots-clés"
+    },
+    {
+      "code": "rechan",
+      "improvement": "6 → 14 mots-clés"
+    },
+    {
+      "code": "ntifor",
+      "improvement": "4 → 12 mots-clés"
+    },
+    {
+      "code": "avaech",
+      "improvement": "3 → 6 mots-clés"
+    },
+    {
+      "code": "avagra",
+      "improvement": "3 → 10 mots-clés"
+    },
+    {
+      "code": "tabava",
+      "improvement": "4 → 7 mots-clés"
+    },
+    {
+      "code": "entpro",
+      "improvement": "4 → 7 mots-clés"
+    },
+    {
+      "code": "chanem",
+      "improvement": "6 → 9 mots-clés"
+    },
+    {
+      "code": "consta",
+      "improvement": "4 → 11 mots-clés"
+    },
+    {
+      "code": "prosta",
+      "improvement": "4 → 8 mots-clés"
+    },
+    {
+      "code": "forfac",
+      "improvement": "4 → 10 mots-clés"
+    },
+    {
+      "code": "forgen",
+      "improvement": "3 → 6 mots-clés"
+    },
+    {
+      "code": "forobl",
+      "improvement": "4 → 10 mots-clés"
+    },
+    {
+      "code": "acchan",
+      "improvement": "5 → 13 mots-clés"
+    },
+    {
+      "code": "prohan",
+      "improvement": "9 → 24 mots-clés"
+    },
+    {
+      "code": "remsta",
+      "improvement": "3 → 6 mots-clés"
+    },
+    {
+      "code": "durtra",
+      "improvement": "7 → 21 mots-clés"
+    },
+    {
+      "code": "horvar",
+      "improvement": "7 → 16 mots-clés"
+    },
+    {
+      "code": "trasap",
+      "improvement": "9 → 24 mots-clés"
+    },
+    {
+      "code": "meccom",
+      "improvement": "10 → 22 mots-clés"
+    },
+    {
+      "code": "misdis",
+      "improvement": "7 → 16 mots-clés"
+    },
+    {
+      "code": "teltra",
+      "improvement": "6 → 15 mots-clés"
+    },
+    {
+      "code": "tempar",
+      "improvement": "8 → 22 mots-clés"
+    },
+    {
+      "code": "tepaef",
+      "improvement": "8 → 22 mots-clés"
+    },
+    {
+      "code": "dissyn",
+      "improvement": "10 → 22 mots-clés"
+    },
+    {
+      "code": "cumeac",
+      "improvement": "7 → 16 mots-clés"
+    },
+    {
+      "code": "canoco",
+      "improvement": "10 → 23 mots-clés"
+    },
+    {
+      "code": "cenoco",
+      "improvement": "10 → 23 mots-clés"
+    },
+    {
+      "code": "conoco",
+      "improvement": "10 → 27 mots-clés"
+    },
+    {
+      "code": "fonoco",
+      "improvement": "10 → 23 mots-clés"
+    },
+    {
+      "code": "innoco",
+      "improvement": "10 → 23 mots-clés"
+    },
+    {
+      "code": "ponoco",
+      "improvement": "10 → 23 mots-clés"
+    },
+    {
+      "code": "renoco",
+      "improvement": "10 → 26 mots-clés"
+    },
+    {
+      "code": "sonoco",
+      "improvement": "10 → 27 mots-clés"
+    },
+    {
+      "code": "duerp",
+      "improvement": "10 → 19 mots-clés"
+    },
+    {
+      "code": "hygloc",
+      "improvement": "10 → 26 mots-clés"
+    },
+    {
+      "code": "hygmoy",
+      "improvement": "9 → 25 mots-clés"
+    },
+    {
+      "code": "temthe",
+      "improvement": "8 → 22 mots-clés"
+    },
+    {
+      "code": "ntico1",
+      "improvement": "7 → 16 mots-clés"
+    },
+    {
+      "code": "ntico2",
+      "improvement": "7 → 28 mots-clés"
+    },
+    {
+      "code": "consta",
+      "improvement": "5 → 12 mots-clés"
+    },
+    {
+      "code": "auabfa",
+      "improvement": "6 → 9 mots-clés"
+    },
+    {
+      "code": "autorg",
+      "improvement": "9 → 12 mots-clés"
+    },
+    {
+      "code": "coepte",
+      "improvement": "5 → 13 mots-clés"
+    },
+    {
+      "code": "ntico3",
+      "improvement": "6 → 27 mots-clés"
+    },
+    {
+      "code": "jofepo",
+      "improvement": "5 → 8 mots-clés"
+    },
+    {
+      "code": "auabsy",
+      "improvement": "7 → 10 mots-clés"
+    },
+    {
+      "code": "garele",
+      "improvement": "10 → 13 mots-clés"
+    },
+    {
+      "code": "conoco",
+      "improvement": "9 → 26 mots-clés"
+    },
+    {
+      "code": "ccpdis",
+      "improvement": "5 → 10 mots-clés"
+    },
+    {
+      "code": "ntidis",
+      "improvement": "5 → 10 mots-clés"
+    },
+    {
+      "code": "sandeg",
+      "improvement": "3 → 6 mots-clés"
+    },
+    {
+      "code": "sandis",
+      "improvement": "3 → 6 mots-clés"
+    },
+    {
+      "code": "consta",
+      "improvement": "7 → 18 mots-clés"
+    },
+    {
+      "code": "cessami",
+      "improvement": "10 → 31 mots-clés"
+    },
+    {
+      "code": "retinv",
+      "improvement": "7 → 11 mots-clés"
+    },
+    {
+      "code": "ntico3",
+      "improvement": "8 → 33 mots-clés"
+    },
+    {
+      "code": "conoco",
+      "improvement": "10 → 27 mots-clés"
+    },
+    {
+      "code": "accser",
+      "improvement": "7 → 18 mots-clés"
+    },
+    {
+      "code": "acctra",
+      "improvement": "6 → 16 mots-clés"
+    },
+    {
+      "code": "altein",
+      "improvement": "7 → 11 mots-clés"
+    },
+    {
+      "code": "conitis",
+      "improvement": "10 → 33 mots-clés"
+    },
+    {
+      "code": "malpro",
+      "improvement": "10 → 28 mots-clés"
+    },
+    {
+      "code": "repser",
+      "improvement": "10 → 33 mots-clés"
+    },
+    {
+      "code": "annmed",
+      "improvement": "6 → 13 mots-clés"
+    },
+    {
+      "code": "comaor",
+      "improvement": "8 → 38 mots-clés"
+    },
+    {
+      "code": "colodu",
+      "improvement": "8 → 34 mots-clés"
+    },
+    {
+      "code": "coloma",
+      "improvement": "8 → 38 mots-clés"
+    },
+    {
+      "code": "conmal",
+      "improvement": "9 → 32 mots-clés"
+    },
+    {
+      "code": "madrob",
+      "improvement": "9 → 32 mots-clés"
+    },
+    {
+      "code": "curthe",
+      "improvement": "6 → 10 mots-clés"
+    },
+    {
+      "code": "coingu",
+      "improvement": "10 → 32 mots-clés"
+    },
+    {
+      "code": "comesu",
+      "improvement": "7 → 11 mots-clés"
+    },
+    {
+      "code": "conmed",
+      "improvement": "6 → 10 mots-clés"
+    },
+    {
+      "code": "medpre",
+      "improvement": "6 → 14 mots-clés"
+    },
+    {
+      "code": "disoff",
+      "improvement": "9 → 16 mots-clés"
+    },
+    {
+      "code": "temthe",
+      "improvement": "7 → 18 mots-clés"
+    },
+    {
+      "code": "finsap",
+      "improvement": "10 → 15 mots-clés"
+    },
+    {
+      "code": "casind",
+      "improvement": "10 → 26 mots-clés"
+    },
+    {
+      "code": "preinv",
+      "improvement": "9 → 16 mots-clés"
+    },
+    {
+      "code": "premal",
+      "improvement": "10 → 29 mots-clés"
+    },
+    {
+      "code": "regspe",
+      "improvement": "9 → 16 mots-clés"
+    },
+    {
+      "code": "partic",
+      "improvement": "6 → 10 mots-clés"
+    },
+    {
+      "code": "delcar",
+      "improvement": "6 → 10 mots-clés"
+    }
+  ],
+  "stats": {
+    "totalFiches": 185,
+    "enrichedFiches": 108,
+    "totalNewKeywords": 1099
+  }
+}

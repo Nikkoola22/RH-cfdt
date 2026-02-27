@@ -873,3 +873,23 @@ body::before {
     @apply bg-background text-foreground;
   }
 }
+/* Orange variant for card border sweep */
+.card-border-sweep-orange::before {
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg,
+    rgba(249, 115, 22, 0.55) 60deg,
+    rgba(237, 137, 54, 0.55) 100deg,
+    transparent 160deg
+  );
+}
+
+/* Orange color variations for dashboard cards */
+.card-title-orange {
+  color: #fed7aa;
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
+.animate-card-enter-4 {
+  backface-visibility: hidden;
+}
