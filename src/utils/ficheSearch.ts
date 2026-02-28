@@ -12,6 +12,128 @@ export interface SearchResult {
   query: string
 }
 
+function normalizeText(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+}
+
+function countUniqueMatches(text: string, keywords: string[]): number {
+  const normalizedText = normalizeText(text)
+  let count = 0
+  keywords.forEach((keyword) => {
+    if (normalizedText.includes(keyword)) count += 1
+  })
+  return count
+}
+
+function canonicalKeyFromBipFiche(fiche: BipFiche): string {
+  const url = normalizeText(fiche.url || '')
+  const title = normalizeText(fiche.title || '')
+  return url || title
+}
+
+function canonicalKeyFromIndexFiche(fiche: FicheIndexEntry): string {
+  const url = normalizeText((fiche as { url?: string }).url || '')
+  const code = normalizeText((fiche as { code?: string }).code || '')
+  const title = normalizeText(getFicheTitle(fiche))
+  return url || code || title
+}
+
+function deduplicateBipResults(items: BipFiche[]): BipFiche[] {
+  const seen = new Set<string>()
+  const deduped: BipFiche[] = []
+
+  items.forEach((item) => {
+    const key = canonicalKeyFromBipFiche(item)
+    if (!key || seen.has(key)) return
+    seen.add(key)
+    deduped.push(item)
+  })
+
+  return deduped
+}
+
+function deduplicateIndexResults(items: FicheIndexEntry[]): FicheIndexEntry[] {
+  const seen = new Set<string>()
+  const deduped: FicheIndexEntry[] = []
+
+  items.forEach((item) => {
+    const key = canonicalKeyFromIndexFiche(item)
+    if (!key || seen.has(key)) return
+    seen.add(key)
+    deduped.push(item)
+  })
+
+  return deduped
+}
+
+type IntentRule = {
+  triggerKeywords: string[]
+  targetSections: string[]
+}
+
+const INTENT_RULES: IntentRule[] = [
+  {
+    triggerKeywords: ['conge', 'absence', 'rtt', 'ferie', 'vacance'],
+    targetSections: ['conges-et-absences', 'conges-absences'],
+  },
+  {
+    triggerKeywords: ['maladie', 'arret', 'indemnite', 'inaptitude', 'medical', 'sante'],
+    targetSections: ['indisponibilite-physique-et-securite-sociale', 'conges-et-absences'],
+  },
+  {
+    triggerKeywords: ['accident', 'trajet', 'service', 'professionnelle'],
+    targetSections: ['indisponibilite-physique-et-securite-sociale'],
+  },
+  {
+    triggerKeywords: ['discipline', 'sanction', 'blame', 'licenciement', 'faute'],
+    targetSections: ['discipline2', 'agents-contractuels'],
+  },
+  {
+    triggerKeywords: ['teletravail', 'horaire', 'temps', 'travail'],
+    targetSections: ['conditions-d-exercice-des-fonctions-et-duree-du-travail'],
+  },
+  {
+    triggerKeywords: ['carriere', 'avancement', 'promotion', 'titularisation', 'mobilite'],
+    targetSections: ['carriere'],
+  },
+]
+
+function computeIntentBoost(
+  normalizedQueryKeywords: string[],
+  sectionText: string,
+  titleText: string,
+): number {
+  let boost = 0
+  const normalizedSection = normalizeText(sectionText)
+  const normalizedTitle = normalizeText(titleText)
+
+  INTENT_RULES.forEach((rule) => {
+    const intentActivated = rule.triggerKeywords.some(trigger =>
+      normalizedQueryKeywords.some(keyword => keyword.includes(trigger) || trigger.includes(keyword)),
+    )
+
+    if (!intentActivated) return
+
+    const sectionMatch = rule.targetSections.some(target =>
+      normalizedSection.includes(normalizeText(target)),
+    )
+
+    if (sectionMatch) {
+      boost += 5
+      return
+    }
+
+    const titleMatch = rule.triggerKeywords.some(trigger => normalizedTitle.includes(trigger))
+    if (titleMatch) boost += 2
+  })
+
+  return boost
+}
+
 function getFicheTitle(fiche: FicheIndexEntry): string {
   return ((fiche as { titre?: string }).titre || (fiche as { title?: string }).title || '').toLowerCase()
 }
@@ -138,7 +260,7 @@ export function searchFichesByKeywords(keywords: string[]): SearchResult {
 
   const query = keywords.join(' ')
   const normalizedKeywords = keywords
-    .map(k => k.toLowerCase().trim())
+    .map(k => normalizeText(k))
     .filter(k => k.length > 0)
 
   if (normalizedKeywords.length === 0) {
@@ -159,39 +281,58 @@ export function searchFichesByKeywords(keywords: string[]): SearchResult {
   // Tentar usar dados locais primeiro (com conteúdo completo)
   if (bipDataInitialized && bipDataCache.length > 0) {
     try {
+      const indexByUrl = new Map(ficheIndex.map(entry => [entry.url, entry]))
+
       const scored = bipDataCache.map(fiche => {
         let score = 0
 
-        // Title matches (weight: 3)
-        const titleLower = fiche.title.toLowerCase()
-        normalizedKeywords.forEach(keyword => {
-          if (titleLower.includes(keyword)) score += 3
-        })
+        const titleMatches = countUniqueMatches(fiche.title, normalizedKeywords)
+        const sectionMatches = countUniqueMatches(fiche.section, normalizedKeywords)
+        const contentMatches = countUniqueMatches(fiche.content, normalizedKeywords)
+        const intentBoost = computeIntentBoost(normalizedKeywords, fiche.section, fiche.title)
 
-        // Section matches (weight: 2)
-        const sectionLower = fiche.section.toLowerCase()
-        normalizedKeywords.forEach(keyword => {
-          if (sectionLower.includes(keyword)) score += 2
-        })
+        score += titleMatches * 8
+        score += sectionMatches * 4
+        score += contentMatches * 2
+        score += intentBoost
 
-        // Content matches (weight: 1)
-        const contentLower = fiche.content.toLowerCase()
-        normalizedKeywords.forEach(keyword => {
-          if (contentLower.includes(keyword)) score += 1
-        })
+        // Boost if both title and content are aligned
+        if (titleMatches > 0 && contentMatches > 0) score += 6
 
-        return { fiche, score }
+        // Fuse with index metadata for better precision
+        const indexEntry = indexByUrl.get(fiche.url)
+        if (indexEntry) {
+          const indexKeywordMatches = (indexEntry.motsCles || [])
+            .map(k => normalizeText(k))
+            .filter(k => normalizedKeywords.some(q => k.includes(q) || q.includes(k))).length
+
+          const indexTitleMatches = countUniqueMatches(indexEntry.title || '', normalizedKeywords)
+
+          score += indexKeywordMatches * 2
+          score += indexTitleMatches * 3
+        }
+
+        // Penalize weak/noisy entries
+        if (normalizeText(fiche.content).includes('no content available')) {
+          score -= 5
+        }
+
+        const minSignal = titleMatches > 0 || sectionMatches > 0 || contentMatches >= 2
+
+        return { fiche, score, minSignal }
       })
 
       const results = scored
-        .filter(({ score }) => score > 0)
+        .filter(({ score, minSignal }) => minSignal && score >= 4)
         .sort((a, b) => b.score - a.score)
         .map(({ fiche }) => fiche)
 
-      if (results.length > 0) {
+      const dedupedResults = deduplicateBipResults(results)
+
+      if (dedupedResults.length > 0) {
         return {
-          results,
-          totalMatches: results.length,
+          results: dedupedResults,
+          totalMatches: dedupedResults.length,
           query,
         }
       }
@@ -204,39 +345,34 @@ export function searchFichesByKeywords(keywords: string[]): SearchResult {
   const scored = ficheIndex.map(fiche => {
     let score = 0
 
-    // Title matches (weight: 3)
-    const titleLower = getFicheTitle(fiche)
-    normalizedKeywords.forEach(keyword => {
-      if (titleLower.includes(keyword)) score += 3
-    })
+    const titleMatches = countUniqueMatches(getFicheTitle(fiche), normalizedKeywords)
+    const categoryMatches = countUniqueMatches(getFicheCategory(fiche), normalizedKeywords)
+    const intentBoost = computeIntentBoost(normalizedKeywords, getFicheCategory(fiche), getFicheTitle(fiche))
+    const keywordMatches = getFicheKeywords(fiche)
+      .map(mc => normalizeText(mc))
+      .filter(mc => normalizedKeywords.some(k => mc.includes(k) || k.includes(mc))).length
 
-    // Category matches (weight: 2)
-    const categoryLower = getFicheCategory(fiche)
-    normalizedKeywords.forEach(keyword => {
-      if (categoryLower.includes(keyword)) score += 2
-    })
+    score += titleMatches * 6
+    score += categoryMatches * 3
+    score += keywordMatches * 2
+    score += intentBoost
 
-    // Keyword matches (weight: 1)
-    const keywordsArray = getFicheKeywords(fiche)
-    keywordsArray.forEach((motCle) => {
-      const mcLower = motCle.toLowerCase()
-      normalizedKeywords.forEach(keyword => {
-        if (mcLower.includes(keyword)) score += 1
-      })
-    })
+    const minSignal = titleMatches > 0 || categoryMatches > 0 || keywordMatches > 0
 
-    return { fiche, score }
+    return { fiche, score, minSignal }
   })
 
   // Filter and sort by score
   const results = scored
-    .filter(({ score }) => score > 0)
+    .filter(({ score, minSignal }) => minSignal && score >= 2)
     .sort((a, b) => b.score - a.score)
     .map(({ fiche }) => fiche)
 
+  const dedupedResults = deduplicateIndexResults(results)
+
   return {
-    results,
-    totalMatches: results.length,
+    results: dedupedResults,
+    totalMatches: dedupedResults.length,
     query,
   }
 }

@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-02-28T07:02:03.003Z",
+  "method": "estimation chars/4, simulation avant/après sans import TS runtime",
+  "totals": {
+    "before": 10447,
+    "after": 2965,
+    "gain": 7482,
+    "gainPct": 71.6
+  },
+  "results": [
+    {
+      "question": "Combien de jours de congés annuels ?",
+      "beforeTokens": 2071,
+      "afterTokens": 624,
+      "gain": 1447,
+      "gainPct": 69.9
+    },
+    {
+      "question": "Rémunération pendant un arrêt maladie ?",
+      "beforeTokens": 2118,
+      "afterTokens": 604,
+      "gain": 1514,
+      "gainPct": 71.5
+    },
+    {
+      "question": "Sanction disciplinaire agent contractuel ?",
+      "beforeTokens": 2037,
+      "afterTokens": 546,
+      "gain": 1491,
+      "gainPct": 73.2
+    },
+    {
+      "question": "Conditions du télétravail ?",
+      "beforeTokens": 2101,
+      "afterTokens": 569,
+      "gain": 1532,
+      "gainPct": 72.9
+    },
+    {
+      "question": "Promotion interne fonction publique territoriale ?",
+      "beforeTokens": 2120,
+      "afterTokens": 622,
+      "gain": 1498,
+      "gainPct": 70.7
+    }
+  ]
+}

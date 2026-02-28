@@ -1,0 +1,387 @@
+{
+  "timestamp": "2026-02-28T06:52:47.920Z",
+  "changedCount": 10,
+  "total": 10,
+  "results": [
+    {
+      "question": "Combien de jours de congés annuels ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Jours fériés et ponts",
+          "section": "conges-et-absences",
+          "score": 21
+        },
+        {
+          "title": "Fonctionnaires occupant un emploi à temps non complet : congés",
+          "section": "conges-et-absences",
+          "score": 21
+        },
+        {
+          "title": "Les congés des fonctionnaires stagiaires",
+          "section": "conges-et-absences",
+          "score": 17
+        }
+      ],
+      "after": [
+        {
+          "title": "Jours fériés et ponts",
+          "section": "conges-et-absences",
+          "score": 26
+        },
+        {
+          "title": "Fonctionnaires occupant un emploi à temps non complet : congés",
+          "section": "conges-et-absences",
+          "score": 26
+        },
+        {
+          "title": "Les congés des fonctionnaires stagiaires",
+          "section": "conges-et-absences",
+          "score": 22
+        }
+      ]
+    },
+    {
+      "question": "Rémunération pendant un arrêt maladie ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 16
+        },
+        {
+          "title": "Droits et obligations durant les congés de maladie",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 14
+        },
+        {
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 14
+        }
+      ],
+      "after": [
+        {
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 21
+        },
+        {
+          "title": "Droits et obligations durant les congés de maladie",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 19
+        },
+        {
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 19
+        }
+      ]
+    },
+    {
+      "question": "Accident de trajet domicile travail ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "L'accident de trajet",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 22
+        },
+        {
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 15
+        },
+        {
+          "title": "L'accident de service du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 14
+        }
+      ],
+      "after": [
+        {
+          "title": "L'accident de trajet",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 27
+        },
+        {
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 20
+        },
+        {
+          "title": "L'accident de service du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 19
+        }
+      ]
+    },
+    {
+      "question": "Sanction disciplinaire agent contractuel ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Agents contractuels : procédure disciplinaire",
+          "section": "agents-contractuels",
+          "score": 38
+        },
+        {
+          "title": "Le conseil de discipline des agents contractuels",
+          "section": "agents-contractuels",
+          "score": 30
+        },
+        {
+          "title": "Le contrat de recrutement d'un agent contractuel de droit public",
+          "section": "agents-contractuels",
+          "score": 26
+        }
+      ],
+      "after": [
+        {
+          "title": "Agents contractuels : procédure disciplinaire",
+          "section": "agents-contractuels",
+          "score": 43
+        },
+        {
+          "title": "Le conseil de discipline des agents contractuels",
+          "section": "agents-contractuels",
+          "score": 35
+        },
+        {
+          "title": "Le contrat de recrutement d'un agent contractuel de droit public",
+          "section": "agents-contractuels",
+          "score": 31
+        }
+      ]
+    },
+    {
+      "question": "Conditions du télétravail ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 19
+        },
+        {
+          "title": "Fonctionnaires occupant un emploi à temps non complet : positions et conditions d’exercice des fonctions",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 13
+        },
+        {
+          "title": "Durée du temps de travail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 9
+        }
+      ],
+      "after": [
+        {
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 24
+        },
+        {
+          "title": "Fonctionnaires occupant un emploi à temps non complet : positions et conditions d’exercice des fonctions",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 18
+        },
+        {
+          "title": "Durée du temps de travail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 14
+        }
+      ]
+    },
+    {
+      "question": "Avancement de grade comment ça marche ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Avancement de grade",
+          "section": "carriere",
+          "score": 20
+        },
+        {
+          "title": "Avancement d'échelon",
+          "section": "carriere",
+          "score": 16
+        },
+        {
+          "title": "Tableau annuel d'avancement",
+          "section": "carriere",
+          "score": 14
+        }
+      ],
+      "after": [
+        {
+          "title": "Avancement de grade",
+          "section": "carriere",
+          "score": 25
+        },
+        {
+          "title": "Avancement d'échelon",
+          "section": "carriere",
+          "score": 21
+        },
+        {
+          "title": "Tableau annuel d'avancement",
+          "section": "carriere",
+          "score": 19
+        }
+      ]
+    },
+    {
+      "question": "Droits en congé longue maladie ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 38
+        },
+        {
+          "title": "Le congé de longue durée du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 32
+        },
+        {
+          "title": "Droits et obligations durant les congés de maladie",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 32
+        }
+      ],
+      "after": [
+        {
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 45
+        },
+        {
+          "title": "Le congé de longue durée du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 39
+        },
+        {
+          "title": "Droits et obligations durant les congés de maladie",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 39
+        }
+      ]
+    },
+    {
+      "question": "Procédure de licenciement pour faute ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Agents contractuels : procédure disciplinaire",
+          "section": "discipline2",
+          "score": 18
+        },
+        {
+          "title": "La faute disciplinaire",
+          "section": "discipline2",
+          "score": 14
+        },
+        {
+          "title": "La procédure disciplinaire",
+          "section": "discipline2",
+          "score": 14
+        }
+      ],
+      "after": [
+        {
+          "title": "Agents contractuels : procédure disciplinaire",
+          "section": "discipline2",
+          "score": 23
+        },
+        {
+          "title": "La faute disciplinaire",
+          "section": "discipline2",
+          "score": 19
+        },
+        {
+          "title": "La procédure disciplinaire",
+          "section": "discipline2",
+          "score": 19
+        }
+      ]
+    },
+    {
+      "question": "Temps partiel thérapeutique conditions ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Temps partiel thérapeutique",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 35
+        },
+        {
+          "title": "Temps partiel : effets",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 27
+        },
+        {
+          "title": "Service à temps partiel",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 25
+        }
+      ],
+      "after": [
+        {
+          "title": "Temps partiel thérapeutique",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 40
+        },
+        {
+          "title": "Temps partiel : effets",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 32
+        },
+        {
+          "title": "Service à temps partiel",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "question": "Promotion interne fonction publique territoriale ?",
+      "changed": true,
+      "before": [
+        {
+          "title": "Liste d'aptitude au titre de la promotion interne",
+          "section": "carriere",
+          "score": 22
+        },
+        {
+          "title": "Promotion interne",
+          "section": "carriere",
+          "score": 22
+        },
+        {
+          "title": "Fonctionnaires occupant un emploi à temps non complet : carrière",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 21
+        }
+      ],
+      "after": [
+        {
+          "title": "Liste d'aptitude au titre de la promotion interne",
+          "section": "carriere",
+          "score": 27
+        },
+        {
+          "title": "Promotion interne",
+          "section": "carriere",
+          "score": 27
+        },
+        {
+          "title": "Fonctionnaires occupant un emploi à temps non complet : carrière",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 23
+        }
+      ]
+    }
+  ]
+}

@@ -37,7 +37,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:05.913934",
     source: "bip",
     type: "agents-contractuels",
-    content: "Concours externe spécial d’accès à certaines écoles de service public (CONSPE) Accueil Fiches Accès à la fonction publique, recrutement Concours Le recours à la visioconférence dans les voies d’accès à la fonction publique (VISACC) Le recours à la visioconférence dans les voies d’accès à la fonction publique VISACC Télécharger Imprimer Ajouter S'abonner I. Les recrutements par concours et les recrutements d'agents contractuels II. Les recrutements par voie d'examens et de concours professionnels...",
+    content: "Concours externe spécial d’accès à certaines écoles de service public (CONSPE) Accueil Fiches Accès à la fonction publique, recrutement Concours Le recours à la visioconférence dans les voies d’accès à la fonction publique (VISACC) Le recours à la visioconférence dans les voies d’accès à la fonction publique VISACC I. Les recrutements par concours et les recrutements d'agents contractuels II. Les recrutements par voie d'examens et de concours professionnels...",
     motsCles: ["recrutements","concours","contractuels","voie","professionnels","visacc","recours","visioconférence","voies","d’accès","fonction","santé","recrutement","candidat","candidats","confidentialité","handicap","d'agents","d'examens","pacte"]
   },
   {
@@ -49,7 +49,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:12.899982",
     source: "bip",
     type: "agents-contractuels",
-    content: "La vie d'un acte administratif (schéma) (VIEACT) Modèles d'actes Accueil Fiches Actes administratifs RH Le contrat de recrutement d'un agent contractuel de droit public (CONACT) Le contrat de recrutement d'un agent contractuel de droit public CONACT Télécharger Imprimer Ajouter S'abonner I. Un contrat de « droit public » II. Le contenu du contrat d'engagement III. Les formalités à accomplir postérieurement à la signature du contrat IV. L'irrégularité du contrat Cette fiche expose les règles s’im...",
+    content: "La vie d'un acte administratif (schéma) (VIEACT) Modèles d'actes Accueil Fiches Actes administratifs RH Le contrat de recrutement d'un agent contractuel de droit public (CONACT) Le contrat de recrutement d'un agent contractuel de droit public CONACT I. Un contrat de « droit public » II. Le contenu du contrat d'engagement III. Les formalités à accomplir postérieurement à la signature du contrat IV. L'irrégularité du contrat Cette fiche expose les règles s’im...",
     motsCles: ["contrat","caa","droit","pacte","recrutement","contenu","formalités","accomplir","signature","conact","contractuel","rémunération","indemnité","licenciement","formation","contrats","obligation","contractuels","d'engagement","postérieurement"]
   },
   {
@@ -61,7 +61,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:17.962034",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : généralités (NTIGEN) Accueil Fiches Agents contractuels Agents contractuels : généralités Agents contractuels : définition (NTIDEF) Agents contractuels : définition NTIDEF Télécharger Imprimer Ajouter S'abonner I. LES AGENTS DE DROIT PUBLIC II. LA DISTINCTION ENTRE AGENTS CONTRACTUELS DE DROIT PUBLIC ET VACATAIRES I. LES AGENTS DE DROIT PUBLIC A) Définition Le Tribunal des Conflits a établi, par l’arrêt « Berkani » du 25 mars 1996, que « les personnels non statutaires trava...",
+    content: "Agents contractuels : généralités (NTIGEN) Accueil Fiches Agents contractuels Agents contractuels : généralités Agents contractuels : définition (NTIDEF) Agents contractuels : définition NTIDEF I. LES AGENTS DE DROIT PUBLIC II. LA DISTINCTION ENTRE AGENTS CONTRACTUELS DE DROIT PUBLIC ET VACATAIRES I. LES AGENTS DE DROIT PUBLIC A) Définition Le Tribunal des Conflits a établi, par l’arrêt « Berkani » du 25 mars 1996, que « les personnels non statutaires trava...",
     motsCles: ["caa","droit","contractuels","entre","distinction","vacataires","ntidef","définition","cdi","rémunération","recrutement","concours","formation","contrat","contrats","cnfpt","congé","congés","absence","prime"]
   },
   {
@@ -73,7 +73,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:23.198427",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : définition (NTIDEF) Accueil Fiches Agents contractuels Agents contractuels : généralités Agents contractuels : généralités (NTIGEN) Agents contractuels : généralités NTIGEN Télécharger Imprimer Ajouter S'abonner I. PRINCIPES GENERAUX II. CONDITIONS D’EXERCICE DES FONCTIONS Cette fiche présente les principes généraux applicables aux agents contractuels de droit public des collectivités territoriales et de leurs établissements publics. Pour une définition de la notion d'agent...",
+    content: "Agents contractuels : définition (NTIDEF) Accueil Fiches Agents contractuels Agents contractuels : généralités Agents contractuels : généralités (NTIGEN) Agents contractuels : généralités NTIGEN I. PRINCIPES GENERAUX II. CONDITIONS D’EXERCICE DES FONCTIONS Cette fiche présente les principes généraux applicables aux agents contractuels de droit public des collectivités territoriales et de leurs établissements publics. Pour une définition de la notion d'agent...",
     motsCles: ["cdi","deobli","ntient","pacte","ccpgen","contractuels","generaux","principes","conditions","fonctions","ntigen","généralités","ccp","cap","congé","congés","rémunération","traitement","maladie","recrutement"]
   },
   {
@@ -85,7 +85,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:28.849860",
     source: "bip",
     type: "agents-contractuels",
-    content: "Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Le conseil de discipline des agents contractuels (CCPDIS) Le conseil de discipline des agents contractuels CCPDIS Télécharger Imprimer Ajouter S'abonner I. ORGANISATION II. OUVERTURE DE LA PROCEDURE III. REGLES DE COMPOSITION IV. LA SEANCE V. L’AVIS DU CONSEIL DE DISCIPLINE Les commissions consultatives paritaires (CCP) peuvent êt...",
+    content: "Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Le conseil de discipline des agents contractuels (CCPDIS) Le conseil de discipline des agents contractuels CCPDIS I. ORGANISATION II. OUVERTURE DE LA PROCEDURE III. REGLES DE COMPOSITION IV. LA SEANCE V. L’AVIS DU CONSEIL DE DISCIPLINE Les commissions consultatives paritaires (CCP) peuvent êt...",
     motsCles: ["caa","ccp","conseil","discipline","contractuels","regles","seance","composition","l’avis","ccpdis","avis","disciplinaire","sanction","sanctions","représentant","représentants","vote","organisation","ouverture","procedure"]
   },
   {
@@ -97,7 +97,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:36.718915",
     source: "bip",
     type: "agents-contractuels",
-    content: "Commissions consultatives paritaires : fonctionnement (CCPFON) Le conseil de discipline des agents contractuels (CCPDIS) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Commissions consultatives paritaires : élections des représentants du personnel CCPELE Télécharger Imprimer Ajouter S'abonner I. Principes généraux II. La liste des électeurs III. Les listes de candidats IV. Les...",
+    content: "Commissions consultatives paritaires : fonctionnement (CCPFON) Le conseil de discipline des agents contractuels (CCPDIS) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Commissions consultatives paritaires : élections des représentants du personnel CCPELE I. Principes généraux II. La liste des électeurs III. Les listes de candidats IV. Les...",
     motsCles: ["ccp","votele","élections","candidats","représentants","liste","listes","ccpgen","électeurs","opérations","électorales","résultats","ccpele","commissions","consultatives","paritaires","personnel","iii","cap","congé"]
   },
   {
@@ -109,7 +109,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:42.869895",
     source: "bip",
     type: "agents-contractuels",
-    content: "Commissions consultatives paritaires : généralités (CCPGEN) Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : fonctionnement (CCPFON) Commissions consultatives paritaires : fonctionnement CCPFON Télécharger Imprimer Ajouter S'abonner I. CONVOCATION II. QUORUM III. ORGANISATION DE REUNIONS A DISTANCE EN CAS D'URGENCE OU DE CIRCONSTANCES PARTI...",
+    content: "Commissions consultatives paritaires : généralités (CCPGEN) Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : fonctionnement (CCPFON) Commissions consultatives paritaires : fonctionnement CCPFON I. CONVOCATION II. QUORUM III. ORGANISATION DE REUNIONS A DISTANCE EN CAS D'URGENCE OU DE CIRCONSTANCES PARTI...",
     motsCles: ["ccp","caa","quorum","distance","avis","verbal","cap","reunions","aux","seances","proces","convocation","circonstances","ccpfon","commissions","consultatives","paritaires","fonctionnement","disciplinaire","représentant"]
   },
   {
@@ -121,7 +121,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:48.973178",
     source: "bip",
     type: "agents-contractuels",
-    content: "Commissions consultatives paritaires : fonctionnement (CCPFON) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : généralités (CCPGEN) Commissions consultatives paritaires : généralités CCPGEN Télécharger Imprimer Ajouter S'abonner I. Organisation II. Compétences III. Composition Cette fiche présente les principes généraux relatifs aux commissions consultatives paritaires (CCP). Elle est complétée par les fiches suivantes : - CCP...",
+    content: "Commissions consultatives paritaires : fonctionnement (CCPFON) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : généralités (CCPGEN) Commissions consultatives paritaires : généralités CCPGEN I. Organisation II. Compétences III. Composition Cette fiche présente les principes généraux relatifs aux commissions consultatives paritaires (CCP). Elle est complétée par les fiches suivantes : - CCP...",
     motsCles: ["ccp","cap","télétravail","cpf","compétences","composition","ccpgen","commissions","consultatives","paritaires","généralités","iii","congé","congés","discipline","licenciement","candidat","formation","contrat","syndical"]
   },
   {
@@ -133,7 +133,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:54.182377",
     source: "bip",
     type: "agents-contractuels",
-    content: "Le recrutement de personnes en situation de handicap (RECHAN) Accueil Fiches Agents contractuels Catégories particulières d'agents publics Les collaborateurs de cabinet (COLCAB) Les collaborateurs de cabinet COLCAB Télécharger Imprimer Ajouter S'abonner I. Le cabinet de l'autorité territoriale II. Les conditions de recrutement III. Les conditions d'exercice des fonctions IV. La rémunération V. La fin de fonctions I. LE CABINET DE L'AUTORITÉ TERRITORIALE Dans une collectivité ou un établissement...",
+    content: "Le recrutement de personnes en situation de handicap (RECHAN) Accueil Fiches Agents contractuels Catégories particulières d'agents publics Les collaborateurs de cabinet (COLCAB) Les collaborateurs de cabinet COLCAB I. Le cabinet de l'autorité territoriale II. Les conditions de recrutement III. Les conditions d'exercice des fonctions IV. La rémunération V. La fin de fonctions I. LE CABINET DE L'AUTORITÉ TERRITORIALE Dans une collectivité ou un établissement...",
     motsCles: ["pacs","epci","cabinet","caa","conditions","fonctions","recrutement","rémunération","territoriale","colcab","collaborateurs","fin","tropole","ration","congé","congés","traitement","indemnité","disciplinaire","sanction"]
   },
   {
@@ -145,7 +145,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:48:59.249966",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Agents contractuels Congés des agents contractuels Agents contractuels : généralités sur les congés (NTICO1) Agents contractuels : généralités sur les congés NTICO1 Télécharger Imprimer Ajouter S'abonner I. Conditions générales d'octroi II. Conditions générales de réemploi III. Prise en compte de la durée des congés Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Cette fiche présente les principes gé...",
+    content: "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Agents contractuels Congés des agents contractuels Agents contractuels : généralités sur les congés (NTICO1) Agents contractuels : généralités sur les congés NTICO1 I. Conditions générales d'octroi II. Conditions générales de réemploi III. Prise en compte de la durée des congés Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Cette fiche présente les principes gé...",
     motsCles: ["congés","conditions","générales","prise","compte","contractuels","réemploi","généralités","iii","congé","rémunération","maladie","concours","formation","contrat","syndicale","d'octroi","rales","pacte","pacs"]
   },
   {
@@ -169,7 +169,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:10.503025",
     source: "bip",
     type: "agents-contractuels",
-    content: "Accueil Fiches Agents contractuels Contrat à durée indéterminée Agents contractuels : le contrat à durée indéterminée (NTICDI) Agents contractuels : le contrat à durée indéterminée NTICDI Télécharger Imprimer Ajouter S'abonner I. CONDITIONS POUR BENEFICIER D'UN CDI II. SITUATION DES AGENTS SOUS CDI Sur les principes généraux applicables aux agents contractuels, -voir NTIGEN. I. CONDITIONS POUR BENEFICIER D'UN CDI A) Occupation à titre permanent d’un emploi permanent Les art. L. 332-9 code généra...",
+    content: "Accueil Fiches Agents contractuels Contrat à durée indéterminée Agents contractuels : le contrat à durée indéterminée (NTICDI) Agents contractuels : le contrat à durée indéterminée NTICDI I. CONDITIONS POUR BENEFICIER D'UN CDI II. SITUATION DES AGENTS SOUS CDI Sur les principes généraux applicables aux agents contractuels, -voir NTIGEN. I. CONDITIONS POUR BENEFICIER D'UN CDI A) Occupation à titre permanent d’un emploi permanent Les art. L. 332-9 code généra...",
     motsCles: ["cdi","sous","contrat","contractuels","conditions","nticdi","indéterminée","cdd","epci","congé","rémunération","licenciement","contrats","beneficier","d'un","situation","ntigen","nticas","ntirem","ntirec"]
   },
   {
@@ -181,7 +181,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:16.196258",
     source: "bip",
     type: "agents-contractuels",
-    content: "Le conseil de discipline des agents contractuels (CCPDIS) Accueil Fiches Agents contractuels Discipline des agents contractuels Agents contractuels : procédure disciplinaire (NTIDIS) Agents contractuels : procédure disciplinaire NTIDIS Télécharger Imprimer Ajouter S'abonner I. LA SUSPENSION II. L’OUVERTURE DE LA PROCEDURE III. LA CONSULTATION DU CONSEIL DE DISCIPLINE IV. LA DECISION DE SANCTION V. LA PROCEDURE EN CAS DE LICENCIEMENT POUR MOTIF DISCIPLINAIRE VI. LES RECOURS CONTRE LA SANCTION Tou...",
+    content: "Le conseil de discipline des agents contractuels (CCPDIS) Accueil Fiches Agents contractuels Discipline des agents contractuels Agents contractuels : procédure disciplinaire (NTIDIS) Agents contractuels : procédure disciplinaire NTIDIS I. LA SUSPENSION II. L’OUVERTURE DE LA PROCEDURE III. LA CONSULTATION DU CONSEIL DE DISCIPLINE IV. LA DECISION DE SANCTION V. LA PROCEDURE EN CAS DE LICENCIEMENT POUR MOTIF DISCIPLINAIRE VI. LES RECOURS CONTRE LA SANCTION Tou...",
     motsCles: ["caa","sanction","disciplinaire","procedure","conseil","motif","recours","contre","ccpdis","discipline","licenciement","ccp","faudis","prodis","contractuels","decision","suspension","l’ouverture","consultation","ntidis"]
   },
   {
@@ -193,7 +193,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:21.288852",
     source: "bip",
     type: "agents-contractuels",
-    content: "Le dispositif d’accès à l’emploi titulaire prévu par la loi du 12 mars 2012 (TIT2012) Accueil Fiches Agents contractuels Dispositifs de résorption de la précarité Résorption de l'emploi précaire (Loi n°2001-2 du 3 janvier 2001) (REEMPR) Résorption de l'emploi précaire (Loi n°2001-2 du 3 janvier 2001) REEMPR Télécharger Imprimer Ajouter S'abonner I. PRINCIPE II. AGENTS CONCERNES III. MODALITES D'INTEGRATION IV. EFFETS DE L'INTEGRATION Cette fiche traite de l'intégration dans la fonction publique...",
+    content: "Le dispositif d’accès à l’emploi titulaire prévu par la loi du 12 mars 2012 (TIT2012) Accueil Fiches Agents contractuels Dispositifs de résorption de la précarité Résorption de l'emploi précaire (Loi n°2001-2 du 3 janvier 2001) (REEMPR) Résorption de l'emploi précaire (Loi n°2001-2 du 3 janvier 2001) REEMPR I. PRINCIPE II. AGENTS CONCERNES III. MODALITES D'INTEGRATION IV. EFFETS DE L'INTEGRATION Cette fiche traite de l'intégration dans la fonction publique...",
     motsCles: ["effets","principe","reempr","résorption","précaire","n°2001","janvier","recrutement","concours","contrat","contrats","contractuels","concernes","modalites","d'integration","l'integration","iii","l'emploi","loi","2001"]
   },
   {
@@ -205,7 +205,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:26.454960",
     source: "bip",
     type: "agents-contractuels",
-    content: "Résorption de l'emploi précaire (Loi n°2001-2 du 3 janvier 2001) (REEMPR) Accueil Fiches Agents contractuels Dispositifs de résorption de la précarité Le dispositif d’accès à l’emploi titulaire prévu par la loi du 12 mars 2012 (TIT2012) Le dispositif d’accès à l’emploi titulaire prévu par la loi du 12 mars 2012 TIT2012 Télécharger Imprimer Ajouter S'abonner I. PRINCIPES GENERAUX II. AGENTS CONCERNES ET CONDITIONS EXIGEES III. CONDITIONS DE CANDIDATURE ET CADRES D’EMPLOIS OUVERTS IV. MODALITES D’...",
+    content: "Résorption de l'emploi précaire (Loi n°2001-2 du 3 janvier 2001) (REEMPR) Accueil Fiches Agents contractuels Dispositifs de résorption de la précarité Le dispositif d’accès à l’emploi titulaire prévu par la loi du 12 mars 2012 (TIT2012) Le dispositif d’accès à l’emploi titulaire prévu par la loi du 12 mars 2012 TIT2012 I. PRINCIPES GENERAUX II. AGENTS CONCERNES ET CONDITIONS EXIGEES III. CONDITIONS DE CANDIDATURE ET CADRES D’EMPLOIS OUVERTS IV. MODALITES D’...",
     motsCles: ["cadres","ouverts","iii","cdd","cdi","conditions","d’emplois","grades","generaux","exigees","aux","nommes","concours","candidature","d’acces","situation","liste","dispositif","d’accès","l’emploi"]
   },
   {
@@ -217,7 +217,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:32.370758",
     source: "bip",
     type: "agents-contractuels",
-    content: "Accueil Fiches Agents contractuels Entretien professionnel des agents contractuels Agents contractuels : l'entretien professionnel (NTIENT) Agents contractuels : l'entretien professionnel NTIENT Télécharger Imprimer Ajouter S'abonner I. PROCEDURE II. REVISION ET RECOURS III. CAS PARTICULIER : LES AGENTS EXERCANT UNE ACTIVITE SYNDICALE Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Certains agents contractuels bénéficient, comme les fonctionnaires, d’un entretien profe...",
+    content: "Accueil Fiches Agents contractuels Entretien professionnel des agents contractuels Agents contractuels : l'entretien professionnel (NTIENT) Agents contractuels : l'entretien professionnel NTIENT I. PROCEDURE II. REVISION ET RECOURS III. CAS PARTICULIER : LES AGENTS EXERCANT UNE ACTIVITE SYNDICALE Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Certains agents contractuels bénéficient, comme les fonctionnaires, d’un entretien profe...",
     motsCles: ["revision","recours","syndicale","ccp","contractuels","exercant","activite","caa","ntient","annuel","professionnel","iii","formation","valeur","compte","rendu","droit","suivi","procedure","particulier"]
   },
   {
@@ -241,7 +241,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:42.793084",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : fin de fonctions avec interruption de l'engagement (NTIINT) Accueil Fiches Agents contractuels Fin de fonctions des agents contractuels Agents contractuels : fin de fonctions au terme de l’engagement (NTITER) Agents contractuels : fin de fonctions au terme de l’engagement NTITER Télécharger Imprimer Ajouter S'abonner I. L’absence d'un droit au renouvellement II. Les conditions de renouvellement III. Le non renouvellement IV. Le droit aux allocations chômage Pour connaître l...",
+    content: "Agents contractuels : fin de fonctions avec interruption de l'engagement (NTIINT) Accueil Fiches Agents contractuels Fin de fonctions des agents contractuels Agents contractuels : fin de fonctions au terme de l’engagement (NTITER) Agents contractuels : fin de fonctions au terme de l’engagement NTITER I. L’absence d'un droit au renouvellement II. Les conditions de renouvellement III. Le non renouvellement IV. Le droit aux allocations chômage Pour connaître l...",
     motsCles: ["caa","droit","renouvellement","contractuels","cdi","l’absence","conditions","allocations","chômage","ntiter","fonctions","terme","l’engagement","non","aux","congé","congés","rémunération","indemnité","maladie"]
   },
   {
@@ -253,7 +253,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:47.897579",
     source: "bip",
     type: "agents-contractuels",
-    content: "Accueil Fiches Agents contractuels Formation des agents contractuels Formation des agents contractuels (NTIFOR) Formation des agents contractuels NTIFOR Télécharger Imprimer Ajouter S'abonner I. PRINCIPE GENERAL II. LE COMPTE PERSONNEL DE FORMATION III. FORMATION PERSONNELLE IV. LE CONGE DE TRANSITION PROFESSIONNELLE V. LUTTE CONTRE L'ILLETTRISME ET APPRENTISSAGE DE LA LANGUE FRANCAISE Cette fiche présente les dispositions en vigueur en matière de formation des agents contractuels territoriaux,...",
+    content: "Accueil Fiches Agents contractuels Formation des agents contractuels Formation des agents contractuels (NTIFOR) Formation des agents contractuels NTIFOR I. PRINCIPE GENERAL II. LE COMPTE PERSONNEL DE FORMATION III. FORMATION PERSONNELLE IV. LE CONGE DE TRANSITION PROFESSIONNELLE V. LUTTE CONTRE L'ILLETTRISME ET APPRENTISSAGE DE LA LANGUE FRANCAISE Cette fiche présente les dispositions en vigueur en matière de formation des agents contractuels territoriaux,...",
     motsCles: ["formation","conge","principe","compte","lutte","contre","langue","forgen","contractuels","general","personnel","personnelle","transition","professionnelle","apprentissage","ntifor","cpf","vae","congé","congés"]
   },
   {
@@ -265,7 +265,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:53.744657",
     source: "bip",
     type: "agents-contractuels",
-    content: "Accueil Fiches Agents contractuels Reclassement des agents contractuels Agents contractuels : reclassement (NTIREC) Agents contractuels : reclassement NTIREC Télécharger Imprimer Ajouter S'abonner I. LE RECLASSEMENT POUR INAPTITUDE PHYSIQUE II. LE RECLASSEMENT DANS L’INTERET DU SERVICE Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Le principe d’un droit au reclassement avait été reconnu par la jurisprudence au profit des agents contractuels, parfois sous conditions,...",
+    content: "Accueil Fiches Agents contractuels Reclassement des agents contractuels Agents contractuels : reclassement (NTIREC) Agents contractuels : reclassement NTIREC I. LE RECLASSEMENT POUR INAPTITUDE PHYSIQUE II. LE RECLASSEMENT DANS L’INTERET DU SERVICE Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Le principe d’un droit au reclassement avait été reconnu par la jurisprudence au profit des agents contractuels, parfois sous conditions,...",
     motsCles: ["iii","reclassement","cdi","caa","physique","inaptitude","contractuels","cdd","ntirec","congé","rémunération","traitement","maladie","arrêt","licenciement","recrutement","contrat","obligation","l’interet","interet"]
   },
   {
@@ -277,7 +277,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:49:59.023860",
     source: "bip",
     type: "agents-contractuels",
-    content: "Le contrat de recrutement d'un agent contractuel de droit public (CONACT) Le recours à la visioconférence dans les voies d’accès à la fonction publique (VISACC) Accueil Fiches Agents contractuels Recrutement des agents contractuels Le contrat de projet (CONPRO) Le contrat de projet CONPRO Télécharger Imprimer Ajouter S'abonner I. Recrutement II. Situation de l'agent III. Fin du contrat Crée par la loi du 6 août 2019 de transformation de la fonction publique, le contrat de projet s'inspire de cel...",
+    content: "Le contrat de recrutement d'un agent contractuel de droit public (CONACT) Le recours à la visioconférence dans les voies d’accès à la fonction publique (VISACC) Accueil Fiches Agents contractuels Recrutement des agents contractuels Le contrat de projet (CONPRO) Le contrat de projet CONPRO I. Recrutement II. Situation de l'agent III. Fin du contrat Crée par la loi du 6 août 2019 de transformation de la fonction publique, le contrat de projet s'inspire de cel...",
     motsCles: ["contrat","ntimod","recrutement","conpro","projet","fin","iii","congés","rémunération","indemnité","maladie","licenciement","contractuels","situation","l'agent","ntiint","congé","absence","prime","disciplinaire"]
   },
   {
@@ -289,7 +289,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:50:04.290943",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : modalités de recrutement (NTIMOD) Accueil Fiches Agents contractuels Recrutement des agents contractuels Agents contractuels : cas et durée d’engagement (NTICAS) Agents contractuels : cas et durée d’engagement NTICAS Télécharger Imprimer Ajouter S'abonner I. Le recrutement sur un emploi non permanent II. Le recrutement sur un emploi permanent III. Les autres cas de recrutement IV. Tableau récapitulatif Pour connaître les principes généraux applicables aux agents contractuel...",
+    content: "Agents contractuels : modalités de recrutement (NTIMOD) Accueil Fiches Agents contractuels Recrutement des agents contractuels Agents contractuels : cas et durée d’engagement (NTICAS) Agents contractuels : cas et durée d’engagement NTICAS I. Le recrutement sur un emploi non permanent II. Le recrutement sur un emploi permanent III. Les autres cas de recrutement IV. Tableau récapitulatif Pour connaître les principes généraux applicables aux agents contractuel...",
     motsCles: ["cgfp","caa","recrutement","cdd","cdi","contrats","permanent","pacte","autres","contractuels","non","nticas","occuper","d’engagement","tableau","congé","rémunération","primes","maladie","licenciement"]
   },
   {
@@ -301,7 +301,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:50:09.436463",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : cas et durée d’engagement (NTICAS) Le contrat de recrutement d'un agent contractuel de droit public (CONACT) Accueil Fiches Agents contractuels Recrutement des agents contractuels Agents contractuels : modalités de recrutement (NTIMOD) Agents contractuels : modalités de recrutement NTIMOD Télécharger Imprimer Ajouter S'abonner I. Les conditions exigées des candidats II. La création et la vacance d'emploi III. La procédure de recrutement sur un emploi permanent IV. La périod...",
+    content: "Agents contractuels : cas et durée d’engagement (NTICAS) Le contrat de recrutement d'un agent contractuel de droit public (CONACT) Accueil Fiches Agents contractuels Recrutement des agents contractuels Agents contractuels : modalités de recrutement (NTIMOD) Agents contractuels : modalités de recrutement NTIMOD I. Les conditions exigées des candidats II. La création et la vacance d'emploi III. La procédure de recrutement sur un emploi permanent IV. La périod...",
     motsCles: ["recrutement","candidats","vacance","contractuels","caa","conditions","exigées","création","permanent","communication","informations","règles","essentielles","relatives","fonctions","ntimod","modalités","iii","recrutements","candidat"]
   },
   {
@@ -313,7 +313,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:50:14.512049",
     source: "bip",
     type: "agents-contractuels",
-    content: "Accueil Fiches Agents contractuels Rémunération des agents contractuels Agents contractuels : rémunération (NTIREM) Agents contractuels : rémunération NTIREM Télécharger Imprimer Ajouter S'abonner I. Composition II. Montant III. Réévaluation Pour connaître les principes généraux applicables aux agents contractuels, -voir NTIGEN. Cette fiche présente les principes généraux en matière de rémunération des agents contractuels de droit public. Elle n’aborde pas les modalités spécifiques de rémunérati...",
+    content: "Accueil Fiches Agents contractuels Rémunération des agents contractuels Agents contractuels : rémunération (NTIREM) Agents contractuels : rémunération NTIREM I. Composition II. Montant III. Réévaluation Pour connaître les principes généraux applicables aux agents contractuels, -voir NTIGEN. Cette fiche présente les principes généraux en matière de rémunération des agents contractuels de droit public. Elle n’aborde pas les modalités spécifiques de rémunérati...",
     motsCles: ["caa","rémunération","montant","contractuels","réévaluation","ntirem","sft","traitement","indemnité","carrière","contrat","composition","iii","smic","dgcl","cdd","nbi","cdi","congé","congés"]
   },
   {
@@ -325,7 +325,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:50:20.032300",
     source: "bip",
     type: "agents-contractuels",
-    content: "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 Télécharger Imprimer Ajouter S'abonner I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de...",
+    content: "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de...",
     motsCles: ["maladie","congé","ntirec","iii","traitement","médical","congés","grave","accident","entre","sociale","madrob","ntiint","contractuels","cong","cmo","cdd","caa","ordinaire","professionnelle"]
   },
   {
@@ -337,7 +337,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T10:50:25.679224",
     source: "bip",
     type: "agents-contractuels",
-    content: "L'obligation d'emploi des travailleurs en situation de handicap (OBLEMP) Accueil Fiches Personnes en situation de handicap Le recrutement de personnes en situation de handicap (RECHAN) Le recrutement de personnes en situation de handicap RECHAN Télécharger Imprimer Ajouter S'abonner I. Le recrutement en qualité d'agent contractuel ayant vocation à être titularisé II. Les dérogations aux règles normales de déroulement des concours, des procédures de recrutement et des examens en faveur des candid...",
+    content: "L'obligation d'emploi des travailleurs en situation de handicap (OBLEMP) Accueil Fiches Personnes en situation de handicap Le recrutement de personnes en situation de handicap (RECHAN) Le recrutement de personnes en situation de handicap RECHAN I. Le recrutement en qualité d'agent contractuel ayant vocation à être titularisé II. Les dérogations aux règles normales de déroulement des concours, des procédures de recrutement et des examens en faveur des candid...",
     motsCles: ["recrutement","handicap","caa","cap","concours","contrat","situation","candidats","ayant","vocation","normales","examens","portant","pacs","qualité","contractuel","être","titularisé","dérogations","règles"]
   },
   {
@@ -349,7 +349,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:23:44.196681",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois classés en catégorie B (CADCAB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie A CADCAA Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. POLICE MUNICIPALE I. FILIERE ADM...",
+    content: "Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois classés en catégorie B (CADCAB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie A CADCAA I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. POLICE MUNICIPALE I. FILIERE ADM...",
     motsCles: ["filiere","sapeurs","pompiers","police","cadres","sportive","medico","sociale","technique","municipale","cadcaa","liste","classés","catégorie","santé","médical","médicale","administrative","culturelle","iii"]
   },
   {
@@ -361,7 +361,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:23:49.252960",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie C (CADCAC) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie B (CADCAB) Liste des cadres d'emplois classés en catégorie B CADCAB Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. FILIERE ANIMATION V...",
+    content: "Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie C (CADCAC) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie B (CADCAB) Liste des cadres d'emplois classés en catégorie B CADCAB I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. FILIERE ANIMATION V...",
     motsCles: ["filiere","sapeurs","pompiers","police","cadres","sportive","medico","sociale","technique","municipale","cadcab","liste","classés","catégorie","administrative","culturelle","animation","iii","vii","viii"]
   },
   {
@@ -373,7 +373,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:23:54.284896",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Liste des cadres d'emplois classés en catégorie B (CADCAB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie C (CADCAC) Liste des cadres d'emplois classés en catégorie C CADCAC Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. S...",
+    content: "Liste des cadres d'emplois classés en catégorie B (CADCAB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie C (CADCAC) Liste des cadres d'emplois classés en catégorie C CADCAC I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. S...",
     motsCles: ["filiere","sportive","sociale","sapeurs","pompiers","police","cadres","medico","administrative","technique","culturelle","municipale","animation","cadcac","liste","classés","catégorie","iii","vii","viii"]
   },
   {
@@ -385,7 +385,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:23:59.388603",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Liste des cadres d'emplois de la FPT (LISCAD) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois : généralités (CADEMP) Cadres d'emplois : généralités CADEMP Télécharger Imprimer Ajouter S'abonner I. LA NOTION DE CADRE D'EMPLOIS II. LE GRADE III. LES CATEGORIES HIERARCHIQUES IV. LE STATUT PARTICULIER I. LA NOTION DE CADRE D'EMPLOIS L'art. L. 411-1 code général de la fonction publique définit la notion de cadre d'emplois de la façon suivante : \"Chaque corps ou cadre d...",
+    content: "Liste des cadres d'emplois de la FPT (LISCAD) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois : généralités (CADEMP) Cadres d'emplois : généralités CADEMP I. LA NOTION DE CADRE D'EMPLOIS II. LE GRADE III. LES CATEGORIES HIERARCHIQUES IV. LE STATUT PARTICULIER I. LA NOTION DE CADRE D'EMPLOIS L'art. L. 411-1 code général de la fonction publique définit la notion de cadre d'emplois de la façon suivante : \"Chaque corps ou cadre d...",
     motsCles: ["notion","cadre","grade","statut","cadres","d'emplois","particulier","cademp","généralités","recrutement","concours","categories","hierarchiques","iii","prime","sanction","promotion","avancement","formation","formations"]
   },
   {
@@ -397,7 +397,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:24:04.888717",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires (CATEGORIEC) Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires CATEGORIEC Télécharger Imprimer Ajouter S'abonner I. Classement II. Avancement III. Détachement, intégration, intégration directe IV. Echelles indiciaires Depuis la...",
+    content: "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires (CATEGORIEC) Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires CATEGORIEC I. Classement II. Avancement III. Détachement, intégration, intégration directe IV. Echelles indiciaires Depuis la...",
     motsCles: ["intégration","indiciaires","avancement","iii","brut","cadres","classement","détachement","catégorie","dispositions","communes","échelles","directe","echelles","chelon","dur","mensuel","rémunération","traitement","recrutement"]
   },
   {
@@ -409,7 +409,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:24:10.401015",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Techniciens territoriaux : création du cadre d’emplois (CRETEC) Accueil Fiches Cadres d'emplois Filière technique Techniciens (B) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires CATEGORIEB Télécharger Imprimer Ajouter S'abonner I. Recrutement II. Stage et classement III. Avancement de grade IV. Détachement, intégration, intégration directe V. Echelles indiciair...",
+    content: "Techniciens territoriaux : création du cadre d’emplois (CRETEC) Accueil Fiches Cadres d'emplois Filière technique Techniciens (B) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires CATEGORIEB I. Recrutement II. Stage et classement III. Avancement de grade IV. Détachement, intégration, intégration directe V. Echelles indiciair...",
     motsCles: ["nes","intégration","indiciaires","recrutement","avancement","stage","grade","directe","brut","cadres","iii","classement","détachement","catégorie","dispositions","communes","échelles","echelles","chelon","dur"]
   },
   {
@@ -421,7 +421,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:24:15.868551",
     source: "bip",
     type: "cadres-d-emplois-generalites",
-    content: "Cadres d'emplois : généralités Accueil Fiches Cadres d'emplois Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois de la FPT LISCAD Télécharger Imprimer Ajouter S'abonner I. Filière administrative II. Filière animation III. Filière technique IV. Filière culturelle V. Filière sportive VI. Filière médico-sociale VII. Police municipale VIII. Sapeurs-pompiers professionnels Pour aller plus loin, on pourra utilement se reporter au Répertoire des carrières : - volume 1 : filières...",
+    content: "Cadres d'emplois : généralités Accueil Fiches Cadres d'emplois Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois de la FPT LISCAD I. Filière administrative II. Filière animation III. Filière technique IV. Filière culturelle V. Filière sportive VI. Filière médico-sociale VII. Police municipale VIII. Sapeurs-pompiers professionnels Pour aller plus loin, on pourra utilement se reporter au Répertoire des carrières : - volume 1 : filières...",
     motsCles: ["filière","sapeurs","pompiers","cadres","police","adjoints","fili","voie","fpt","sportive","sociale","sant","administrative","animation","technique","culturelle","médico","municipale","professionnels","liscad"]
   },
   {
@@ -433,7 +433,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:15:16.225332",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois classés en catégorie B (CADCAB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie A CADCAA Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. POLICE MUNICIPALE I. FILIERE ADM...",
+    content: "Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois classés en catégorie B (CADCAB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie A CADCAA I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. POLICE MUNICIPALE I. FILIERE ADM...",
     motsCles: ["filiere","sapeurs","pompiers","police","cadres","sportive","medico","sociale","technique","municipale","cadcaa","liste","classés","catégorie","santé","médical","médicale","administrative","culturelle","iii"]
   },
   {
@@ -445,7 +445,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:15:21.337938",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie C (CADCAC) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie B (CADCAB) Liste des cadres d'emplois classés en catégorie B CADCAB Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. FILIERE ANIMATION V...",
+    content: "Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie C (CADCAC) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie B (CADCAB) Liste des cadres d'emplois classés en catégorie B CADCAB I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. FILIERE ANIMATION V...",
     motsCles: ["filiere","sapeurs","pompiers","police","cadres","sportive","medico","sociale","technique","municipale","cadcab","liste","classés","catégorie","administrative","culturelle","animation","iii","vii","viii"]
   },
   {
@@ -457,7 +457,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:15:26.483936",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois classés en catégorie B (CADCAB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie C (CADCAC) Liste des cadres d'emplois classés en catégorie C CADCAC Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. S...",
+    content: "Liste des cadres d'emplois classés en catégorie B (CADCAB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie C (CADCAC) Liste des cadres d'emplois classés en catégorie C CADCAC I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. S...",
     motsCles: ["filiere","sportive","sociale","sapeurs","pompiers","police","cadres","medico","administrative","technique","culturelle","municipale","animation","cadcac","liste","classés","catégorie","iii","vii","viii"]
   },
   {
@@ -469,7 +469,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:15:31.514479",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois de la FPT (LISCAD) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois : généralités (CADEMP) Cadres d'emplois : généralités CADEMP Télécharger Imprimer Ajouter S'abonner I. LA NOTION DE CADRE D'EMPLOIS II. LE GRADE III. LES CATEGORIES HIERARCHIQUES IV. LE STATUT PARTICULIER I. LA NOTION DE CADRE D'EMPLOIS L'art. L. 411-1 code général de la fonction publique définit la notion de cadre d'emplois de la façon suivante : \"Chaque corps ou cadre d...",
+    content: "Liste des cadres d'emplois de la FPT (LISCAD) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois : généralités (CADEMP) Cadres d'emplois : généralités CADEMP I. LA NOTION DE CADRE D'EMPLOIS II. LE GRADE III. LES CATEGORIES HIERARCHIQUES IV. LE STATUT PARTICULIER I. LA NOTION DE CADRE D'EMPLOIS L'art. L. 411-1 code général de la fonction publique définit la notion de cadre d'emplois de la façon suivante : \"Chaque corps ou cadre d...",
     motsCles: ["notion","cadre","grade","statut","cadres","d'emplois","particulier","cademp","généralités","recrutement","concours","categories","hierarchiques","iii","prime","sanction","promotion","avancement","formation","formations"]
   },
   {
@@ -481,392 +481,8 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:15:36.680113",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires (CATEGORIEC) Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires CATEGORIEC Télécharger Imprimer Ajouter S'abonner I. Classement II. Avancement III. Détachement, intégration, intégration directe IV. Echelles indiciaires Depuis la...",
+    content: "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires (CATEGORIEC) Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires CATEGORIEC I. Classement II. Avancement III. Détachement, intégration, intégration directe IV. Echelles indiciaires Depuis la...",
     motsCles: ["intégration","indiciaires","avancement","iii","brut","cadres","classement","détachement","catégorie","dispositions","communes","échelles","directe","echelles","chelon","dur","mensuel","rémunération","traitement","recrutement"]
-  },
-  {
-    code: "c",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-administrative/adjoints-administratifs-c/c",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-administrative_adjoints-administratifs-c_c.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:15:41.418164",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-administrative/administrateurs-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-administrative_administrateurs-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:15:46.074908",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-administrative/attaches-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-administrative_attaches-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:15:50.728119",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-administrative/redacteurs-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-administrative_redacteurs-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:15:55.571589",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-administrative/secretaires-de-mairie-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-administrative_secretaires-de-mairie-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:00.344049",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "c",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-animation/adjoints-d-animation-c/c",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-animation_adjoints-d-animation-c_c.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:05.025732",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-animation/animateurs-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-animation_animateurs-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:09.682547",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "c",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/adjoints-du-patrimoine-c/c",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_adjoints-du-patrimoine-c_c.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:14.398030",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/assistants-d-enseignement-artistique-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_assistants-d-enseignement-artistique-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:19.068542",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/assistants-de-conservation-du-patrimoine-et-des-bibliotheques-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_assistants-de-conservation-du-patrimoine-et-des-bibliotheques-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:23.735452",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/attaches-de-conservation-du-patrimoine-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_attaches-de-conservation-du-patrimoine-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:28.533725",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/bibliothecaires-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_bibliothecaires-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:33.197891",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/conservateurs-de-bibliotheques-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_conservateurs-de-bibliotheques-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:37.891058",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/conservateurs-du-patrimoine-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_conservateurs-du-patrimoine-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:42.572122",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/directeurs-d-etablissements-d-enseignement-artistique-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_directeurs-d-etablissements-d-enseignement-artistique-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:47.238109",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-culturelle/professeurs-d-enseignement-artistique-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-culturelle_professeurs-d-enseignement-artistique-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:51.909127",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "c",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/agents-sociaux-c/c",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_agents-sociaux-c_c.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:16:56.590417",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "c",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/agents-specialises-des-ecoles-maternelles-c/c",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_agents-specialises-des-ecoles-maternelles-c_c.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:01.280052",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/aides-soignants-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_aides-soignants-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:05.964497",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/assistants-socio-educatifs-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_assistants-socio-educatifs-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:10.701026",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/auxiliaires-de-puericulture-territoriaux-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_auxiliaires-de-puericulture-territoriaux-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:15.390271",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "c",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/auxiliaires-de-soins-c/c",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_auxiliaires-de-soins-c_c.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:20.116809",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/biologistes-veterinaires-et-pharmaciens-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_biologistes-veterinaires-et-pharmaciens-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:24.817195",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/cadres-de-sante-infirmiers-et-techniciens-paramedicaux-en-voie-d-extinction-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_cadres-de-sante-infirmiers-et-techniciens-paramedicaux-en-voie-d-extinction-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:29.499200",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","cadres","oops!","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/cadres-de-sante-paramedicaux-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_cadres-de-sante-paramedicaux-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:34.150947",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","cadres","oops!","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/conseillers-socio-educatifs-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_conseillers-socio-educatifs-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:38.808715",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/educateurs-de-jeunes-enfants-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_educateurs-de-jeunes-enfants-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:43.458672",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/infirmiers-en-soins-generaux-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_infirmiers-en-soins-generaux-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:48.130574",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/infirmiers-en-voie-d-extinction-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_infirmiers-en-voie-d-extinction-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:52.789358",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/masseurs-kinesitherapeutes-et-orthophonistes-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_masseurs-kinesitherapeutes-et-orthophonistes-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:17:57.432717",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "a",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/medecins-a/a",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_medecins-a_a.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:18:02.113256",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
-  },
-  {
-    code: "b",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/cadres-d-emplois/filiere-medico-sociale/moniteurs-educateurs-et-intervenants-familiaux-b/b",
-    localPath: "/bip/output/bip_fiches_rag_cadres-d-emplois_20260227_141811/cadres-d-emplois_filiere-medico-sociale_moniteurs-educateurs-et-intervenants-familiaux-b_b.md",
-    section: "cadres-d-emplois",
-    timestamp: "2026-02-27T14:18:06.778970",
-    source: "bip",
-    type: "cadres-d-emplois",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","cadres","url"]
   },
   {
     code: "cadcaa",
@@ -877,7 +493,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:01.542220",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois classés en catégorie B (CADCAB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie A CADCAA Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. POLICE MUNICIPALE I. FILIERE ADM...",
+    content: "Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois classés en catégorie B (CADCAB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie A CADCAA I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. POLICE MUNICIPALE I. FILIERE ADM...",
     motsCles: ["filiere","sapeurs","pompiers","police","cadres","sportive","medico","sociale","technique","municipale","cadcaa","liste","classés","catégorie","santé","médical","médicale","administrative","culturelle","iii"]
   },
   {
@@ -889,7 +505,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:06.663336",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie C (CADCAC) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie B (CADCAB) Liste des cadres d'emplois classés en catégorie B CADCAB Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. FILIERE ANIMATION V...",
+    content: "Liste des cadres d'emplois classés en catégorie A (CADCAA) Liste des cadres d'emplois classés en catégorie C (CADCAC) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie B (CADCAB) Liste des cadres d'emplois classés en catégorie B CADCAB I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. SAPEURS-POMPIERS VII. FILIERE ANIMATION V...",
     motsCles: ["filiere","sapeurs","pompiers","police","cadres","sportive","medico","sociale","technique","municipale","cadcab","liste","classés","catégorie","administrative","culturelle","animation","iii","vii","viii"]
   },
   {
@@ -901,7 +517,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:12.049026",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois classés en catégorie B (CADCAB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie C (CADCAC) Liste des cadres d'emplois classés en catégorie C CADCAC Télécharger Imprimer Ajouter S'abonner I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. S...",
+    content: "Liste des cadres d'emplois classés en catégorie B (CADCAB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Liste des cadres d'emplois classés en catégorie C (CADCAC) Liste des cadres d'emplois classés en catégorie C CADCAC I. FILIERE ADMINISTRATIVE II. FILIERE TECHNIQUE III. FILIERE CULTURELLE IV. FILIERE SPORTIVE V. FILIERE MEDICO-SOCIALE VI. S...",
     motsCles: ["filiere","sportive","sociale","sapeurs","pompiers","police","cadres","medico","administrative","technique","culturelle","municipale","animation","cadcac","liste","classés","catégorie","iii","vii","viii"]
   },
   {
@@ -913,7 +529,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:18.579498",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Liste des cadres d'emplois de la FPT (LISCAD) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois : généralités (CADEMP) Cadres d'emplois : généralités CADEMP Télécharger Imprimer Ajouter S'abonner I. LA NOTION DE CADRE D'EMPLOIS II. LE GRADE III. LES CATEGORIES HIERARCHIQUES IV. LE STATUT PARTICULIER I. LA NOTION DE CADRE D'EMPLOIS L'art. L. 411-1 code général de la fonction publique définit la notion de cadre d'emplois de la façon suivante : \"Chaque corps ou cadre d...",
+    content: "Liste des cadres d'emplois de la FPT (LISCAD) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois : généralités (CADEMP) Cadres d'emplois : généralités CADEMP I. LA NOTION DE CADRE D'EMPLOIS II. LE GRADE III. LES CATEGORIES HIERARCHIQUES IV. LE STATUT PARTICULIER I. LA NOTION DE CADRE D'EMPLOIS L'art. L. 411-1 code général de la fonction publique définit la notion de cadre d'emplois de la façon suivante : \"Chaque corps ou cadre d...",
     motsCles: ["notion","cadre","grade","statut","cadres","d'emplois","particulier","cademp","généralités","recrutement","concours","categories","hierarchiques","iii","prime","sanction","promotion","avancement","formation","formations"]
   },
   {
@@ -925,7 +541,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:24.312142",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires (CATEGORIEC) Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires CATEGORIEC Télécharger Imprimer Ajouter S'abonner I. Classement II. Avancement III. Détachement, intégration, intégration directe IV. Echelles indiciaires Depuis la...",
+    content: "Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Accueil Fiches Cadres d'emplois Cadres d'emplois : généralités Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires (CATEGORIEC) Cadres d'emplois de catégorie C : dispositions communes et échelles indiciaires CATEGORIEC I. Classement II. Avancement III. Détachement, intégration, intégration directe IV. Echelles indiciaires Depuis la...",
     motsCles: ["intégration","indiciaires","avancement","iii","brut","cadres","classement","détachement","catégorie","dispositions","communes","échelles","directe","echelles","chelon","dur","mensuel","rémunération","traitement","recrutement"]
   },
   {
@@ -937,7 +553,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:29.675786",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Techniciens territoriaux : création du cadre d’emplois (CRETEC) Accueil Fiches Cadres d'emplois Filière technique Techniciens (B) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires CATEGORIEB Télécharger Imprimer Ajouter S'abonner I. Recrutement II. Stage et classement III. Avancement de grade IV. Détachement, intégration, intégration directe V. Echelles indiciair...",
+    content: "Techniciens territoriaux : création du cadre d’emplois (CRETEC) Accueil Fiches Cadres d'emplois Filière technique Techniciens (B) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires (CATEGORIEB) Cadres d'emplois de catégorie B (NES) : dispositions communes et échelles indiciaires CATEGORIEB I. Recrutement II. Stage et classement III. Avancement de grade IV. Détachement, intégration, intégration directe V. Echelles indiciair...",
     motsCles: ["nes","intégration","indiciaires","recrutement","avancement","stage","grade","directe","brut","cadres","iii","classement","détachement","catégorie","dispositions","communes","échelles","echelles","chelon","dur"]
   },
   {
@@ -949,7 +565,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:35.251894",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Cadres d'emplois : généralités Accueil Fiches Cadres d'emplois Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois de la FPT LISCAD Télécharger Imprimer Ajouter S'abonner I. Filière administrative II. Filière animation III. Filière technique IV. Filière culturelle V. Filière sportive VI. Filière médico-sociale VII. Police municipale VIII. Sapeurs-pompiers professionnels Pour aller plus loin, on pourra utilement se reporter au Répertoire des carrières : - volume 1 : filières...",
+    content: "Cadres d'emplois : généralités Accueil Fiches Cadres d'emplois Liste des cadres d'emplois de la FPT (LISCAD) Liste des cadres d'emplois de la FPT LISCAD I. Filière administrative II. Filière animation III. Filière technique IV. Filière culturelle V. Filière sportive VI. Filière médico-sociale VII. Police municipale VIII. Sapeurs-pompiers professionnels Pour aller plus loin, on pourra utilement se reporter au Répertoire des carrières : - volume 1 : filières...",
     motsCles: ["filière","sapeurs","pompiers","cadres","police","adjoints","fili","voie","fpt","sportive","sociale","sant","administrative","animation","technique","culturelle","médico","municipale","professionnels","liscad"]
   },
   {
@@ -961,7 +577,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:20:41.173180",
     source: "bip",
     type: "cadres-d-emplois",
-    content: "Accueil Fiches Secrétaire général de mairie Les secrétaires généraux de mairie (SEGEMA) Les secrétaires généraux de mairie SEGEMA Télécharger Imprimer Ajouter S'abonner I. La fonction de secrétaire général de mairie II. Formation III. Carrière En vue de favoriser la reconnaissance des agents exerçant le métier de secrétaire de mairie et des compétences qu'il requiert, et afin d’en améliorer l’attractivité, une réforme revalorisant ce métier est mise en œuvre par une loi 30 décembre 2023. Elle in...",
+    content: "Accueil Fiches Secrétaire général de mairie Les secrétaires généraux de mairie (SEGEMA) Les secrétaires généraux de mairie SEGEMA I. La fonction de secrétaire général de mairie II. Formation III. Carrière En vue de favoriser la reconnaissance des agents exerçant le métier de secrétaire de mairie et des compétences qu'il requiert, et afin d’en améliorer l’attractivité, une réforme revalorisant ce métier est mise en œuvre par une loi 30 décembre 2023. Elle in...",
     motsCles: ["sgm","cnfpt","dgcl","mairie","formation","carrière","dgs","fonction","casema","genfon","forobl","secrétaire","général","segema","secrétaires","généraux","iii","iaj","recrutement","promotion"]
   },
   {
@@ -973,7 +589,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:01.915429",
     source: "bip",
     type: "carriere",
-    content: "Accueil Fiches Agents contractuels Formation des agents contractuels Formation des agents contractuels (NTIFOR) Formation des agents contractuels NTIFOR Télécharger Imprimer Ajouter S'abonner I. PRINCIPE GENERAL II. LE COMPTE PERSONNEL DE FORMATION III. FORMATION PERSONNELLE IV. LE CONGE DE TRANSITION PROFESSIONNELLE V. LUTTE CONTRE L'ILLETTRISME ET APPRENTISSAGE DE LA LANGUE FRANCAISE Cette fiche présente les dispositions en vigueur en matière de formation des agents contractuels territoriaux,...",
+    content: "Accueil Fiches Agents contractuels Formation des agents contractuels Formation des agents contractuels (NTIFOR) Formation des agents contractuels NTIFOR I. PRINCIPE GENERAL II. LE COMPTE PERSONNEL DE FORMATION III. FORMATION PERSONNELLE IV. LE CONGE DE TRANSITION PROFESSIONNELLE V. LUTTE CONTRE L'ILLETTRISME ET APPRENTISSAGE DE LA LANGUE FRANCAISE Cette fiche présente les dispositions en vigueur en matière de formation des agents contractuels territoriaux,...",
     motsCles: ["formation","conge","principe","compte","lutte","contre","langue","forgen","general","personnel","personnelle","transition","professionnelle","apprentissage","ntifor","contractuels","cpf","vae","congé","congés"]
   },
   {
@@ -985,7 +601,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:08.959175",
     source: "bip",
     type: "carriere",
-    content: "Avancement de grade (AVAGRA) Tableau annuel d'avancement (TABAVA) Accueil Fiches Carrière Avancement Avancement d'échelon (AVAECH) Avancement d'échelon AVAECH Télécharger Imprimer Ajouter S'abonner I. DEFINITION ET PROCEDURE II. L'ANCIENNETE VALABLE POUR L'AVANCEMENT III. LES DIFFERENTES MODALITES D'AVANCEMENT I. DEFINITION ET PROCEDURE L'avancement d'échelon fait partie de la progression de carrière à laquelle a droit : - le fonctionnaire titulaire - le fonctionnaire stagiaire dans un cadre d'e...",
+    content: "Avancement de grade (AVAGRA) Tableau annuel d'avancement (TABAVA) Accueil Fiches Carrière Avancement Avancement d'échelon (AVAECH) Avancement d'échelon AVAECH I. DEFINITION ET PROCEDURE II. L'ANCIENNETE VALABLE POUR L'AVANCEMENT III. LES DIFFERENTES MODALITES D'AVANCEMENT I. DEFINITION ET PROCEDURE L'avancement d'échelon fait partie de la progression de carrière à laquelle a droit : - le fonctionnaire titulaire - le fonctionnaire stagiaire dans un cadre d'e...",
     motsCles: ["avancement","valable","avaech","congé","congés","traitement","carrière","syndicale","definition","procedure","l'anciennete","l'avancement","differentes","modalites","d'avancement","iii","dispon","d'échelon","longue maladie","longue durée"]
   },
   {
@@ -997,7 +613,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:14.126101",
     source: "bip",
     type: "carriere",
-    content: "Avancement d'échelon (AVAECH) Accueil Fiches Carrière Avancement Avancement de grade (AVAGRA) Avancement de grade AVAGRA Télécharger Imprimer Ajouter S'abonner I. PRINCIPE II. FONCTIONNAIRES CONCERNES III. CONDITIONS IV. FIXATION DU TAUX DE PROMOTION V. ELABORATION DES LIGNES DIRECTRICES DE GESTION VI. MODALITES DE L'AVANCEMENT VI. NOMINATION VII. CAS PARTICULIER DES REPRESENTANTS SYNDICAUX Pour aller plus loin : la revue des Informations administratives et juridiques (IAJ) a consacré un dossier...",
+    content: "Avancement d'échelon (AVAECH) Accueil Fiches Carrière Avancement Avancement de grade (AVAGRA) Avancement de grade AVAGRA I. PRINCIPE II. FONCTIONNAIRES CONCERNES III. CONDITIONS IV. FIXATION DU TAUX DE PROMOTION V. ELABORATION DES LIGNES DIRECTRICES DE GESTION VI. MODALITES DE L'AVANCEMENT VI. NOMINATION VII. CAS PARTICULIER DES REPRESENTANTS SYNDICAUX Pour aller plus loin : la revue des Informations administratives et juridiques (IAJ) a consacré un dossier...",
     motsCles: ["ldg","graf","principe","taux","lignes","gestion","tabava","promotion","avancement","lidige","fixation","conditions","directrices","nomination","particulier","syndicaux","avagra","grade","caa","congé"]
   },
   {
@@ -1009,7 +625,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:20.535687",
     source: "bip",
     type: "carriere",
-    content: "Avancement d'échelon (AVAECH) Accueil Fiches Carrière Avancement Tableau annuel d'avancement (TABAVA) Tableau annuel d'avancement TABAVA Télécharger Imprimer Ajouter S'abonner I. PRINCIPES GENERAUX III. ETABLISSEMENT DU TABLEAU IV. PORTEE JURIDIQUE DU TABLEAU V. RECOURS Les décisions d'avancement de grade concernent les seuls fonctionnaires inscrits à un tableau annuel d'avancement qui est établi par l'autorité territoriale (art. L. 522-28 code général de la fonction publique). Pour plus de déta...",
+    content: "Avancement d'échelon (AVAECH) Accueil Fiches Carrière Avancement Tableau annuel d'avancement (TABAVA) Tableau annuel d'avancement TABAVA I. PRINCIPES GENERAUX III. ETABLISSEMENT DU TABLEAU IV. PORTEE JURIDIQUE DU TABLEAU V. RECOURS Les décisions d'avancement de grade concernent les seuls fonctionnaires inscrits à un tableau annuel d'avancement qui est établi par l'autorité territoriale (art. L. 522-28 code général de la fonction publique). Pour plus de déta...",
     motsCles: ["tableau","recours","caa","generaux","portee","ldg","principes","tabava","annuel","carrière","promotion","avancement","etablissement","juridique","iii","avagra","lidige","d'avancement","absence","absences"]
   },
   {
@@ -1021,7 +637,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:25.813093",
     source: "bip",
     type: "carriere",
-    content: "Accueil Fiches Carrière Entretien professionnel L’entretien professionnel des fonctionnaires (ENTPRO) L’entretien professionnel des fonctionnaires ENTPRO Télécharger Imprimer Ajouter S'abonner I. GENERALITES II. PROCEDURE III. REVISION ET RECOURS IV. CAS PARTICULIER : LES FONCTIONNAIRES EXERCANT UNE ACTIVITE SYNDICALE Cette fiche concerne exclusivement les fonctionnaires ; concernant l'entretien professionnel des agents contractuels, prévu par le décret n°88-145 du 15 février 1988, -voir NTIENT....",
+    content: "Accueil Fiches Carrière Entretien professionnel L’entretien professionnel des fonctionnaires (ENTPRO) L’entretien professionnel des fonctionnaires ENTPRO I. GENERALITES II. PROCEDURE III. REVISION ET RECOURS IV. CAS PARTICULIER : LES FONCTIONNAIRES EXERCANT UNE ACTIVITE SYNDICALE Cette fiche concerne exclusivement les fonctionnaires ; concernant l'entretien professionnel des agents contractuels, prévu par le décret n°88-145 du 15 février 1988, -voir NTIENT....",
     motsCles: ["caa","cap","recours","syndicale","revision","exercant","activite","particulier","entpro","l’entretien","professionnel","congé","maladie","carrière","promotion","formation","generalites","procedure","iii","iaj"]
   },
   {
@@ -1033,7 +649,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:31.024932",
     source: "bip",
     type: "carriere",
-    content: "Accueil Fiches Carrière Médaille d'honneur Médaille d'honneur régionale, départementale et communale (MEDHON) Médaille d'honneur régionale, départementale et communale MEDHON Télécharger Imprimer Ajouter S'abonner I. OBJET II. BENEFICIAIRES III. CONDITIONS D'ATTRIBUTION IV. PROCEDURE V. CUMUL VI. PERTE ET RETRAIT DE LA MEDAILLE I. OBJET La médaille d'honneur régionale, départementale et communale a été créée par le décret n°87-594 du 22 juillet 1987, en substitution de la distinction de même nat...",
+    content: "Accueil Fiches Carrière Médaille d'honneur Médaille d'honneur régionale, départementale et communale (MEDHON) Médaille d'honneur régionale, départementale et communale MEDHON I. OBJET II. BENEFICIAIRES III. CONDITIONS D'ATTRIBUTION IV. PROCEDURE V. CUMUL VI. PERTE ET RETRAIT DE LA MEDAILLE I. OBJET La médaille d'honneur régionale, départementale et communale a été créée par le décret n°87-594 du 22 juillet 1987, en substitution de la distinction de même nat...",
     motsCles: ["objet","perte","retrait","medaille","cumul","conditions","medhon","médaille","départementale","communale","congés","sanction","formation","beneficiaires","d'attribution","procedure","iii","d'honneur","régionale,","congé"]
   },
   {
@@ -1045,7 +661,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:38.202328",
     source: "bip",
     type: "carriere",
-    content: "La mutation d'une collectivité à une autre (MUTATI) Mobilité : généralités (MOBGEN) Accueil Fiches Carrière Mutation et mobilité Le changement d'emploi à l'intérieur de la même collectivité (CHANEM) Le changement d'emploi à l'intérieur de la même collectivité CHANEM Télécharger Imprimer Ajouter S'abonner I. PRINCIPES II. PROCEDURE III. LES MOTIFS IV. LA MUTATION ABUSIVE V. LES CONSEQUENCES DU CHANGEMENT D'AFFECTATION I. PRINCIPES A) Pouvoir de l'autorité territoriale L'autorité territoriale proc...",
+    content: "La mutation d'une collectivité à une autre (MUTATI) Mobilité : généralités (MOBGEN) Accueil Fiches Carrière Mutation et mobilité Le changement d'emploi à l'intérieur de la même collectivité (CHANEM) Le changement d'emploi à l'intérieur de la même collectivité CHANEM I. PRINCIPES II. PROCEDURE III. LES MOTIFS IV. LA MUTATION ABUSIVE V. LES CONSEQUENCES DU CHANGEMENT D'AFFECTATION I. PRINCIPES A) Pouvoir de l'autorité territoriale L'autorité territoriale proc...",
     motsCles: ["caa","mutation","motifs","changement","abusive","chanem","même","rémunération","disciplinaire","sanction","carrière","mutations","responsabilité","faute","principes","procedure","consequences","d'affectation","iii","nbi"]
   },
   {
@@ -1057,7 +673,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:44.057582",
     source: "bip",
     type: "carriere",
-    content: "Le changement d'emploi à l'intérieur de la même collectivité (CHANEM) Accueil Fiches Carrière Mutation et mobilité Mobilité : généralités (MOBGEN) Mobilité : généralités MOBGEN Télécharger Imprimer Ajouter S'abonner I. MOBILITE : GENERALITES II. DETACHEMENT III. INTEGRATION DIRECTE IV. CONCOURS INTERNE V. MISE A DISPOSITION VI. TOUR EXTERIEUR Pour aller plus loin : la revue des Informations administratives et juridiques (IAJ) a consacré un dossier à la mobilité (numéro de septembre 2025). I. MOB...",
+    content: "Le changement d'emploi à l'intérieur de la même collectivité (CHANEM) Accueil Fiches Carrière Mutation et mobilité Mobilité : généralités (MOBGEN) Mobilité : généralités MOBGEN I. MOBILITE : GENERALITES II. DETACHEMENT III. INTEGRATION DIRECTE IV. CONCOURS INTERNE V. MISE A DISPOSITION VI. TOUR EXTERIEUR Pour aller plus loin : la revue des Informations administratives et juridiques (IAJ) a consacré un dossier à la mobilité (numéro de septembre 2025). I. MOB...",
     motsCles: ["concours","mobilite","directe","interne","mise","tour","disposition","mobgen","mobilité","généralités","recrutement","candidats","carrière","formation","generalites","detachement","integration","exterieur","iii","detach"]
   },
   {
@@ -1069,7 +685,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:50.127950",
     source: "bip",
     type: "carriere",
-    content: "Le changement d'emploi à l'intérieur de la même collectivité (CHANEM) Accueil Fiches Carrière Mutation et mobilité La mutation d'une collectivité à une autre (MUTATI) La mutation d'une collectivité à une autre MUTATI Télécharger Imprimer Ajouter S'abonner I. DEFINITION II. LA PROCEDURE DE MUTATION III. LES CONDITIONS DE LA MUTATION IV. DELAI ENTRE TITULARISATION ET MUTATION I. DEFINITION Les art. L. 512-24 code général de la fonction publique et suivants traitent des modalités de mutation des fo...",
+    content: "Le changement d'emploi à l'intérieur de la même collectivité (CHANEM) Accueil Fiches Carrière Mutation et mobilité La mutation d'une collectivité à une autre (MUTATI) La mutation d'une collectivité à une autre MUTATI I. DEFINITION II. LA PROCEDURE DE MUTATION III. LES CONDITIONS DE LA MUTATION IV. DELAI ENTRE TITULARISATION ET MUTATION I. DEFINITION Les art. L. 512-24 code général de la fonction publique et suivants traitent des modalités de mutation des fo...",
     motsCles: ["mutation","caa","entre","delai","conditions","titularisation","mutati","autre","recrutement","obligation","definition","procedure","chanem","iii","d'une","absence","rémunération","traitement","indemnité","prime"]
   },
   {
@@ -1081,7 +697,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:00:55.964175",
     source: "bip",
     type: "carriere",
-    content: "Promotion interne (PROINT) Accueil Fiches Carrière Promotion interne Liste d'aptitude au titre de la promotion interne (LISAPT) Liste d'aptitude au titre de la promotion interne LISAPT Télécharger Imprimer Ajouter S'abonner I. PRINCIPE II. MODALITES III. AUTORITE COMPETENTE IV. INSCRIPTIONS ET REINSCRIPTIONS V. PORTEE JURIDIQUE VI. RECOURS I. PRINCIPE L'accès d'un fonctionnaire territorial à un cadre d'emplois par la voie de la promotion interne (-voir PROINT) est subordonné à son inscription su...",
+    content: "Promotion interne (PROINT) Accueil Fiches Carrière Promotion interne Liste d'aptitude au titre de la promotion interne (LISAPT) Liste d'aptitude au titre de la promotion interne LISAPT I. PRINCIPE II. MODALITES III. AUTORITE COMPETENTE IV. INSCRIPTIONS ET REINSCRIPTIONS V. PORTEE JURIDIQUE VI. RECOURS I. PRINCIPE L'accès d'un fonctionnaire territorial à un cadre d'emplois par la voie de la promotion interne (-voir PROINT) est subordonné à son inscription su...",
     motsCles: ["principe","recours","cnfpt","promotion","proint","autorite","portee","lisapt","liste","interne","ldg","congé","modalites","competente","inscriptions","reinscriptions","juridique","iii","d'aptitude","longue durée"]
   },
   {
@@ -1093,20 +709,8 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:01.515423",
     source: "bip",
     type: "carriere",
-    content: "Liste d'aptitude au titre de la promotion interne (LISAPT) Accueil Fiches Carrière Promotion interne Promotion interne (PROINT) Promotion interne PROINT Télécharger Imprimer Ajouter S'abonner I. PRINCIPE II. MODALITES III. FONCTIONNAIRES CONCERNES IV. CONDITIONS V. QUOTA VI. NOMINATION, TITULARISATION Cette fiche présente les principes généraux relatifs à la promotion interne ; elle est complétée par la fiche LISAPT, qui porte plus spécifiquement sur la liste d’aptitude. I. PRINCIPE Les fonction...",
+    content: "Liste d'aptitude au titre de la promotion interne (LISAPT) Accueil Fiches Carrière Promotion interne Promotion interne (PROINT) Promotion interne PROINT I. PRINCIPE II. MODALITES III. FONCTIONNAIRES CONCERNES IV. CONDITIONS V. QUOTA VI. NOMINATION, TITULARISATION Cette fiche présente les principes généraux relatifs à la promotion interne ; elle est complétée par la fiche LISAPT, qui porte plus spécifiquement sur la liste d’aptitude. I. PRINCIPE Les fonction...",
     motsCles: ["lisapt","principe","quota","promotion","conditions","nomination","titularisation","proint","interne","recrutement","recrutements","candidat","concours","formation","syndicale","modalites","concernes","iii","ldg","rémunération"]
-  },
-  {
-    code: "ppcr",
-    title: "Oops! An Error Occurred",
-    url: "https://bip.cig929394.fr/fiches/carriere/protocole-d-accord-relatif-a-la-modernisation-des-parcours-professionnels-ppcr/ppcr",
-    localPath: "/bip/output/bip_fiches_rag_carriere_20260227_140229/carriere_protocole-d-accord-relatif-a-la-modernisation-des-parcours-professionnels-ppcr_ppcr.md",
-    section: "carriere",
-    timestamp: "2026-02-27T14:01:06.220862",
-    source: "bip",
-    type: "carriere",
-    content: "No content available",
-    motsCles: ["error","occurred","oops!","carriere","url"]
   },
   {
     code: "sereff",
@@ -1117,7 +721,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:11.327101",
     source: "bip",
     type: "carriere",
-    content: "Accueil Fiches Carrière Services effectifs Notion de services effectifs (SEREFF) Notion de services effectifs SEREFF Télécharger Imprimer Ajouter S'abonner I. DEFINITION II. SERVICES EFFECTIFS DANS UN GRADE, UN CADRE D'EMPLOIS OU UN EMPLOI III. ANCIENNETE DE SERVICES PUBLICS EFFECTIFS Cette fiche doit faire l'objet d'une refonte afin d'être actualisée et enrichie. I. DEFINITION * Principe En l'absence de définition générale de la notion de service effectif, peuvent être considérées comme des ser...",
+    content: "Accueil Fiches Carrière Services effectifs Notion de services effectifs (SEREFF) Notion de services effectifs SEREFF I. DEFINITION II. SERVICES EFFECTIFS DANS UN GRADE, UN CADRE D'EMPLOIS OU UN EMPLOI III. ANCIENNETE DE SERVICES PUBLICS EFFECTIFS Cette fiche doit faire l'objet d'une refonte afin d'être actualisée et enrichie. I. DEFINITION * Principe En l'absence de définition générale de la notion de service effectif, peuvent être considérées comme des ser...",
     motsCles: ["effectifs","grade","cadre","publics","sereff","notion","congé","promotion","contrat","definition","d'emplois","anciennete","iii","dispon","detach","congés","absence","rémunération","prime","maladie"]
   },
   {
@@ -1129,7 +733,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:16.586086",
     source: "bip",
     type: "carriere",
-    content: "Fin du stage (FINSTA) Titularisation : généralités (TITGEN) Accueil Fiches Carrière Stage et titularisation Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Cas de radiation des stagiaires à l'initiative de la collectivité CARAST Télécharger Imprimer Ajouter S'abonner I. Licenciement pour insuffisance professionnelle II. Licenciement pour faute disciplinaire III. Radiation pour perte des droits civiques ou mention incompatible IV. Licenciement pour suppression d'emploi...",
+    content: "Fin du stage (FINSTA) Titularisation : généralités (TITGEN) Accueil Fiches Carrière Stage et titularisation Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Cas de radiation des stagiaires à l'initiative de la collectivité CARAST I. Licenciement pour insuffisance professionnelle II. Licenciement pour faute disciplinaire III. Radiation pour perte des droits civiques ou mention incompatible IV. Licenciement pour suppression d'emploi...",
     motsCles: ["caa","licenciement","radiation","faute","disciplinaire","inaptitude","droits","civiques","physique","poste","cap","insuffisance","professionnelle","suppression","carast","stagiaires","perte","mention","abandon","formation"]
   },
   {
@@ -1141,7 +745,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:21.789257",
     source: "bip",
     type: "carriere",
-    content: "Rémunération des stagiaires (REMSTA) Protection sociale des stagiaires (PROSTA) Accueil Fiches Carrière Stage et titularisation Les congés des fonctionnaires stagiaires (CONSTA) Les congés des fonctionnaires stagiaires CONSTA Télécharger Imprimer Ajouter S'abonner I. Les congés avec traitement II. Les congés sans traitement III. Les effets des congés sur la date de fin de stage IV. La prise en compte des congés pour le classement, l'avancement et la retraite Pour connaître les généralités sur le...",
+    content: "Rémunération des stagiaires (REMSTA) Protection sociale des stagiaires (PROSTA) Accueil Fiches Carrière Stage et titularisation Les congés des fonctionnaires stagiaires (CONSTA) Les congés des fonctionnaires stagiaires CONSTA I. Les congés avec traitement II. Les congés sans traitement III. Les effets des congés sur la date de fin de stage IV. La prise en compte des congés pour le classement, l'avancement et la retraite Pour connaître les généralités sur le...",
     motsCles: ["congés","traitement","sans","stage","prise","compte","retraite","prosta","pacs","cong","classement","consta","stagiaires","effets","fin","congé","rémunération","maladie","santé","médical"]
   },
   {
@@ -1153,7 +757,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:26.941138",
     source: "bip",
     type: "carriere",
-    content: "Protection sociale des stagiaires (PROSTA) Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Accueil Fiches Carrière Stage et titularisation Fin du stage (FINSTA) Fin du stage FINSTA Télécharger Imprimer Ajouter S'abonner I. Titularisation II. Prolongation du stage à l'initiative de l'autorité territoriale III. Radiation à l'initiative de l'autorité territoriale et ses effets IV. Démission du stagiaire V. Décès du stagiaire La présente fiche traite des principes généraux...",
+    content: "Protection sociale des stagiaires (PROSTA) Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Accueil Fiches Carrière Stage et titularisation Fin du stage (FINSTA) Fin du stage FINSTA I. Titularisation II. Prolongation du stage à l'initiative de l'autorité territoriale III. Radiation à l'initiative de l'autorité territoriale et ses effets IV. Démission du stagiaire V. Décès du stagiaire La présente fiche traite des principes généraux...",
     motsCles: ["stage","territoriale","stagiaire","effets","carast","l'initiative","l'autorité","caa","titularisation","prolongation","radiation","démission","décès","finsta","iii","disciplinaire","licenciement","concours","faute","prosta"]
   },
   {
@@ -1165,7 +769,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:32.244126",
     source: "bip",
     type: "carriere",
-    content: "Les congés des fonctionnaires stagiaires (CONSTA) Fin du stage (FINSTA) Accueil Fiches Carrière Stage et titularisation Protection sociale des stagiaires (PROSTA) Protection sociale des stagiaires PROSTA Télécharger Imprimer Ajouter S'abonner I. Régime de sécurité sociale II. Régime de retraite Les stagiaires bénéficient d'un régime de sécurité sociale spécial prévu par le décr. n°77-812 du 13 juil. 1977. Ils ne dépendent donc pas du régime général de sécurité sociale, sous réserve des règles re...",
+    content: "Les congés des fonctionnaires stagiaires (CONSTA) Fin du stage (FINSTA) Accueil Fiches Carrière Stage et titularisation Protection sociale des stagiaires (PROSTA) Protection sociale des stagiaires PROSTA I. Régime de sécurité sociale II. Régime de retraite Les stagiaires bénéficient d'un régime de sécurité sociale spécial prévu par le décr. n°77-812 du 13 juil. 1977. Ils ne dépendent donc pas du régime général de sécurité sociale, sous réserve des règles re...",
     motsCles: ["cnracl","sociale","régime","retraite","finsta","sécurité","prosta","protection","stagiaires","fpt","congé","congés","traitement","maladie","consta","gime","sonoco","dgafp","pcmr","longue maladie"]
   },
   {
@@ -1177,7 +781,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:37.344990",
     source: "bip",
     type: "carriere",
-    content: "Stagiaires (STAGIA) Accueil Fiches Carrière Stage et titularisation Stage : généralités (STAGEN) Stage : généralités STAGEN Télécharger Imprimer Ajouter S'abonner I. Nomination au stage II. Classement III. Durée du stage et prolongation IV. Dispense de stage Cette fiche présente les dispositions applicables en matière de stage, période probatoire au cours de laquelle l'aptitude à l'exercice des fonctions est vérifiée, avant une éventuelle titularisation. Le stage est prévu dans les statuts parti...",
+    content: "Stagiaires (STAGIA) Accueil Fiches Carrière Stage et titularisation Stage : généralités (STAGEN) Stage : généralités STAGEN I. Nomination au stage II. Classement III. Durée du stage et prolongation IV. Dispense de stage Cette fiche présente les dispositions applicables en matière de stage, période probatoire au cours de laquelle l'aptitude à l'exercice des fonctions est vérifiée, avant une éventuelle titularisation. Le stage est prévu dans les statuts parti...",
     motsCles: ["stage","caa","nes","remsta","dispense","stagia","iii","nomination","classement","prolongation","stagen","généralités","congé","congés","rémunération","santé","recrutement","candidats","concours","promotion"]
   },
   {
@@ -1189,7 +793,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:42.469351",
     source: "bip",
     type: "carriere",
-    content: "Stage : généralités (STAGEN) Rémunération des stagiaires (REMSTA) Accueil Fiches Carrière Stage et titularisation Stagiaires (STAGIA) Stagiaires STAGIA Télécharger Imprimer Ajouter S'abonner I. Qu'est-ce qu'un fonctionnaire stagiaire ? II. Particularités de cette situation III. Formation IV. Discipline I. QU'EST-CE QU'UN FONCTIONNAIRE STAGIAIRE ? Est fonctionnaire territorial stagiaire, la personne qui (art. R. 327-1 code général de la fonction publique) : - est nommée dans un emploi permanent -...",
+    content: "Stage : généralités (STAGEN) Rémunération des stagiaires (REMSTA) Accueil Fiches Carrière Stage et titularisation Stagiaires (STAGIA) Stagiaires STAGIA I. Qu'est-ce qu'un fonctionnaire stagiaire ? II. Particularités de cette situation III. Formation IV. Discipline I. QU'EST-CE QU'UN FONCTIONNAIRE STAGIAIRE ? Est fonctionnaire territorial stagiaire, la personne qui (art. R. 327-1 code général de la fonction publique) : - est nommée dans un emploi permanent -...",
     motsCles: ["formation","discipline","stagiaire","situation","stagia","stagiaires","disciplinaire","sanction","sanctions","obligation","qu'est","qu'un","particularités","stagen","iii","carast","cnfpt","caa","prodis","congé"]
   },
   {
@@ -1201,7 +805,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:47.661002",
     source: "bip",
     type: "carriere",
-    content: "Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Accueil Fiches Carrière Stage et titularisation Titularisation : généralités (TITGEN) Titularisation : généralités TITGEN Télécharger Imprimer Ajouter S'abonner I. DEFINITION II. MODALITES III. REFUS DE TITULARISATION IV. CAS PARTICULIER DES AGENTS CONTRACTUELS V. EXCLUSIONS VI. DELAI ENTRE TITULARISATION ET MUTATION I. DEFINITION La titularisation est la décision qui confère à un agent la qualité de fonctionnaire, après...",
+    content: "Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Accueil Fiches Carrière Stage et titularisation Titularisation : généralités (TITGEN) Titularisation : généralités TITGEN I. DEFINITION II. MODALITES III. REFUS DE TITULARISATION IV. CAS PARTICULIER DES AGENTS CONTRACTUELS V. EXCLUSIONS VI. DELAI ENTRE TITULARISATION ET MUTATION I. DEFINITION La titularisation est la décision qui confère à un agent la qualité de fonctionnaire, après...",
     motsCles: ["titularisation","mutation","refus","delai","entre","particulier","contractuels","titgen","généralités","recrutement","concours","formation","definition","modalites","exclusions","iii","titarr","stagen","fpt","absence"]
   },
   {
@@ -1213,7 +817,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:52.812753",
     source: "bip",
     type: "carriere",
-    content: "Formation : généralités (FORGEN) Formation obligatoire des fonctionnaires (FOROBL) Accueil Fiches Droits et obligations Droits et garanties Formation Le compte personnel d’activité (CPF et CEC) (CPACPF) Le compte personnel d’activité (CPF et CEC) CPACPF Télécharger Imprimer Ajouter S'abonner I. Le compte personnel d'activité (CPA) : principes généraux II. Le compte personnel de formation (CPF) III. Le compte d'engagement citoyen (CEC) I. LE COMPTE PERSONNEL D'ACTIVITÉ (CPA) : PRINCIPES GÉNÉRAUX...",
+    content: "Formation : généralités (FORGEN) Formation obligatoire des fonctionnaires (FOROBL) Accueil Fiches Droits et obligations Droits et garanties Formation Le compte personnel d’activité (CPF et CEC) (CPACPF) Le compte personnel d’activité (CPF et CEC) CPACPF I. Le compte personnel d'activité (CPA) : principes généraux II. Le compte personnel de formation (CPF) III. Le compte d'engagement citoyen (CEC) I. LE COMPTE PERSONNEL D'ACTIVITÉ (CPA) : PRINCIPES GÉNÉRAUX...",
     motsCles: ["cpf","cec","cpa","compte","personnel","formation","citoyen","forgen","cpacpf","d’activité","iii","congé","congés","santé","concours","formations","contrat","minimale","caisse","d'activité"]
   },
   {
@@ -1225,7 +829,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:01:57.950042",
     source: "bip",
     type: "carriere",
-    content: "Formation obligatoire des fonctionnaires (FOROBL) Formation des agents contractuels (NTIFOR) Accueil Fiches Droits et obligations Droits et garanties Formation Formation facultative des fonctionnaires (FORFAC) Formation facultative des fonctionnaires FORFAC Télécharger Imprimer Ajouter S'abonner I. PRINCIPES GENERAUX II. LE COMPTE PERSONNEL DE FORMATION III. FORMATION PERSONNELLE IV. LE CONGE DE TRANSITION PROFESSIONNELLE V. LUTTE CONTRE L'ILLETTRISME ET APPRENTISSAGE DE LA LANGUE FRANCAISE Cett...",
+    content: "Formation obligatoire des fonctionnaires (FOROBL) Formation des agents contractuels (NTIFOR) Accueil Fiches Droits et obligations Droits et garanties Formation Formation facultative des fonctionnaires (FORFAC) Formation facultative des fonctionnaires FORFAC I. PRINCIPES GENERAUX II. LE COMPTE PERSONNEL DE FORMATION III. FORMATION PERSONNELLE IV. LE CONGE DE TRANSITION PROFESSIONNELLE V. LUTTE CONTRE L'ILLETTRISME ET APPRENTISSAGE DE LA LANGUE FRANCAISE Cett...",
     motsCles: ["formation","conge","compte","lutte","contre","langue","cnfpt","generaux","principes","personnel","personnelle","transition","professionnelle","apprentissage","forfac","facultative","iii","vae","congé","congés"]
   },
   {
@@ -1237,7 +841,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:02:03.593989",
     source: "bip",
     type: "carriere",
-    content: "Le compte personnel d’activité (CPF et CEC) (CPACPF) Accueil Fiches Droits et obligations Droits et garanties Formation Formation : généralités (FORGEN) Formation : généralités FORGEN Télécharger Imprimer Ajouter S'abonner I. PRINCIPES GENERAUX II. FORMATION OBLIGATOIRE III. FORMATION NON OBLIGATOIRE IV. FORMATION RENFORCEE POUR CERTAINS AGENTS PUBLICS V. ACCOMPAGNEMENT DANS LES PROJETS D'EVOLUTION PROFESSIONNELLE Cette fiche présente les conditions générales de formation des agents territoriaux...",
+    content: "Le compte personnel d’activité (CPF et CEC) (CPACPF) Accueil Fiches Droits et obligations Droits et garanties Formation Formation : généralités (FORGEN) Formation : généralités FORGEN I. PRINCIPES GENERAUX II. FORMATION OBLIGATOIRE III. FORMATION NON OBLIGATOIRE IV. FORMATION RENFORCEE POUR CERTAINS AGENTS PUBLICS V. ACCOMPAGNEMENT DANS LES PROJETS D'EVOLUTION PROFESSIONNELLE Cette fiche présente les conditions générales de formation des agents territoriaux...",
     motsCles: ["formation","cnfpt","cpacpf","forfac","obligatoire","certains","publics","projets","generaux","non","fpt","principes","accompagnement","professionnelle","forgen","généralités","iii","vae","congé","congés"]
   },
   {
@@ -1249,7 +853,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:02:08.679599",
     source: "bip",
     type: "carriere",
-    content: "Le compte personnel d’activité (CPF et CEC) (CPACPF) Formation facultative des fonctionnaires (FORFAC) Accueil Fiches Droits et obligations Droits et garanties Formation Formation obligatoire des fonctionnaires (FOROBL) Formation obligatoire des fonctionnaires FOROBL Télécharger Imprimer Ajouter S'abonner I. PRINCIPES GENERAUX II. FORMATION D'INTEGRATION III. FORMATION DE PROFESSIONNALISATION IV. DISPENSES V. OBLIGATIONS LIEES AU SUIVI DE LA FORMATION Cette fiche présente le cadre général de la...",
+    content: "Le compte personnel d’activité (CPF et CEC) (CPACPF) Formation facultative des fonctionnaires (FORFAC) Accueil Fiches Droits et obligations Droits et garanties Formation Formation obligatoire des fonctionnaires (FOROBL) Formation obligatoire des fonctionnaires FOROBL I. PRINCIPES GENERAUX II. FORMATION D'INTEGRATION III. FORMATION DE PROFESSIONNALISATION IV. DISPENSES V. OBLIGATIONS LIEES AU SUIVI DE LA FORMATION Cette fiche présente le cadre général de la...",
     motsCles: ["cnfpt","formation","suivi","generaux","liees","principes","professionnalisation","dispenses","obligations","forobl","obligatoire","fpt","concours","carrière","promotion","formations","responsabilité","d'integration","forfac","iii"]
   },
   {
@@ -1261,7 +865,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:02:13.804795",
     source: "bip",
     type: "carriere",
-    content: "Le rapport social unique et la base de données sociales (RSUBDS) Accueil Fiches Organisation et organes de la FPT Les lignes directrices de gestion Les lignes directrices de gestion (LIDIGE) Les lignes directrices de gestion LIDIGE Télécharger Imprimer Ajouter S'abonner I. DEFINITION DES LIGNES DIRECTRICES DE GESTION II. ELABORATION DES LIGNES DIRECTRICES DE GESTION III. OPPOSABILITE DES LIGNES DIRECTRICES DE GESTION Les lignes directrices de gestion sont un instrument juridique de gestion des r...",
+    content: "Le rapport social unique et la base de données sociales (RSUBDS) Accueil Fiches Organisation et organes de la FPT Les lignes directrices de gestion Les lignes directrices de gestion (LIDIGE) Les lignes directrices de gestion LIDIGE I. DEFINITION DES LIGNES DIRECTRICES DE GESTION II. ELABORATION DES LIGNES DIRECTRICES DE GESTION III. OPPOSABILITE DES LIGNES DIRECTRICES DE GESTION Les lignes directrices de gestion sont un instrument juridique de gestion des r...",
     motsCles: ["ldg","lignes","gestion","directrices","rsubds","lidige","iii","promotion","comité","comités","definition","elaboration","opposabilite","cst","congé","congés","prime","arrêt","recrutement","candidat"]
   },
   {
@@ -1273,7 +877,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:02:19.528525",
     source: "bip",
     type: "carriere",
-    content: "L'obligation d'emploi des travailleurs en situation de handicap (OBLEMP) Promotion par voie de détachement des agents en situation de handicap (expérimentation) (PROHAN) Accueil Fiches Personnes en situation de handicap Accompagnement des agents en situation de handicap (ACCHAN) Accompagnement des agents en situation de handicap ACCHAN Télécharger Imprimer Ajouter S'abonner I. ACCOMPAGNEMENT DANS L’EMPLOI ET FORMATION II. REFERENT HANDICAP III. PORTABILITE DES EQUIPEMENTS Cette fiche présente le...",
+    content: "L'obligation d'emploi des travailleurs en situation de handicap (OBLEMP) Promotion par voie de détachement des agents en situation de handicap (expérimentation) (PROHAN) Accueil Fiches Personnes en situation de handicap Accompagnement des agents en situation de handicap (ACCHAN) Accompagnement des agents en situation de handicap ACCHAN I. ACCOMPAGNEMENT DANS L’EMPLOI ET FORMATION II. REFERENT HANDICAP III. PORTABILITE DES EQUIPEMENTS Cette fiche présente le...",
     motsCles: ["handicap","accompagnement","formation","referent","l’emploi","acchan","situation","congé","portabilite","equipements","oblemp","iii","rémunération","traitement","prime","santé","licenciement","carrière","promotion","syndical"]
   },
   {
@@ -1285,7 +889,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:02:24.557484",
     source: "bip",
     type: "carriere",
-    content: "Accompagnement des agents en situation de handicap (ACCHAN) Accueil Fiches Personnes en situation de handicap Promotion par voie de détachement des agents en situation de handicap (expérimentation) (PROHAN) Promotion par voie de détachement des agents en situation de handicap (expérimentation) PROHAN Télécharger Imprimer Ajouter S'abonner I. Présentation du dispositif II. Bénéficiaires III. Procédure à suivre IV. Déroulement de la période de détachement V. Situation de l’agent à l’issue du détac...",
+    content: "Accompagnement des agents en situation de handicap (ACCHAN) Accueil Fiches Personnes en situation de handicap Promotion par voie de détachement des agents en situation de handicap (expérimentation) (PROHAN) Promotion par voie de détachement des agents en situation de handicap (expérimentation) PROHAN I. Présentation du dispositif II. Bénéficiaires III. Procédure à suivre IV. Déroulement de la période de détachement V. Situation de l’agent à l’issue du détac...",
     motsCles: ["détachement","présentation","situation","promotion","handicap","suivre","bilan","dispositif","bénéficiaires","déroulement","l’agent","l’issue","l’expérimentation","prohan","voie","expérimentation","candidat","candidats","concours","formation"]
   },
   {
@@ -1297,7 +901,7 @@ export const bipIndex: BipFicheIndex[] = [
     timestamp: "2026-02-27T14:02:29.627492",
     source: "bip",
     type: "carriere",
-    content: "Agents contractuels : rémunération (NTIREM) Fonctionnaires occupant un emploi à temps non complet : rémunération (RENOCO) Accueil Fiches Rémunération, autres avantages financiers, cotisations Rémunération : catégories particulières d'agents Rémunération des stagiaires (REMSTA) Rémunération des stagiaires REMSTA Télécharger Imprimer Ajouter S'abonner I. CADRES D'EMPLOIS DE CATEGORIE A II. CADRES D'EMPLOIS DE CATEGORIE B III. CADRES D'EMPLOIS DE CATEGORIE C IV. ELEMENTS OBLIGATOIRES ACCESSOIRES AU...",
+    content: "Agents contractuels : rémunération (NTIREM) Fonctionnaires occupant un emploi à temps non complet : rémunération (RENOCO) Accueil Fiches Rémunération, autres avantages financiers, cotisations Rémunération : catégories particulières d'agents Rémunération des stagiaires (REMSTA) Rémunération des stagiaires REMSTA I. CADRES D'EMPLOIS DE CATEGORIE A II. CADRES D'EMPLOIS DE CATEGORIE B III. CADRES D'EMPLOIS DE CATEGORIE C IV. ELEMENTS OBLIGATOIRES ACCESSOIRES AU...",
     motsCles: ["cadres","elements","categorie","traitement","d'emplois","accessoires","frais","rémunération","remsta","stagiaires","obligatoires","facultatifs","deplacement","iii","traite","indemnité","prime","primes","concours","fiches"]
   },
   {

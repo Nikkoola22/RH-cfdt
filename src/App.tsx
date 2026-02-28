@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale, FileText, Building2, Database } from "lucide-react"
+import React, { useState, useRef, useEffect, Suspense } from "react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale, FileText, Building2 } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { chapitres } from "./data/temps.ts"
@@ -7,48 +7,18 @@ import { formation } from "./data/formation.ts"
 import { teletravailData } from "./data/teletravail.ts"
 import { sommaireUnifie } from "./data/sommaireUnifie.ts"
 import { infoItems } from "./data/info-data.ts"
-import { searchFichesByKeywords, getAllFiches } from "./utils/ficheSearch.ts"
-import {  } from "./data/rifseep-data.ts"
+import { searchFichesByKeywordsAsync } from "./utils/ficheSearch.ts"
 import { franceInfoRss } from "./data/rss-data.ts"
-import AdminPanel from "./components/AdminPanel.tsx"
-import AdminLogin from "./components/AdminLogin.tsx"
-
-// --- HELPER TYPES AND FUNCTIONS ---
-const ficheLocalPathByCode = new Map(
-  getAllFiches().map((entry: any) => [String(entry.code || ''), String(entry.localPath || '')])
-)
-
-function extractCodeFromUrl(url: string): string {
-  if (!url) return ''
-  const parts = url.split('/').filter(Boolean)
-  return parts[parts.length - 1] || ''
-}
-
-function normalizeFiche(fiche: any) {
-  const directCode = String(fiche.code || '')
-  const codeFromUrl = extractCodeFromUrl(String(fiche.url || ''))
-  const resolvedLocalPath =
-    fiche.localPath ||
-    ficheLocalPathByCode.get(directCode) ||
-    ficheLocalPathByCode.get(codeFromUrl) ||
-    ''
-
-  return {
-    code: fiche.code || 'unknown',
-    titre: fiche.titre || fiche.title || '',
-    categorie: fiche.categorie || fiche.section || '',
-    motsCles: fiche.motsCles || [],
-    localPath: resolvedLocalPath,
-    url: fiche.url || '',
-  }
-}
-import CalculateurCIAV2 from "./components/CalculateurCIAV2.tsx"
-import CalculateurPrimesV2 from "./components/CalculateurPrimesV2.tsx"
-import Calculateur13emeV2 from "./components/Calculateur13emeV2.tsx"
-import Metiers from "./components/Metiers.tsx"
-import FAQ from "./components/FAQ.tsx"
 import LandingPage from "./components/LandingPage.tsx"
-import IntercoCarousel from "./components/IntercoCarousel.tsx"
+
+const AdminPanel = React.lazy(() => import("./components/AdminPanel.tsx"))
+const AdminLogin = React.lazy(() => import("./components/AdminLogin.tsx"))
+const CalculateurCIAV2 = React.lazy(() => import("./components/CalculateurCIAV2.tsx"))
+const CalculateurPrimesV2 = React.lazy(() => import("./components/CalculateurPrimesV2.tsx"))
+const Calculateur13emeV2 = React.lazy(() => import("./components/Calculateur13emeV2.tsx"))
+const Metiers = React.lazy(() => import("./components/Metiers.tsx"))
+const FAQ = React.lazy(() => import("./components/FAQ.tsx"))
+const IntercoCarousel = React.lazy(() => import("./components/IntercoCarousel.tsx"))
 
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
@@ -56,6 +26,10 @@ const BASE_URL = import.meta.env.BASE_URL
 
 // --- CONFIGURATION API PERPLEXITY ---
 const BACKEND_API_URL = "/api/completions"
+
+const ViewLoader = () => (
+  <div className="w-full py-8 text-center text-slate-300 font-light">Chargement...</div>
+)
 
 // --- RSS ITEM TYPE ---
 interface RssItem {
@@ -65,6 +39,18 @@ interface RssItem {
 }
 
 const MARQUEE_SPEED = 80
+const MAX_BIP_SOURCES = 3
+const MAX_BIP_SNIPPET_CHARS = 280
+const MAX_BIP_TOTAL_CHARS = 1500
+const MAX_SOMMAIRE_CHARS_WITH_BIP = 700
+const MAX_SOMMAIRE_CHARS_SOLO = 2800
+const MAX_CONTEXT_TOTAL_CHARS = 5500
+const MAX_SUMMARY_ITEM_CHARS = 120
+const MAX_SUMMARY_KEYWORDS = 6
+const MAX_USER_HISTORY_MESSAGES = 4
+const MAX_ASSISTANT_HISTORY_MESSAGES = 1
+const MAX_USER_HISTORY_CHARS = 280
+const MAX_ASSISTANT_HISTORY_CHARS = 180
 
 const updateMarqueeDuration = (el: HTMLDivElement | null) => {
   if (!el) return
@@ -75,6 +61,99 @@ const updateMarqueeDuration = (el: HTMLDivElement | null) => {
   el.style.animation = "none"
   void el.offsetHeight
   el.style.animation = ""
+}
+
+const truncateText = (text: string, maxChars: number) => {
+  const clean = text.replace(/\s+/g, ' ').trim()
+  if (clean.length <= maxChars) return clean
+  return `${clean.slice(0, maxChars)}…`
+}
+
+const extractRelevantSnippet = (rawContent: string, keywords: string[]) => {
+  const cleaned = rawContent
+    .replace(/Télécharger\s+Imprimer\s+Ajouter\s+S'abonner/gi, '')
+    .replace(/No content available/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  if (!cleaned) return ''
+
+  const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean)
+  if (sentences.length === 0) return truncateText(cleaned, MAX_BIP_SNIPPET_CHARS)
+
+  const normalizedKeywords = keywords.map(k => k.toLowerCase()).filter(k => k.length > 2)
+  const scored = sentences.map(sentence => {
+    const lowerSentence = sentence.toLowerCase()
+    const score = normalizedKeywords.reduce((sum, keyword) => (
+      lowerSentence.includes(keyword) ? sum + 1 : sum
+    ), 0)
+    return { sentence, score }
+  })
+
+  const best = scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 2)
+    .map(({ sentence }) => sentence)
+    .join(' ')
+
+  return truncateText(best || cleaned, MAX_BIP_SNIPPET_CHARS)
+}
+
+const extractRelevantPassages = (
+  rawText: string,
+  keywords: string[],
+  maxPassages = 2,
+  maxPassageChars = 260,
+) => {
+  const cleaned = rawText.replace(/\s+/g, ' ').trim()
+  if (!cleaned) return ''
+
+  const chunks = cleaned
+    .split(/\n{2,}|(?<=[.!?])\s+/)
+    .map(chunk => chunk.trim())
+    .filter(chunk => chunk.length > 30)
+
+  if (chunks.length === 0) {
+    return truncateText(cleaned, maxPassageChars)
+  }
+
+  const normalizedKeywords = keywords.map(k => k.toLowerCase()).filter(k => k.length > 2)
+
+  const scored = chunks.map(chunk => {
+    const lowerChunk = chunk.toLowerCase()
+    const score = normalizedKeywords.reduce((sum, keyword) => (
+      lowerChunk.includes(keyword) ? sum + 1 : sum
+    ), 0)
+    return { chunk, score }
+  })
+
+  const selected = scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxPassages)
+    .map(({ chunk }) => truncateText(chunk, maxPassageChars))
+
+  return selected.join(' | ')
+}
+
+const buildCompactConversationHistory = (messages: ChatMessage[]) => {
+  const history = messages.slice(1)
+  const userMessages = history
+    .filter(message => message.type === 'user')
+    .slice(-MAX_USER_HISTORY_MESSAGES)
+    .map(message => ({
+      role: 'user',
+      content: truncateText(message.content, MAX_USER_HISTORY_CHARS),
+    }))
+
+  const assistantMessages = history
+    .filter(message => message.type === 'assistant')
+    .slice(-MAX_ASSISTANT_HISTORY_MESSAGES)
+    .map(message => ({
+      role: 'assistant',
+      content: truncateText(message.content, MAX_ASSISTANT_HISTORY_CHARS),
+    }))
+
+  return [...assistantMessages, ...userMessages]
 }
 
 // --- COMPOSANT RSS BANDEAU (mémorisé pour éviter les re-renders) ---
@@ -171,8 +250,6 @@ function App() {
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [showExpandSearch, setShowExpandSearch] = useState(false)
   const [lastQuestion, setLastQuestion] = useState<string>("")
-  const [bipSearchQuery, setBipSearchQuery] = useState<string>("")
-  const [bipSearchResults, setBipSearchResults] = useState<any[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -322,48 +399,16 @@ function App() {
   // Fonction de recherche élargie sur Légifrance (Code général de la fonction publique)
   const rechercherLegifrance = async (question: string) => {
     const systemPrompt = `
-� RÔLE : Tu es un Représentant CFDT RH spécialisé en droit de la fonction publique territoriale.
-
-Tu conseilles les agents territoriaux (fonctionnaires et contractuels) sur leurs droits légaux. Tu cites toujours les sources officielles de Légifrance et tu agis avec rigueur juridique.
-
-🚨 INSTRUCTION CRITIQUE : Tu réponds UNIQUEMENT sur la FONCTION PUBLIQUE TERRITORIALE (FPT).
-Si ta réponse contient "Code du travail" ou "L1226" ou "salarié" ou "employeur privé" = ERREUR GRAVE.
-
-📚 SOURCES LÉGALES OBLIGATOIRES - RECHERCHE UNIQUEMENT DANS :
-
-▶ FONCTIONNAIRES TERRITORIAUX :
-• Code général de la fonction publique (CGFP) Articles L822-1 à L822-12 pour les congés maladie
-  URL: https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551
-• Décret n°87-602 du 30 juillet 1987 (congés maladie fonctionnaires territoriaux)
-  URL: https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000520911
-
-▶ AGENTS CONTRACTUELS TERRITORIAUX :
-• Décret n°88-145 du 15 février 1988 (agents non titulaires territoriaux)
-  URL: https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000871608
-
-📋 RÉPONSE STRUCTURÉE OBLIGATOIRE :
-
-## Pour les FONCTIONNAIRES titulaires :
-[Citer CGFP + Décret 87-602 avec articles précis]
-
-## Pour les CONTRACTUELS :
-[Citer Décret 88-145 avec articles précis]
-
-💡 EXEMPLE - Congé Longue Maladie (CLM) fonctionnaire territorial :
-- Durée : 3 ans maximum (Article 57 ancien statut → CGFP L822-4)
-- Rémunération : 1 an plein traitement + 2 ans demi-traitement
-- Conditions : Maladie rendant nécessaire un traitement et repos prolongés
-
-Question : ${question}
+Rôle: conseiller CFDT RH, uniquement FONCTION PUBLIQUE TERRITORIALE.
+Interdit: Code du travail, droit privé, convention collective.
+Sources autorisées: CGFP, décret 87-602, décret 88-145 (Légifrance).
+Format: 1) Fonctionnaires, 2) Contractuels, avec articles précis et points pratiques.
+Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
 `
 
     const apiMessages = [
       { role: "system", content: systemPrompt },
-      { role: "user", content: `FONCTION PUBLIQUE TERRITORIALE UNIQUEMENT.
-Question d'un agent territorial : ${question}
-
-⚠️ INTERDIT : Code du travail, droit privé, convention collective.
-✅ OBLIGATOIRE : CGFP, Décret 87-602, Décret 88-145.` },
+      { role: "user", content: `Question agent territorial: ${question}` },
     ]
 
     return await appelPerplexity(apiMessages, true) // true = recherche externe, utilise modèle "sonar"
@@ -419,11 +464,11 @@ Question d'un agent territorial : ${question}
 
   const genererSommaireTexte = () => {
     return sommaireUnifie.map(s => 
-      `[${s.id}] ${s.titre} - ${s.resume || s.motsCles.join(', ')}`
+      `[${s.id}] ${s.titre} - ${truncateText(s.resume || s.motsCles.slice(0, MAX_SUMMARY_KEYWORDS).join(', '), MAX_SUMMARY_ITEM_CHARS)}`
     ).join('\n')
   }
 
-  const chargerContenuSections = (sectionIds: string[]): string => {
+  const chargerContenuSections = (sectionIds: string[], keywords: string[]): string => {
     const chapitresACharger = new Set<number>()
     let chargerFormation = false
     let chargerTeletravail = false
@@ -445,14 +490,25 @@ Question d'un agent territorial : ${question}
     if (chapitresACharger.size > 0) {
       const titres = ['', 'LE TEMPS DE TRAVAIL', 'LES CONGÉS', "AUTORISATIONS SPÉCIALES D'ABSENCE", 'LES ABSENCES POUR MALADIES ET ACCIDENTS']
       chapitresACharger.forEach(ch => {
-        contenu += `\n\n=== ${titres[ch] || 'CHAPITRE ' + ch} ===\n${(chapitres as Record<number, string>)[ch] || ''}`
+        const chapterText = (chapitres as Record<number, string>)[ch] || ''
+        const chapterExtract = extractRelevantPassages(chapterText, keywords)
+        if (chapterExtract) {
+          contenu += `\n\n=== ${titres[ch] || 'CHAPITRE ' + ch} ===\n${chapterExtract}`
+        }
       })
     }
     if (chargerFormation) {
-      contenu += `\n\n=== RÈGLEMENT FORMATION ===\n${formation || ''}`
+      const formationExtract = extractRelevantPassages(formation || '', keywords)
+      if (formationExtract) {
+        contenu += `\n\n=== RÈGLEMENT FORMATION ===\n${formationExtract}`
+      }
     }
     if (chargerTeletravail) {
-      contenu += `\n\n=== PROTOCOLE TÉLÉTRAVAIL ===\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
+      const teletravailText = typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)
+      const teletravailExtract = extractRelevantPassages(teletravailText, keywords)
+      if (teletravailExtract) {
+        contenu += `\n\n=== PROTOCOLE TÉLÉTRAVAIL ===\n${teletravailExtract}`
+      }
     }
     return contenu.trim()
   }
@@ -470,39 +526,42 @@ Question d'un agent territorial : ${question}
     }
 
     // Chercher dans BIP et index (combined search)
-    const { results: allResults } = searchFichesByKeywords(keywords)
+    const { results: allResults } = await searchFichesByKeywordsAsync(keywords)
 
     if (!allResults || allResults.length === 0) {
       return null
     }
 
-    // Extraire le contenu des résultats pertinents
     let contenuPertinent = 'ÉLÉMENTS PERTINENTS TROUVÉS DANS LES DOCUMENTS :\n'
-    
-    // Traiter les résultats (peuvent être BipFiche ou FicheIndexEntry)
-    ;(allResults as any[]).slice(0, 5).forEach((fiche, idx) => {
-      if (fiche.content) {
-        // C'est une BipFiche
-        contenuPertinent += `\n[Source ${idx + 1}] ${fiche.title}\n`
-        contenuPertinent += `Section: ${fiche.section}\n`
-        contenuPertinent += `Contenu: ${fiche.content.substring(0, 600)}\n`
-        contenuPertinent += '---\n'
-      } else if (fiche.titre) {
-        // C'est une FicheIndexEntry
-        contenuPertinent += `\n[Source ${idx + 1}] ${fiche.titre}\n`
-        contenuPertinent += `Catégorie: ${fiche.categorie}\n`
-        contenuPertinent += `Mots-clés: ${fiche.motsCles.join(', ')}\n`
-        contenuPertinent += '---\n'
+
+    allResults.slice(0, MAX_BIP_SOURCES).forEach((fiche, idx) => {
+      const title = fiche.title || ('titre' in fiche ? fiche.titre || '' : '')
+      const category = fiche.section || ('categorie' in fiche ? fiche.categorie || '' : '')
+      const content = 'content' in fiche ? fiche.content : ''
+      const snippet = extractRelevantSnippet(content || '', keywords)
+      const keywordsText = 'motsCles' in fiche && Array.isArray(fiche.motsCles)
+        ? fiche.motsCles.slice(0, 8).join(', ')
+        : ''
+
+      contenuPertinent += `\n[Source ${idx + 1}] ${title}\n`
+      contenuPertinent += `Section/Catégorie: ${category}\n`
+      if (snippet) {
+        contenuPertinent += `Extrait: ${snippet}\n`
       }
+      if (keywordsText) {
+        contenuPertinent += `Mots-clés: ${keywordsText}\n`
+      }
+      contenuPertinent += '---\n'
     })
 
-    return contenuPertinent
+    return truncateText(contenuPertinent, MAX_BIP_TOTAL_CHARS)
   }
 
   const traiterQuestion = async (question: string) => {
+    const questionKeywords = question.toLowerCase().split(/\s+/).filter(word => word.length > 2)
     // --- ÉTAPE 0 : RECHERCHE CLASSIQUE VIA SOMMAIRE (PRIORITAIRE) ---
     const sommaire = genererSommaireTexte()
-    const identificationPrompt = `Tu es un assistant qui identifie les sections pertinentes pour répondre à une question.
+    const identificationPrompt = `Identifie les sections les plus utiles pour répondre à la question.
 
 SOMMAIRE DES DOCUMENTS DISPONIBLES :
 ${sommaire}
@@ -510,10 +569,8 @@ ${sommaire}
 QUESTION : ${question}
 
 RÈGLES :
-- Réponds UNIQUEMENT avec les IDs des sections pertinentes, séparés par des virgules
-- Choisis 1 à 4 sections maximum, les plus pertinentes
-- Si aucune section ne correspond, réponds "AUCUNE"
-- Format attendu : temps_ch2_conges_annuels, temps_ch2_rtt
+- Réponds uniquement avec 1 à 4 IDs séparés par des virgules.
+- Si aucune section ne correspond: AUCUNE.
 
 IDs des sections pertinentes :`
 
@@ -525,32 +582,21 @@ IDs des sections pertinentes :`
     const responseClean = identificationResponse.toLowerCase().replace(/["']/g, '').replace(/\[/g, '').replace(/\]/g, '').trim()
     
     // Déterminer le contenu cible du sommaire
-    let contenuSommaire: string
+    let contenuSommaire = ''
     let sommaireTrouve = false
     
     if (responseClean !== 'aucune' && !responseClean.includes('aucune section')) {
       // Extraire les IDs valides
-      const idsExtraits = responseClean.split(/[,\s]+/).filter(id => 
+      const idsExtraits = responseClean.split(/[,\s]+/).filter((id: string) => 
         sommaireUnifie.some(s => s.id === id.trim())
       )
 
       if (idsExtraits.length > 0) {
-        contenuSommaire = chargerContenuSections(idsExtraits)
+        contenuSommaire = chargerContenuSections(idsExtraits, questionKeywords)
         sommaireTrouve = true
       } else {
-        // Fallback : charger tout
-        contenuSommaire = `
-CHAPITRE 1 - LE TEMPS DE TRAVAIL :\n${(chapitres as Record<number, string>)[1] || ''}
-
-CHAPITRE 2 - LES CONGÉS :\n${(chapitres as Record<number, string>)[2] || ''}
-
-CHAPITRE 3 - AUTORISATIONS SPÉCIALES D'ABSENCE :\n${(chapitres as Record<number, string>)[3] || ''}
-
-CHAPITRE 4 - LES ABSENCES POUR MALADIES ET ACCIDENTS :\n${(chapitres as Record<number, string>)[4] || ''}
-
-RÈGLEMENT FORMATION :\n${formation || ''}
-
-PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
+        const allSectionIds = sommaireUnifie.slice(0, 16).map(section => section.id)
+        contenuSommaire = chargerContenuSections(allSectionIds, questionKeywords)
         sommaireTrouve = true
       }
     }
@@ -562,55 +608,35 @@ PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailDa
     // Combiner sommaire + BIP si les deux existent
     let contenuFinal: string
     if (sommaireTrouve && contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
-      // Les deux existent : combiner
       contenuFinal = `
-📚 DOCUMENTATION GÉNÉRALE (SOMMAIRE) :
-${contenuSommaire}
-
 📌 FICHES SPÉCIALISÉES PERTINENTES (BIP) :
-${contenuDocumentsInternes}`
+${contenuDocumentsInternes}
+
+📚 DOCUMENTATION GÉNÉRALE (SOMMAIRE - RÉSUMÉ) :
+${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
     } else if (contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
-      // Seulement BIP (sommaire vide/aucune)
       contenuFinal = contenuDocumentsInternes
     } else if (sommaireTrouve) {
-      // Seulement sommaire
-      contenuFinal = contenuSommaire
+      contenuFinal = truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_SOLO)
     } else {
-      // Rien trouvé
       return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
     }
 
+    contenuFinal = truncateText(contenuFinal, MAX_CONTEXT_TOTAL_CHARS)
+
     // --- ÉTAPE 2 : GÉNÉRER LA RÉPONSE AVEC PERPLEXITY ---
     const systemPrompt = `
-👤 RÔLE : Tu es un Représentant CFDT RH pour la Mairie de Gennevilliers.
+  Tu es conseiller CFDT Gennevilliers.
+  Réponds uniquement avec la documentation fournie.
+  Sois précis (chiffres, délais, conditions), en français clair.
+  Si l'information est absente, réponds exactement:
+  "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
 
-Tu conseilles les salariés et agents territoriaux sur leurs droits, conditions de travail, primes, congés et avantages. Tu agis avec bienveillance, clarté et expertise syndicale.
-
-RÈGLES STRICTES :
-1. Réponds UNIQUEMENT en utilisant les documents ci-dessous
-2. Ne cherche JAMAIS sur internet, n'utilise JAMAIS tes connaissances externes
-3. Sois précis sur les chiffres et délais mentionnés dans les documents
-4. Adopte le ton d'un conseiller syndical expérimenté - professionnel mais accessible
-5. Privilégie les fiches BIP (📌) si disponibles, sinon utilise le sommaire (📚)
-
-⚠️ RÈGLE CRITIQUE - SI TU TROUVES L'INFO :
-- Donne directement la réponse, sans dire "Je ne trouve pas"
-- Cite les détails précis des documents
-- Utilise le "nous" CFDT si approprié pour créer du lien
-
-⚠️ RÈGLE CRITIQUE - SI TU NE TROUVES PAS L'INFO :
-- Réponds UNIQUEMENT : "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
-- ARRÊTE-TOI IMMÉDIATEMENT après cette phrase
-- N'ajoute AUCUNE information supplémentaire
-
-📚 DOCUMENTATION :
-${contenuFinal}
+  DOCUMENTATION:
+  ${contenuFinal}
     `
 
-    const conversationHistory = chatState.messages.slice(1).map((msg) => ({
-      role: msg.type === "user" ? "user" : "assistant",
-      content: msg.content,
-    }))
+    const conversationHistory = buildCompactConversationHistory(chatState.messages)
 
     const apiMessages = [
       { role: "system", content: systemPrompt },
@@ -910,7 +936,9 @@ ${contenuFinal}
                 </div>
 
                 {/* Carrousel Actualités Interco CFDT */}
-                <IntercoCarousel />
+                <Suspense fallback={<ViewLoader />}>
+                  <IntercoCarousel />
+                </Suspense>
               </div>
             </div>
           </>
@@ -919,12 +947,16 @@ ${contenuFinal}
 
       {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
       {chatState.currentView === 'metiers' && (
-        <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        <Suspense fallback={<ViewLoader />}>
+          <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        </Suspense>
       )}
 
       {/* --- SECTION FAQ --- */}
       {chatState.currentView === 'faq' && (
-        <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        <Suspense fallback={<ViewLoader />}>
+          <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
+        </Suspense>
       )}
 
 
@@ -1195,13 +1227,19 @@ ${contenuFinal}
 
         {/* Contenu du calculateur sélectionné */}
         {activeCalculator === 'primes' && (
-          <div className="calc-tool-enter"><CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} /></div>
+          <Suspense fallback={<ViewLoader />}>
+            <div className="calc-tool-enter"><CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} /></div>
+          </Suspense>
         )}
         {activeCalculator === 'cia' && (
-          <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
+          <Suspense fallback={<ViewLoader />}>
+            <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
+          </Suspense>
         )}
         {activeCalculator === '13eme' && (
-          <div className="calc-tool-enter"><Calculateur13emeV2 onClose={() => setActiveCalculator(null)} /></div>
+          <Suspense fallback={<ViewLoader />}>
+            <div className="calc-tool-enter"><Calculateur13emeV2 onClose={() => setActiveCalculator(null)} /></div>
+          </Suspense>
         )}
       </section>
       )}
@@ -1372,17 +1410,23 @@ ${contenuFinal}
 
       {/* Admin Login Modal */}
       {showAdminLogin && (
-        <AdminLogin 
-          onClose={() => setShowAdminLogin(false)} 
-          onSuccess={() => {
-            setShowAdminLogin(false);
-            setShowAdminPanel(true);
-          }}
-        />
+        <Suspense fallback={<ViewLoader />}>
+          <AdminLogin 
+            onClose={() => setShowAdminLogin(false)} 
+            onSuccess={() => {
+              setShowAdminLogin(false);
+              setShowAdminPanel(true);
+            }}
+          />
+        </Suspense>
       )}
 
       {/* Admin Panel Modal */}
-      {showAdminPanel && <AdminPanel onClose={() => setShowAdminPanel(false)} />}
+      {showAdminPanel && (
+        <Suspense fallback={<ViewLoader />}>
+          <AdminPanel onClose={() => setShowAdminPanel(false)} />
+        </Suspense>
+      )}
     </div>
   );
 }
