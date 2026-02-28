@@ -166,15 +166,20 @@ const FAQ: React.FC<Props> = ({ onBack }) => {
   const toggle = (id: number) => setOpenIds((s) => ({ ...s, [id]: !s[id] }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-8 sm:py-12 px-2 sm:px-6 lg:px-8">
+    <div className="relative z-30 isolate min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-8 sm:py-12 px-2 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Back button */}
         {onBack && (
-          <div className="mb-6">
+          <div className="relative z-40 mb-6">
             <button
-              onClick={onBack}
+              type="button"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onBack();
+              }}
               aria-label="Retour"
-              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-lg transition-all duration-200 transform hover:scale-105 glass-pill"
+              className="relative z-50 pointer-events-auto flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill"
             >
               <ArrowLeft className="w-4 h-4" />
               Retour

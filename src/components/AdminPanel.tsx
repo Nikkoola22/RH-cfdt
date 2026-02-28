@@ -189,8 +189,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose }) => {
         <div className="border-t border-gray-200 p-4 bg-gray-50 flex-shrink-0">
           <div className="flex justify-end">
             <button
+              type="button"
               onClick={onClose}
-              className="px-6 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg transition-colors font-medium glass-pill"
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill"
             >
               Fermer
             </button>

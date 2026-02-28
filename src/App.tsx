@@ -828,8 +828,9 @@ ${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
                     <h3 className="text-3xl font-light bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent mb-4">{selectedInfo.title}</h3>
                     <p className="text-slate-200 leading-relaxed">{selectedInfo.content}</p>
                     <button
+                      type="button"
                       onClick={() => setSelectedInfo(null)}
-                      className="mt-6 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200"
+                      className="mt-6 flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill"
                     >
                       Fermer
                     </button>
@@ -947,16 +948,20 @@ ${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
 
       {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
       {chatState.currentView === 'metiers' && (
-        <Suspense fallback={<ViewLoader />}>
-          <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
-        </Suspense>
+        <section className="relative z-30">
+          <Suspense fallback={<ViewLoader />}>
+            <Metiers onClose={returnToMenu} />
+          </Suspense>
+        </section>
       )}
 
       {/* --- SECTION FAQ --- */}
       {chatState.currentView === 'faq' && (
-        <Suspense fallback={<ViewLoader />}>
-          <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
-        </Suspense>
+        <section className="relative z-30">
+          <Suspense fallback={<ViewLoader />}>
+            <FAQ onBack={returnToMenu} />
+          </Suspense>
+        </section>
       )}
 
 
@@ -969,13 +974,15 @@ ${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
               <div className="flex items-center justify-between gap-2">
                 <button
                   onClick={() => setChatState({ ...chatState, currentView: 'menu' })}
-                  className="flex items-center gap-1 sm:gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-2 sm:px-4 py-2 rounded-lg transition-colors duration-100 font-light text-xs sm:text-sm"
+                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill"
                 >
-                  <ArrowLeft className="w-4 h-4 flex-shrink-0" />
-                  <span className="hidden sm:inline">Retour au menu</span>
-                  <span className="sm:hidden">Retour</span>
+                  <ArrowLeft className="w-4 h-4" />
+                  Retour
                 </button>
-                <h2 className="text-base sm:text-xl font-light text-white">Liens utiles</h2>
+                <h2 className="text-sm sm:text-xl font-light text-white truncate text-right">
+                  <span className="hidden sm:inline">Liens utiles</span>
+                  <span className="sm:hidden">Liens</span>
+                </h2>
               </div>
             </div>
           </div>
@@ -1158,13 +1165,16 @@ ${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
                     setChatState({ ...chatState, currentView: 'menu' })
                   }
                 }}
-                className="flex items-center gap-1 sm:gap-2 bg-slate-700/50 hover:bg-slate-700/70 text-slate-300 hover:text-white px-2 sm:px-4 py-2 rounded-lg transition-colors duration-100 font-light text-xs sm:text-sm whitespace-nowrap"
+                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill whitespace-nowrap"
               >
-                <ArrowLeft className="w-4 h-4 flex-shrink-0" />
-                <span className="hidden sm:inline">{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
-                <span className="sm:hidden">{activeCalculator ? 'Retour' : 'Menu'}</span>
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">{activeCalculator ? 'Retour aux calculateurs' : 'Retour'}</span>
+                <span className="sm:hidden">Retour</span>
               </button>
-              <h2 className="text-base sm:text-xl font-light text-white">Calculateurs CFDT</h2>
+              <h2 className="text-sm sm:text-xl font-light text-white truncate text-right">
+                <span className="hidden sm:inline">Calculateurs CFDT</span>
+                <span className="sm:hidden">Calculateurs</span>
+              </h2>
             </div>
           </div>
         </div>
@@ -1263,10 +1273,10 @@ ${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
                 </div>
                 <button
                   onClick={returnToMenu}
-                  className="flex items-center gap-1 sm:gap-2 bg-white/20 hover:bg-white/30 px-2 sm:px-4 py-2 rounded-lg transition-all duration-200 backdrop-blur-sm font-light glass-pill flex-shrink-0"
+                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill flex-shrink-0"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  <span className="hidden sm:inline text-sm">Retour</span>
+                  Retour
                 </button>
               </div>
             </div>
@@ -1297,16 +1307,17 @@ ${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
               )}
               {/* Boutons Oui/Non pour élargir la recherche */}
               {showExpandSearch && !chatState.isProcessing && (
-                <div className="flex justify-center gap-4 mt-4 mb-2">
+                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 mb-2">
                   <button
                     onClick={handleExpandSearch}
-                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center gap-2 btn-cta"
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center justify-center gap-2 btn-cta"
                   >
                     <span>✅ Oui, rechercher sur Légifrance</span>
                   </button>
                   <button
+                    type="button"
                     onClick={handleDeclineSearch}
-                    className="px-8 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-xl hover:from-slate-700 hover:to-slate-800 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center gap-2 glass-pill"
+                    className="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm flex items-center justify-center gap-2 glass-pill"
                   >
                     <span>❌ Non, retour à l'accueil</span>
                   </button>
