@@ -12,7 +12,9 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "server": "node server.js",
-    "dev:full": "concurrently \"npm run server\" \"npm run dev:app\""
+    "dev:full": "concurrently \"npm run server\" \"npm run dev:app\"",
+    "qa:search": "node scripts/search-regression.js",
+    "qa:search:e2e": "node scripts/search-e2e-eval.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

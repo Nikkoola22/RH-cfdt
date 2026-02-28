@@ -1,0 +1,1258 @@
+{
+  "generatedAt": "2026-02-28T12:48:08.155Z",
+  "sources": {
+    "sommairePath": "/Users/nikkoolagarnier/RH-cfdt/src/data/sommaireUnifie.ts",
+    "bipIndexPath": "/Users/nikkoolagarnier/RH-cfdt/src/data/bip-index.ts"
+  },
+  "parsed": {
+    "sommaireEntries": 76,
+    "bipEntries": 152
+  },
+  "summary": {
+    "totalQuestions": 20,
+    "withSommaireContext": 19,
+    "withBipContext": 20,
+    "withAnyContext": 20,
+    "noContext": 0,
+    "coverageAnyPct": 100,
+    "coverageSommairePct": 95,
+    "coverageBipPct": 100
+  },
+  "perQuestion": [
+    {
+      "question": "Combien de jours de congés annuels ?",
+      "keywords": [
+        "jours",
+        "conges",
+        "conge",
+        "absence",
+        "arret",
+        "annuels"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch2_art1",
+          "titre": "Les congés annuels",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 26
+        },
+        {
+          "id": "temps_ch2_art3",
+          "titre": "Les jours d’ARTT",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 15
+        },
+        {
+          "id": "temps_ch2_art6",
+          "titre": "Les congés liés aux naissances",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 15
+        },
+        {
+          "id": "temps_ch2_art2",
+          "titre": "Le congé bonifié (outre-mer)",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 12
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 30
+        },
+        {
+          "code": "conoco",
+          "title": "Fonctionnaires occupant un emploi à temps non complet : congés",
+          "section": "conges-et-absences",
+          "score": 30
+        },
+        {
+          "code": "ntico1",
+          "title": "Agents contractuels : généralités sur les congés",
+          "section": "conges-et-absences",
+          "score": 29
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Quelle est la durée du congé maladie ordinaire ?",
+      "keywords": [
+        "duree",
+        "conge",
+        "absence",
+        "arret",
+        "maladie",
+        "cmo",
+        "ordinaire"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 21
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 19
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 17
+        },
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 16
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 32
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 31
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "score": 24
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "En congés de maladie ordinaire je suis payé combien ?",
+      "keywords": [
+        "conges",
+        "conge",
+        "absence",
+        "arret",
+        "maladie",
+        "cmo",
+        "ordinaire",
+        "paye",
+        "payer",
+        "remuneration",
+        "traitement",
+        "salaire",
+        "paie"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 24
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 21
+        },
+        {
+          "id": "temps_ch2_art6",
+          "titre": "Les congés liés aux naissances",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 20
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 19
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 47
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 39
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "score": 36
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Que faire en cas de maladie ?",
+      "keywords": [
+        "faire",
+        "cas",
+        "maladie",
+        "cmo",
+        "arret",
+        "conge"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 16
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 12
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 23
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 22
+        },
+        {
+          "code": "casind",
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 22
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Accident de service : procédure de déclaration ?",
+      "keywords": [
+        "accident",
+        "service",
+        "trajet",
+        "maladie",
+        "professionnelle",
+        "procedure",
+        "declaration"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_art2",
+          "titre": "Accidents de service et de trajet",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 35
+        },
+        {
+          "id": "temps_ch4_accident",
+          "titre": "Accident de service ou de trajet",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 26
+        },
+        {
+          "id": "temps_ch4_art3",
+          "titre": "Prise en charge de la rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 10
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 32
+        },
+        {
+          "code": "acctra",
+          "title": "L'accident de trajet",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 23
+        },
+        {
+          "code": "cessami",
+          "title": "La cessation anticipée d'activité des agents reconnus atteints d'une maladie professionnelle provoquée par l'amiante",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 21
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Accident de trajet : suis-je couvert ?",
+      "keywords": [
+        "accident",
+        "service",
+        "trajet",
+        "maladie",
+        "professionnelle",
+        "couvert"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_art2",
+          "titre": "Accidents de service et de trajet",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 30
+        },
+        {
+          "id": "temps_ch4_accident",
+          "titre": "Accident de service ou de trajet",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 21
+        },
+        {
+          "id": "temps_ch4_art3",
+          "titre": "Prise en charge de la rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 10
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 32
+        },
+        {
+          "code": "acctra",
+          "title": "L'accident de trajet",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 23
+        },
+        {
+          "code": "malpro",
+          "title": "La maladie professionnelle du fonctionnaire et la maladie contractée en accomplissant un acte de dévouement dans un intérêt public",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 20
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Comment demander un temps partiel ?",
+      "keywords": [
+        "demander",
+        "temps",
+        "partiel"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch1_art6",
+          "titre": "Temps partiel de droit (naissance, enfant, parentalité)",
+          "source": "temps",
+          "chapitre": 1,
+          "score": 20
+        },
+        {
+          "id": "temps_ch2_art5",
+          "titre": "Le compte épargne temps (CET)",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 10
+        },
+        {
+          "id": "temps_ch2_art3",
+          "titre": "Les jours d’ARTT",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 7
+        },
+        {
+          "id": "temps_ch2_cet",
+          "titre": "Compte Épargne Temps (CET)",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 7
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "tempar",
+          "title": "Service à temps partiel",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 16
+        },
+        {
+          "code": "tepaef",
+          "title": "Temps partiel : effets",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 16
+        },
+        {
+          "code": "temthe",
+          "title": "Temps partiel thérapeutique",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 16
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Quelles sont les conditions du télétravail ?",
+      "keywords": [
+        "sont",
+        "conditions",
+        "teletravail",
+        "distance",
+        "remote"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "teletravail_exceptionnel",
+          "titre": "Télétravail en circonstances exceptionnelles",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 10
+        },
+        {
+          "id": "teletravail_principes",
+          "titre": "Principes du télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 9
+        },
+        {
+          "id": "teletravail_lieu",
+          "titre": "Lieu du télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 7
+        },
+        {
+          "id": "teletravail_quotite",
+          "titre": "Quotité et forfait télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 7
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 15
+        },
+        {
+          "code": "ponoco",
+          "title": "Fonctionnaires occupant un emploi à temps non complet : positions et conditions d’exercice des fonctions",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 12
+        },
+        {
+          "code": "durtra",
+          "title": "Durée du temps de travail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 8
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Matériel télétravail : qui fournit ?",
+      "keywords": [
+        "materiel",
+        "teletravail",
+        "distance",
+        "remote",
+        "fournit"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "teletravail_materiel",
+          "titre": "Matériel et équipement télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 15
+        },
+        {
+          "id": "teletravail_materiel",
+          "titre": "Matériel et sécurité",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 12
+        },
+        {
+          "id": "teletravail_exceptionnel",
+          "titre": "Télétravail en circonstances exceptionnelles",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 10
+        },
+        {
+          "id": "teletravail_lieu",
+          "titre": "Lieu du télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 7
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 9
+        },
+        {
+          "code": "ccpfon",
+          "title": "Commissions consultatives paritaires : fonctionnement",
+          "section": "agents-contractuels",
+          "score": 3
+        },
+        {
+          "code": "ccpgen",
+          "title": "Commissions consultatives paritaires : généralités",
+          "section": "agents-contractuels",
+          "score": 2
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Comment demander une formation CNFPT ?",
+      "keywords": [
+        "demander",
+        "formation",
+        "cnfpt",
+        "stage",
+        "concours",
+        "examen"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "formation_concours",
+          "titre": "Préparation concours et examens",
+          "source": "formation",
+          "chapitre": null,
+          "score": 20
+        },
+        {
+          "id": "formation_obligatoire",
+          "titre": "Formations obligatoires (intégration, professionnalisation)",
+          "source": "formation",
+          "chapitre": null,
+          "score": 19
+        },
+        {
+          "id": "temps_ch3_art11",
+          "titre": "Formation",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 17
+        },
+        {
+          "id": "temps_ch3_formation",
+          "titre": "Formation et concours",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 16
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "forobl",
+          "title": "Formation obligatoire des fonctionnaires",
+          "section": "carriere",
+          "score": 13
+        },
+        {
+          "code": "finsta",
+          "title": "Fin du stage",
+          "section": "carriere",
+          "score": 11
+        },
+        {
+          "code": "stagen",
+          "title": "Stage : généralités",
+          "section": "carriere",
+          "score": 11
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Quels sont les droits en CLM ?",
+      "keywords": [
+        "sont",
+        "droits",
+        "clm"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 10
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 5
+        },
+        {
+          "id": "temps_ch2_art2",
+          "titre": "Le congé bonifié (outre-mer)",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 3
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "madrob",
+          "title": "Droits et obligations durant les congés de maladie",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 10
+        },
+        {
+          "code": "coloma",
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 5
+        },
+        {
+          "code": "carast",
+          "title": "Cas de radiation des stagiaires à l'initiative de la collectivité",
+          "section": "carriere",
+          "score": 3
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Quelle rémunération en CLD ?",
+      "keywords": [
+        "remuneration",
+        "salaire",
+        "traitement",
+        "paie",
+        "payer",
+        "paye",
+        "payee",
+        "cld"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_art3",
+          "titre": "Prise en charge de la rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 12
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 7
+        },
+        {
+          "id": "temps_ch1_art6",
+          "titre": "Temps partiel de droit (naissance, enfant, parentalité)",
+          "source": "temps",
+          "chapitre": 1,
+          "score": 5
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntirem",
+          "title": "Agents contractuels : rémunération",
+          "section": "agents-contractuels",
+          "score": 11
+        },
+        {
+          "code": "remsta",
+          "title": "Rémunération des stagiaires",
+          "section": "carriere",
+          "score": 11
+        },
+        {
+          "code": "renoco",
+          "title": "Fonctionnaires occupant un emploi à temps non complet : rémunération",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 11
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Comment fonctionne la prime IFSE ?",
+      "keywords": [
+        "fonctionne",
+        "prime",
+        "ifse",
+        "cia",
+        "indemnite"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "teletravail_materiel",
+          "titre": "Matériel et sécurité",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 5
+        },
+        {
+          "id": "formation_formateur_interne",
+          "titre": "Formateur interne occasionnel",
+          "source": "formation",
+          "chapitre": null,
+          "score": 5
+        },
+        {
+          "id": "temps_ch1_art8",
+          "titre": "Astreintes et permanences",
+          "source": "temps",
+          "chapitre": 1,
+          "score": 2
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "casind",
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 21
+        },
+        {
+          "code": "cstfon",
+          "title": "Comités sociaux territoriaux et formations spécialisées : fonctionnement",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "score": 18
+        },
+        {
+          "code": "regspe",
+          "title": "Le régime spécial de sécurité sociale des fonctionnaires territoriaux",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 14
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Comment est calculé le CIA ?",
+      "keywords": [
+        "calcule",
+        "cia"
+      ],
+      "sommaireMatches": [],
+      "bipMatches": [
+        {
+          "code": "casind",
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 12
+        },
+        {
+          "code": "preinv",
+          "title": "Les prestations de l'assurance invalidité du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 12
+        },
+        {
+          "code": "premal",
+          "title": "Les prestations en espèces de l'assurance maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 12
+        }
+      ],
+      "hasSommaireContext": false,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Déménagement : ai-je droit à une autorisation d’absence ?",
+      "keywords": [
+        "demenagement",
+        "droit",
+        "autorisation",
+        "absence",
+        "conge",
+        "arret"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch3_art10",
+          "titre": "Déménagement",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 17
+        },
+        {
+          "id": "temps_ch1_art6",
+          "titre": "Temps partiel de droit (naissance, enfant, parentalité)",
+          "source": "temps",
+          "chapitre": 1,
+          "score": 17
+        },
+        {
+          "id": "temps_ch3_art7",
+          "titre": "Absence liée à la maternité",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 12
+        },
+        {
+          "id": "temps_ch3_art1",
+          "titre": "Fêtes religieuses",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 10
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "auabfa",
+          "title": "Autorisations d'absence concernant la famille",
+          "section": "conges-et-absences",
+          "score": 28
+        },
+        {
+          "code": "autabs",
+          "title": "Autorisations d'absence : généralités",
+          "section": "conges-et-absences",
+          "score": 27
+        },
+        {
+          "code": "auabdi",
+          "title": "Autorisations d'absence diverses",
+          "section": "conges-et-absences",
+          "score": 25
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Rentrée scolaire : quelle absence possible ?",
+      "keywords": [
+        "rentree",
+        "scolaire",
+        "absence",
+        "conge",
+        "arret",
+        "possible"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch3_art9",
+          "titre": "Rentrée scolaire",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 19
+        },
+        {
+          "id": "temps_ch3_rentree",
+          "titre": "Rentrée scolaire",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 14
+        },
+        {
+          "id": "temps_ch3_proche_aidant",
+          "titre": "Congé proche aidant (fin de vie)",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 11
+        },
+        {
+          "id": "temps_ch3_art4",
+          "titre": "Congé proche aidant",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 10
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "auabfa",
+          "title": "Autorisations d'absence concernant la famille",
+          "section": "conges-et-absences",
+          "score": 18
+        },
+        {
+          "code": "autabs",
+          "title": "Autorisations d'absence : généralités",
+          "section": "conges-et-absences",
+          "score": 18
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 18
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Quelles règles pour le jour de carence ?",
+      "keywords": [
+        "regles",
+        "jour",
+        "carence"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch1_art7",
+          "titre": "Journée de solidarité",
+          "source": "temps",
+          "chapitre": 1,
+          "score": 10
+        },
+        {
+          "id": "temps_ch2_art3",
+          "titre": "Les jours d’ARTT",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 10
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 8
+        },
+        {
+          "id": "temps_ch2_art1",
+          "titre": "Les congés annuels",
+          "source": "temps",
+          "chapitre": 2,
+          "score": 8
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "delcar",
+          "title": "Le délai de carence",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 10
+        },
+        {
+          "code": "jofepo",
+          "title": "Jours fériés et ponts",
+          "section": "conges-et-absences",
+          "score": 7
+        },
+        {
+          "code": "ccpdis",
+          "title": "Le conseil de discipline des agents contractuels",
+          "section": "agents-contractuels",
+          "score": 3
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Comment fonctionne la contre-visite en arrêt maladie ?",
+      "keywords": [
+        "fonctionne",
+        "contre",
+        "visite",
+        "arret",
+        "maladie",
+        "cmo",
+        "conge"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 26
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 12
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 23
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 22
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "score": 20
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Congé de proche aidant : conditions ?",
+      "keywords": [
+        "conge",
+        "absence",
+        "arret",
+        "proche",
+        "aidant",
+        "conditions"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch3_art4",
+          "titre": "Congé proche aidant",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 27
+        },
+        {
+          "id": "temps_ch3_proche_aidant",
+          "titre": "Congé proche aidant (fin de vie)",
+          "source": "temps",
+          "chapitre": 3,
+          "score": 22
+        },
+        {
+          "id": "teletravail_situations_particulieres",
+          "titre": "Situations particulières (grossesse, aidants, handicap)",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 12
+        },
+        {
+          "id": "teletravail_situations_particulieres",
+          "titre": "Situations particulières",
+          "source": "teletravail",
+          "chapitre": null,
+          "score": 10
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico1",
+          "title": "Agents contractuels : généralités sur les congés",
+          "section": "conges-et-absences",
+          "score": 20
+        },
+        {
+          "code": "ntico2",
+          "title": "Agents contractuels : les congés hors maladie",
+          "section": "conges-et-absences",
+          "score": 18
+        },
+        {
+          "code": "auabfa",
+          "title": "Autorisations d'absence concernant la famille",
+          "section": "conges-et-absences",
+          "score": 18
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    },
+    {
+      "question": "Puis-je cumuler télétravail et arrêt maladie ?",
+      "keywords": [
+        "cumuler",
+        "teletravail",
+        "distance",
+        "remote",
+        "arret",
+        "maladie",
+        "cmo",
+        "conge"
+      ],
+      "sommaireMatches": [
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 16
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "score": 12
+        }
+      ],
+      "bipMatches": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "score": 23
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "score": 22
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "score": 20
+        }
+      ],
+      "hasSommaireContext": true,
+      "hasBipContext": true,
+      "hasAnyContext": true
+    }
+  ]
+}

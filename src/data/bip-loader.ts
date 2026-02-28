@@ -4,6 +4,8 @@
  */
 
 import { BIP_JSONL_FILES } from './bip-files'
+import { bipIndex } from './bip-index'
+import { BIP_FILE_CATEGORIES } from './bip-files'
 
 export interface BipFiche {
   url: string;
@@ -40,6 +42,67 @@ function parseJsonlData(data: string): BipFiche[] {
   return fiches;
 }
 
+function markdownToText(markdown: string): string {
+  return markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/[>*_~]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function mapIndexEntryToFiche(entry: typeof bipIndex[number], content?: string): BipFiche {
+  return {
+    url: entry.url,
+    title: entry.title,
+    content: content && content.length > 0 ? content : entry.content,
+    timestamp: entry.timestamp,
+    source: entry.source,
+    type: entry.type,
+    section: entry.section,
+  };
+}
+
+async function loadBipDataFromMarkdownAsync(entries = bipIndex): Promise<BipFiche[]> {
+  const fiches = await Promise.all(
+    entries.map(async (entry) => {
+      try {
+        const response = await fetch(entry.localPath);
+        if (!response.ok) {
+          return mapIndexEntryToFiche(entry);
+        }
+
+        const markdown = await response.text();
+        const content = markdownToText(markdown);
+        return mapIndexEntryToFiche(entry, content);
+      } catch {
+        return mapIndexEntryToFiche(entry);
+      }
+    }),
+  );
+
+  return fiches.filter(f => f.title && f.content);
+}
+
+function getEntriesFromCategoryPaths(filePaths: string[]): typeof bipIndex {
+  const targetDirectories = BIP_FILE_CATEGORIES
+    .filter(category => category.path && filePaths.includes(category.path))
+    .map(category => category.directory);
+
+  if (targetDirectories.length === 0) {
+    return bipIndex;
+  }
+
+  return bipIndex.filter(entry =>
+    targetDirectories.some(directory =>
+      entry.localPath.includes(`/bip_fiches_rag_${directory}_`),
+    ),
+  );
+}
+
 /**
  * Carrega dados BIP apenas dos arquivos selecionados (otimizado para buscas específicas)
  */
@@ -61,6 +124,13 @@ async function loadSelectiveBipDataAsync(filePaths: string[]): Promise<BipFiche[
       } catch (error) {
         console.warn(`Erro ao carregar arquivo ${filePath}:`, error);
       }
+    }
+
+    if (allFiches.length === 0) {
+      const selectedEntries = getEntriesFromCategoryPaths(filePaths);
+      const markdownFiches = await loadBipDataFromMarkdownAsync(selectedEntries);
+      allFiches.push(...markdownFiches);
+      console.log(`✅ Carregados ${allFiches.length} fiches BIP via arquivos .md (${selectedEntries.length} entrada(s) do índice)`);
     }
 
     console.log(`✅ Carregados ${allFiches.length} fiches BIP de ${filePaths.length} arquivo(s) selecionado(s)`);
@@ -101,6 +171,12 @@ async function loadBipDataAsync(): Promise<BipFiche[]> {
         } catch (error) {
           console.warn(`Erro ao carregar arquivo ${filePath}:`, error);
         }
+      }
+
+      if (allFiches.length === 0) {
+        const markdownFiches = await loadBipDataFromMarkdownAsync();
+        allFiches.push(...markdownFiches);
+        console.log(`✅ Carregados ${allFiches.length} fiches BIP via arquivos .md`);
       }
 
       bipCache = allFiches;

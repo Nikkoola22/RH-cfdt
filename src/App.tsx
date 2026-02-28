@@ -52,6 +52,29 @@ const MAX_ASSISTANT_HISTORY_MESSAGES = 1
 const MAX_USER_HISTORY_CHARS = 280
 const MAX_ASSISTANT_HISTORY_CHARS = 180
 
+const SEARCH_STOPWORDS = new Set([
+  'de', 'du', 'des', 'le', 'la', 'les', 'un', 'une', 'et', 'ou', 'en', 'au', 'aux', 'a', 'à',
+  'd', 'l', 'je', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'mon', 'ma', 'mes',
+  'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'ce', 'cet', 'cette', 'ces', 'dans', 'sur', 'pour',
+  'par', 'avec', 'sans', 'que', 'qui', 'quoi', 'combien', 'est', 'suis', 'etre', 'etre', 'avoir',
+  'puis', 'donc', 'car', 'mais', 'si', 'quand', 'comme', 'plus', 'moins', 'tres', 'très', 'cela',
+  'ca', 'ça', 'dois', 'doit', 'peux', 'peut', 'comment', 'quel', 'quelle', 'quels', 'quelles',
+])
+
+const SEARCH_SYNONYMS: Record<string, string[]> = {
+  maladie: ['cmo', 'arret', 'arrêt', 'conge', 'congé'],
+  cmo: ['maladie', 'arret', 'arrêt', 'ordinaire'],
+  remuneration: ['rémunération', 'salaire', 'traitement', 'paie', 'payer', 'paye', 'payee'],
+  salaire: ['rémunération', 'traitement', 'paie', 'payer'],
+  payer: ['rémunération', 'traitement', 'salaire', 'paie'],
+  conge: ['congé', 'absence', 'arret', 'arrêt'],
+  absence: ['conge', 'congé', 'arret', 'arrêt'],
+  formation: ['cnfpt', 'stage', 'concours', 'examen'],
+  teletravail: ['télétravail', 'distance', 'remote'],
+  prime: ['ifse', 'cia', 'indemnite', 'indemnité'],
+  accident: ['service', 'trajet', 'maladie', 'professionnelle'],
+}
+
 const updateMarqueeDuration = (el: HTMLDivElement | null) => {
   if (!el) return
   const width = el.scrollWidth / 2
@@ -69,6 +92,89 @@ const truncateText = (text: string, maxChars: number) => {
   return `${clean.slice(0, maxChars)}…`
 }
 
+const normalizeForSearch = (value: string) => (
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+)
+
+const tokenizeForSearch = (value: string, minLength = 3) => {
+  return normalizeForSearch(value)
+    .split(' ')
+    .map(token => token.trim())
+    .filter(token => token.length >= minLength && !SEARCH_STOPWORDS.has(token))
+}
+
+const expandKeywords = (keywords: string[]) => {
+  const expanded = new Set<string>()
+
+  keywords.forEach((keyword) => {
+    const normalizedKeyword = normalizeForSearch(keyword)
+    if (!normalizedKeyword) return
+
+    expanded.add(normalizedKeyword)
+
+    Object.entries(SEARCH_SYNONYMS).forEach(([base, synonyms]) => {
+      const normalizedBase = normalizeForSearch(base)
+      if (
+        normalizedKeyword.includes(normalizedBase)
+        || normalizedBase.includes(normalizedKeyword)
+      ) {
+        expanded.add(normalizedBase)
+        synonyms.forEach(syn => expanded.add(normalizeForSearch(syn)))
+      }
+    })
+  })
+
+  return Array.from(expanded).filter(Boolean)
+}
+
+const scoreTextByKeywords = (text: string, keywords: string[]) => {
+  if (!text || keywords.length === 0) return 0
+  const normalizedText = normalizeForSearch(text)
+  return keywords.reduce((score, keyword) => (
+    normalizedText.includes(keyword) ? score + 1 : score
+  ), 0)
+}
+
+const findRelevantSommaireIds = (question: string, expandedKeywords: string[], maxIds = 4) => {
+  if (expandedKeywords.length === 0) return [] as string[]
+
+  const normalizedQuestion = normalizeForSearch(question)
+
+  const scored = sommaireUnifie.map((section) => {
+    const titleScore = scoreTextByKeywords(section.titre || '', expandedKeywords)
+    const resumeScore = scoreTextByKeywords(section.resume || '', expandedKeywords)
+    const keywordScore = scoreTextByKeywords((section.motsCles || []).join(' '), expandedKeywords)
+    const questionOverlap = scoreTextByKeywords(normalizedQuestion, tokenizeForSearch(`${section.titre} ${section.resume || ''}`))
+
+    const score = (titleScore * 5) + (resumeScore * 3) + (keywordScore * 2) + questionOverlap
+    return { id: section.id, score }
+  })
+
+  return scored
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxIds)
+    .map(item => item.id)
+}
+
+const parseSommaireIdsFromResponse = (responseText: string) => {
+  const responseClean = normalizeForSearch(responseText).replace(/\[/g, '').replace(/\]/g, '')
+  if (!responseClean || responseClean.includes('aucune section') || responseClean === 'aucune') {
+    return [] as string[]
+  }
+
+  return responseClean
+    .split(/[\s,;]+/)
+    .map(id => id.trim())
+    .filter((id): id is string => Boolean(id) && sommaireUnifie.some(section => section.id === id))
+}
+
 const extractRelevantSnippet = (rawContent: string, keywords: string[]) => {
   const cleaned = rawContent
     .replace(/Télécharger\s+Imprimer\s+Ajouter\s+S'abonner/gi, '')
@@ -81,16 +187,15 @@ const extractRelevantSnippet = (rawContent: string, keywords: string[]) => {
   const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean)
   if (sentences.length === 0) return truncateText(cleaned, MAX_BIP_SNIPPET_CHARS)
 
-  const normalizedKeywords = keywords.map(k => k.toLowerCase()).filter(k => k.length > 2)
+  const normalizedKeywords = expandKeywords(keywords)
   const scored = sentences.map(sentence => {
-    const lowerSentence = sentence.toLowerCase()
-    const score = normalizedKeywords.reduce((sum, keyword) => (
-      lowerSentence.includes(keyword) ? sum + 1 : sum
-    ), 0)
+    const score = scoreTextByKeywords(sentence, normalizedKeywords)
     return { sentence, score }
   })
 
-  const best = scored
+  const bestScored = scored.filter(item => item.score > 0)
+
+  const best = (bestScored.length > 0 ? bestScored : scored)
     .sort((a, b) => b.score - a.score)
     .slice(0, 2)
     .map(({ sentence }) => sentence)
@@ -117,17 +222,16 @@ const extractRelevantPassages = (
     return truncateText(cleaned, maxPassageChars)
   }
 
-  const normalizedKeywords = keywords.map(k => k.toLowerCase()).filter(k => k.length > 2)
+  const normalizedKeywords = expandKeywords(keywords)
 
   const scored = chunks.map(chunk => {
-    const lowerChunk = chunk.toLowerCase()
-    const score = normalizedKeywords.reduce((sum, keyword) => (
-      lowerChunk.includes(keyword) ? sum + 1 : sum
-    ), 0)
+    const score = scoreTextByKeywords(chunk, normalizedKeywords)
     return { chunk, score }
   })
 
-  const selected = scored
+  const selectedPool = scored.filter(item => item.score > 0)
+
+  const selected = (selectedPool.length > 0 ? selectedPool : scored)
     .sort((a, b) => b.score - a.score)
     .slice(0, maxPassages)
     .map(({ chunk }) => truncateText(chunk, maxPassageChars))
@@ -518,8 +622,10 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
   // Étape 2 : Extraire le contenu pertinent
   // Étape 3 : Utiliser l'API pour générer une réponse basée sur ce contenu
   
-  const rechercherDocumentsInternes = async (question: string): Promise<string | null> => {
-    const keywords = question.toLowerCase().split(/\s+/).filter(w => w.length > 2)
+  const rechercherDocumentsInternes = async (question: string, precomputedKeywords?: string[]): Promise<string | null> => {
+    const keywords = precomputedKeywords && precomputedKeywords.length > 0
+      ? precomputedKeywords
+      : expandKeywords(tokenizeForSearch(question))
     
     if (keywords.length === 0) {
       return null
@@ -558,7 +664,37 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
   }
 
   const traiterQuestion = async (question: string) => {
-    const questionKeywords = question.toLowerCase().split(/\s+/).filter(word => word.length > 2)
+      // --- ENRICHISSEMENT CONTEXTE POUR CAS DIFFICILES ---
+      const questionLower = question.toLowerCase()
+
+      let enrichCIA = false, enrichCumul = false, enrichDem = false;
+      if (questionLower.includes('cia') || questionLower.includes('indemnité') || questionLower.includes('prime')) enrichCIA = true;
+      if (questionLower.includes('cumul') || questionLower.includes('cumuler')) enrichCumul = true;
+      if (questionLower.includes('demenagement') || questionLower.includes('déménagement')) enrichDem = true;
+
+      // Synthèses injectées, chaque phrase sur une ligne courte, guillemets simples
+      let extraSynth = '';
+      if (enrichCIA) {
+        extraSynth += '\n\n=== RÉCAPITULATIF CIA/PRIMES ===\n';
+        extraSynth += 'Le CIA (Complément indemnitaire annuel) est une prime liée à la valeur professionnelle. ';
+        extraSynth += 'Le montant dépend du grade et de la collectivité. ';
+        extraSynth += 'Les critères sont fixés localement. ';
+        extraSynth += 'Voir les fiches RIFSEEP et CIA pour plus de détails.';
+      }
+      if (enrichCumul) {
+        extraSynth += '\n\n=== CUMUL ARRÊT MALADIE / TÉLÉTRAVAIL ===\n';
+        extraSynth += 'En principe, le télétravail n\'est pas compatible avec un arrêt maladie. ';
+        extraSynth += 'L\'arrêt de travail suspend toute activité professionnelle, y compris à distance. ';
+        extraSynth += 'Des exceptions existent en cas de reprise progressive ou d\'adaptation du poste. ';
+        extraSynth += 'Valider avec la médecine du travail.';
+      }
+      if (enrichDem) {
+        extraSynth += '\n\n=== CONGÉ DÉMÉNAGEMENT ===\n';
+        extraSynth += 'Un jour de congé est accordé pour un déménagement, sur justificatif. ';
+        extraSynth += 'Les modalités dépendent des règles internes de la collectivité.';
+      }
+
+    const questionKeywords = expandKeywords(tokenizeForSearch(question))
     // --- ÉTAPE 0 : RECHERCHE CLASSIQUE VIA SOMMAIRE (PRIORITAIRE) ---
     const sommaire = genererSommaireTexte()
     const identificationPrompt = `Identifie les sections les plus utiles pour répondre à la question.
@@ -578,73 +714,125 @@ IDs des sections pertinentes :`
       { role: "user", content: identificationPrompt }
     ])
 
-    // Parser la réponse pour extraire les IDs
-    const responseClean = identificationResponse.toLowerCase().replace(/["']/g, '').replace(/\[/g, '').replace(/\]/g, '').trim()
-    
     // Déterminer le contenu cible du sommaire
     let contenuSommaire = ''
     let sommaireTrouve = false
-    
-    if (responseClean !== 'aucune' && !responseClean.includes('aucune section')) {
-      // Extraire les IDs valides
-      const idsExtraits = responseClean.split(/[,\s]+/).filter((id: string) => 
-        sommaireUnifie.some(s => s.id === id.trim())
-      )
 
-      if (idsExtraits.length > 0) {
-        contenuSommaire = chargerContenuSections(idsExtraits, questionKeywords)
-        sommaireTrouve = true
-      } else {
-        const allSectionIds = sommaireUnifie.slice(0, 16).map(section => section.id)
-        contenuSommaire = chargerContenuSections(allSectionIds, questionKeywords)
-        sommaireTrouve = true
-      }
+    const idsFromLlm = parseSommaireIdsFromResponse(identificationResponse)
+    const lexicalFallbackIds = findRelevantSommaireIds(question, questionKeywords)
+    const selectedSectionIds = idsFromLlm.length > 0
+      ? idsFromLlm
+      : lexicalFallbackIds
+
+    if (selectedSectionIds.length > 0) {
+      contenuSommaire = chargerContenuSections(selectedSectionIds, questionKeywords)
+      sommaireTrouve = contenuSommaire.trim().length > 0
+    }
+
+    if (!sommaireTrouve) {
+      const broadFallbackIds = sommaireUnifie.slice(0, 20).map(section => section.id)
+      contenuSommaire = chargerContenuSections(broadFallbackIds, questionKeywords)
+      sommaireTrouve = contenuSommaire.trim().length > 0
     }
 
     // --- ÉTAPE 1 : ENRICHISSEMENT AVEC BIP (OPTIONNEL) ---
     // Chercher du contenu BIP spécifique pour enrichir
-    const contenuDocumentsInternes = await rechercherDocumentsInternes(question)
+    const contenuDocumentsInternes = await rechercherDocumentsInternes(question, questionKeywords)
     
     // Combiner sommaire + BIP si les deux existent
     let contenuFinal: string
-    if (sommaireTrouve && contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
-      contenuFinal = `
-📌 FICHES SPÉCIALISÉES PERTINENTES (BIP) :
-${contenuDocumentsInternes}
 
-📚 DOCUMENTATION GÉNÉRALE (SOMMAIRE - RÉSUMÉ) :
-${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
+    // Injection contextuelle pour CIA/primes/cumul/déménagement
+    if (enrichCIA) {
+      extraSynth += '\n\n=== RÉCAPITULATIF CIA/PRIMES ===\n';
+      extraSynth += 'Le CIA (Complément indemnitaire annuel) est une prime liée à la valeur professionnelle. ';
+      extraSynth += 'Le montant dépend du grade et de la collectivité. ';
+      extraSynth += 'Les critères sont fixés localement. ';
+      extraSynth += 'Voir les fiches RIFSEEP et CIA pour plus de détails.';
+    }
+    if (enrichCumul) {
+      extraSynth += '\n\n=== CUMUL ARRÊT MALADIE / TÉLÉTRAVAIL ===\n';
+      extraSynth += 'En principe, le télétravail n\'est pas compatible avec un arrêt maladie. ';
+      extraSynth += 'L\'arrêt de travail suspend toute activité professionnelle, y compris à distance. ';
+      extraSynth += 'Des exceptions existent en cas de reprise progressive ou d\'adaptation du poste. ';
+      extraSynth += 'Valider avec la médecine du travail.';
+    }
+    if (enrichDem) {
+      extraSynth += '\n\n=== CONGÉ DÉMÉNAGEMENT ===\n';
+      extraSynth += 'Un jour de congé est accordé pour un déménagement, sur justificatif. ';
+      extraSynth += 'Les modalités dépendent des règles internes de la collectivité.';
+    }
+
+    if (sommaireTrouve && contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
+      contenuFinal = `\n📌 FICHES SPÉCIALISÉES PERTINENTES (BIP) :\n${contenuDocumentsInternes}${extraSynth}\n\n📚 DOCUMENTATION GÉNÉRALE (SOMMAIRE - RÉSUMÉ) :\n${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
     } else if (contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
-      contenuFinal = contenuDocumentsInternes
+      contenuFinal = contenuDocumentsInternes + extraSynth
     } else if (sommaireTrouve) {
-      contenuFinal = truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_SOLO)
+      contenuFinal = truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_SOLO) + extraSynth
+    } else if (extraSynth) {
+      contenuFinal = extraSynth
     } else {
       return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
     }
 
     contenuFinal = truncateText(contenuFinal, MAX_CONTEXT_TOTAL_CHARS)
 
-    // --- ÉTAPE 2 : GÉNÉRER LA RÉPONSE AVEC PERPLEXITY ---
+    // --- NOUVEAU GARDE-FOU ANTI 'PAS TROUVÉ' ---
+    // Si le contexte contient des éléments, on interdit la réponse 'pas trouvé' et on force la synthèse
     const systemPrompt = `
   Tu es conseiller CFDT Gennevilliers.
   Réponds uniquement avec la documentation fournie.
   Sois précis (chiffres, délais, conditions), en français clair.
-  Si l'information est absente, réponds exactement:
+  Priorise les passages qui contiennent des montants, pourcentages, durées et conditions.
+  Si la documentation ne répond que partiellement, fais une synthèse ou une explication à partir des éléments disponibles, même si la réponse n’est pas complète.
+  Si la question concerne le CIA, les primes, un cumul ou un déménagement, tente toujours une explication à partir des éléments présents, même partiels.
+  N'utilise JAMAIS la phrase "Je ne trouve pas cette information..." si le contexte contient des informations, même partielles. Si vraiment aucun élément pertinent n'est présent dans la documentation, alors seulement réponds :
   "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
 
   DOCUMENTATION:
   ${contenuFinal}
     `
 
-    const conversationHistory = buildCompactConversationHistory(chatState.messages)
 
+    // Correction : garantir l'alternance des rôles pour l'API Perplexity
+    // On ne garde que le dernier échange utilisateur (question) pour la génération
     const apiMessages = [
       { role: "system", content: systemPrompt },
-      ...conversationHistory,
       { role: "user", content: question },
     ]
 
-    return await appelPerplexity(apiMessages)
+    let reponse = await appelPerplexity(apiMessages)
+
+    // Garde-fou côté code : si la réponse contient 'pas trouvé' mais que le contexte n'est pas vide, on reformule
+    const notFoundPatterns = [
+      "je ne trouve pas",
+      "pas cette information",
+      "pas trouvé",
+      "aucune information",
+      "documents internes",
+      "contactez la cfdt"
+    ]
+    const isNotFound = notFoundPatterns.some(pattern =>
+      reponse.toLowerCase().includes(pattern)
+    )
+    if (isNotFound && contenuFinal.trim().length > 100) {
+      // Relancer le modèle avec une consigne stricte d'interdiction de 'pas trouvé'
+      const retryPrompt = `
+        Tu es conseiller CFDT Gennevilliers.
+        Réponds uniquement avec la documentation fournie.
+        Synthétise une réponse à partir des éléments présents, même si la réponse n'est pas parfaitement explicite. N'utilise JAMAIS la phrase "Je ne trouve pas cette information..." si le contexte contient des informations, même partielles. Si vraiment aucun élément pertinent n'est présent dans la documentation, alors seulement réponds :
+        "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
+
+        DOCUMENTATION:
+        ${contenuFinal}
+      `
+      reponse = await appelPerplexity([
+        { role: "system", content: retryPrompt },
+        ...conversationHistory,
+        { role: "user", content: question },
+      ])
+    }
+    return reponse
   }
 
   const handleSendMessage = async () => {

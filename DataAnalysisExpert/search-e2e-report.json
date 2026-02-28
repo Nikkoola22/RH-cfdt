@@ -1,0 +1,870 @@
+{
+  "generatedAt": "2026-02-28T13:10:29.593Z",
+  "model": "sonar",
+  "generationEnabled": true,
+  "sources": {
+    "sommairePath": "/Users/nikkoolagarnier/RH-cfdt/src/data/sommaireUnifie.ts",
+    "bipIndexPath": "/Users/nikkoolagarnier/RH-cfdt/src/data/bip-index.ts"
+  },
+  "parsed": {
+    "sommaireEntries": 76,
+    "bipEntries": 152
+  },
+  "summary": {
+    "totalQuestions": 10,
+    "retrievalCoverage": 10,
+    "retrievalCoveragePct": 100,
+    "generationAttempted": 10,
+    "generationNotFound": 5,
+    "generationNotFoundRate": 50,
+    "avgKeywordRecall": 0.59
+  },
+  "results": [
+    {
+      "question": "En congés de maladie ordinaire je suis payé combien ?",
+      "expandedKeywords": [
+        "conges",
+        "conge",
+        "absence",
+        "arret",
+        "maladie",
+        "cmo",
+        "ordinaire",
+        "paye",
+        "payer",
+        "remuneration",
+        "traitement",
+        "salaire",
+        "paie"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Maladie ordinaire: 3 mois à 90% + 9 mois demi, CLM/CLD: 1-3 ans plein",
+          "score": 24
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "CLM: jusqu\\",
+          "score": 21
+        },
+        {
+          "id": "temps_ch2_art6",
+          "titre": "Les congés liés aux naissances",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Congé maternité, paternité, accueil de l’enfant, hospitalisation, durées, modalités, rémunération.",
+          "score": 20
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Règles de gestion des absences pour maladie, démarches, carence, contrôle médical, expertise, absences injustifiées.",
+          "score": 19
+        }
+      ],
+      "topBip": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de l'agent après un congé de maladie Cett...",
+          "score": 47
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "L'année médicale (ANNMED) Accueil Fiches Indisponibilité physique et sécurité sociale Congé de maladie ordinaire Le congé de maladie ordinaire du fonctionnaire (COMAOR) Le congé de maladie ordinaire du fonctionnaire COMAOR I. Ouverture des droits II. Procédure d'octroi III. Contrôle médical IV. Rémunération durant le congé V. Situation du fonctionnaire après un congé Pour connaître les généralités sur les congés de maladie, -voir CONMAL. Sur les droits et obligations généraux durant un congé de...",
+          "score": 39
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de...",
+          "score": 36
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "En congé de maladie ordinaire (CMO), la rémunération est de **90 % du traitement indiciaire brut pendant les 3 premiers mois** (moins 1 jour de carence), puis **50 % pendant les 9 mois suivants**, pour une durée maximale d'1 an sur 12 mois glissants.[1][2][7][8]\n\nCes règles s'appliquent aux CMO accordés à compter du 1er mars 2025 (réduction de 100 % à 90 % pour les 3 premiers mois, primes et indemnités proratisées dans la même proportion).[1][2][4]\n\nLes droits sont calculés sur les arrêts des 12 mois précédents ; transmettez l'avis d'arrêt dans les 48 heures.[3][8]"
+      },
+      "generationEval": {
+        "isNotFound": false,
+        "expectedKeywords": [
+          "90",
+          "demi-traitement",
+          "3 mois",
+          "9 mois",
+          "rémunération"
+        ],
+        "matchedExpected": [
+          "90",
+          "9 mois",
+          "remuneration"
+        ],
+        "keywordRecall": 0.6
+      }
+    },
+    {
+      "question": "Combien de jours pour un déménagement ?",
+      "expandedKeywords": [
+        "jours",
+        "demenagement"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch3_art10",
+          "titre": "Déménagement",
+          "source": "temps",
+          "chapitre": 3,
+          "resume": "Absence autorisée pour déménagement, conditions et justificatifs.",
+          "score": 10
+        },
+        {
+          "id": "temps_ch2_art3",
+          "titre": "Les jours d’ARTT",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Jours de réduction du temps de travail (ARTT), modalités d’acquisition, gestion, prise, proratisation, déduction en cas d’absence.",
+          "score": 10
+        },
+        {
+          "id": "temps_ch2_art4",
+          "titre": "Don de jours de repos",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Don anonyme de RTT/CA (max 5j/an) pour collègue avec enfant malade <20 ans ou proche aidant.",
+          "score": 7
+        },
+        {
+          "id": "temps_ch3_demenagement",
+          "titre": "Déménagement",
+          "source": "temps",
+          "chapitre": 3,
+          "resume": "1 jour d\\",
+          "score": 7
+        }
+      ],
+      "topBip": [
+        {
+          "code": "jofepo",
+          "title": "Jours fériés et ponts",
+          "section": "conges-et-absences",
+          "content": "Accueil Fiches Congés et absences Jours fériés et ponts Jours fériés et ponts (JOFEPO) Jours fériés et ponts JOFEPO I. LISTE DES JOURS FERIES II. PONT III. REMUNERATION IV. INCIDENCE SUR LE CONGE ANNUEL ET RECUPERATION I. LISTE DES JOURS FERIES * La liste résulte de l'art. L. 621-8 code général de la fonction publique qui dispose : \\",
+          "score": 7
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "**1 jour d'absence autorisée pour déménagement**[Sommaire 1][Sommaire 4].  \nCette absence est prévue dans les conditions du chapitre temps_ch3_art10 et temps_ch3_demenagement, avec justificatifs requis. Les détails précis (comme les modalités exactes) sont dans ces documents internes."
+      },
+      "generationEval": {
+        "isNotFound": true,
+        "expectedKeywords": [
+          "1 jour",
+          "déménagement",
+          "semaine"
+        ],
+        "matchedExpected": [
+          "1 jour",
+          "demenagement"
+        ],
+        "keywordRecall": 0.67
+      }
+    },
+    {
+      "question": "Quelle est la durée du congé de longue maladie ?",
+      "expandedKeywords": [
+        "duree",
+        "conge",
+        "absence",
+        "arret",
+        "longue",
+        "maladie",
+        "cmo"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "CLM: jusqu\\",
+          "score": 28
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Règles de gestion des absences pour maladie, démarches, carence, contrôle médical, expertise, absences injustifiées.",
+          "score": 19
+        },
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Transmission sous 48h, 1 jour de carence, contre-visite possible",
+          "score": 16
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Maladie ordinaire: 3 mois à 90% + 9 mois demi, CLM/CLD: 1-3 ans plein",
+          "score": 16
+        }
+      ],
+      "topBip": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de l'agent après un congé de maladie Cett...",
+          "score": 29
+        },
+        {
+          "code": "colodu",
+          "title": "Le congé de longue durée du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "Le congé de longue maladie du fonctionnaire (COLOMA) Accueil Fiches Indisponibilité physique et sécurité sociale Congés de longue maladie et de longue durée Le congé de longue durée du fonctionnaire (COLODU) Le congé de longue durée du fonctionnaire COLODU I. Ouverture des droits II. Procédure de placement en congé III. Droits et obligations durant le congé de longue durée IV. Situation du fonctionnaire après un congé Pour connaître les généralités sur les congés de maladie, -voir CONMAL. Sur le...",
+          "score": 28
+        },
+        {
+          "code": "coloma",
+          "title": "Le congé de longue maladie du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "Le congé de longue durée du fonctionnaire (COLODU) Accueil Fiches Indisponibilité physique et sécurité sociale Congés de longue maladie et de longue durée Le congé de longue maladie du fonctionnaire (COLOMA) Le congé de longue maladie du fonctionnaire COLOMA I. Ouverture des droits II. Procédure de placement en congé III. Droits et obligations durant le congé de longue maladie IV. Situation du fonctionnaire après un congé Pour connaître les généralités sur les congés de maladie, -voir CONMAL. Su...",
+          "score": 28
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "**La durée maximale du congé de longue maladie (CLM) est de 3 ans.**[1][2][3][5][7][9]\n\nIl est accordé ou renouvelé par périodes de **3 à 6 mois**, de façon continue ou fractionnée (par journée ou demi-journée pour certains traitements).[1][2][3][7]\n\nUn nouveau droit intégral à 3 ans est ouvert si l'agent reprend ses fonctions pendant **au moins 1 an** entre deux CLM.[1][2][3][7]"
+      },
+      "generationEval": {
+        "isNotFound": false,
+        "expectedKeywords": [
+          "3 ans",
+          "longue maladie",
+          "plein traitement",
+          "demi-traitement"
+        ],
+        "matchedExpected": [
+          "3 ans",
+          "longue maladie"
+        ],
+        "keywordRecall": 0.5
+      }
+    },
+    {
+      "question": "Accident de service : quelle procédure de déclaration ?",
+      "expandedKeywords": [
+        "accident",
+        "service",
+        "trajet",
+        "maladie",
+        "professionnelle",
+        "procedure",
+        "declaration"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch4_art2",
+          "titre": "Accidents de service et de trajet",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Définition, déclaration, prise en charge des accidents de service et de trajet.",
+          "score": 35
+        },
+        {
+          "id": "temps_ch4_accident",
+          "titre": "Accident de service ou de trajet",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Déclaration sous 48h (régime général) ou 15j (CNRACL), plein traitement",
+          "score": 26
+        },
+        {
+          "id": "temps_ch4_art3",
+          "titre": "Prise en charge de la rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Prise en charge de la rémunération selon le statut de l’agent en cas de maladie ou d’accident.",
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Règles de gestion des absences pour maladie, démarches, carence, contrôle médical, expertise, absences injustifiées.",
+          "score": 10
+        }
+      ],
+      "topBip": [
+        {
+          "code": "repser",
+          "title": "La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "La maladie professionnelle du fonctionnaire et la maladie contractée en accomplissant un acte de dévouement dans un intérêt public (MALPRO) L'allocation temporaire d'invalidité (ALTEIN) Accueil Fiches Indisponibilité physique et sécurité sociale Accident de service et maladie professionnelle La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire (REPSER) La réparation de l'accident de service et de la maladie professionnelle du fonctionnaire REPSER I. Le rembour...",
+          "score": 32
+        },
+        {
+          "code": "acctra",
+          "title": "L'accident de trajet",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "Le congé pour invalidité temporaire imputable au service (CONITIS) Accueil Fiches Indisponibilité physique et sécurité sociale Accident de service et maladie professionnelle L'accident de trajet (ACCTRA) L'accident de trajet ACCTRA I. L'accident de trajet imputable au service : définition et preuve II. Les critères de l'accident de trajet III. Les cas d’exclusion de l'imputabilité au service de l'accident de trajet Cette fiche définit la notion d’accident de trajet applicable aux fonctionnaires...",
+          "score": 23
+        },
+        {
+          "code": "cessami",
+          "title": "La cessation anticipée d'activité des agents reconnus atteints d'une maladie professionnelle provoquée par l'amiante",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "Accueil Fiches Cessation de fonctions Cessation anticipée d'activité - amiante La cessation anticipée d'activité des agents reconnus atteints d'une maladie professionnelle provoquée par l'amiante (CESSAMI) La cessation anticipée d'activité des agents reconnus atteints d'une maladie professionnelle provoquée par l'amiante CESSAMI I. CONDITIONS D’OCTROI ET PROCEDURE II. L’ALLOCATION SPECIFIQUE III. LA SITUATION DE L’AGENT IV. FIN DU DISPOSITIF Les art. L. 555-1 code général de la fonction publique...",
+          "score": 21
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "La procédure de déclaration d'un accident de service comprend plusieurs étapes essentielles à respecter dans des délais précis.\n\n## Étapes immédiates\n\n**Consulter un médecin** dans les meilleurs délais (de préférence le jour même ou le lendemain) pour faire constater les lésions et obtenir un certificat médical initial décrivant les lésions et leur localisation[1]. N'utilisez pas votre carte vitale : vous n'avez aucun frais à avancer[1].\n\n**Informer votre supérieur hiérarchique** dans les plus brefs délais[1].\n\n## Documents à transmettre\n\nVous devez envoyer au bureau des accidents de travail et maladies professionnelles (DPAE4) une déclaration comportant[1] :\n\n- Un formulaire renseigné précisant les circonstances de l'accident\n- Un certificat médical initial (volet 1 obligatoirement)\n\nEn aucun cas, ces pièces ne doivent être transmises à la CPAM ou à la MGEN[1].\n\n## Délais à respecter\n\n- **Déclaration d'accident : 15 jours** à compter de la date de l'accident[1][4]. Au-delà, la déclaration reste possible pendant 2 ans à compter de l'accident mais doit être effectuée dans les 15 jours de sa constatation médicale[1].\n\n- **Arrêt de travail : 48 heures** suivant son établissement[1][4].\n\n## Clôture du dossier\n\nLorsque votre état de santé est stabilisé (guérison ou consolidation en cas de séquelles), vous en informez le service DPAE4 qui clôturera votre dossier[1].\n\nEn cas de rechute, signalez-la dans les mêmes délais par certificat médical[1]."
+      },
+      "generationEval": {
+        "isNotFound": false,
+        "expectedKeywords": [
+          "48h",
+          "15 jours",
+          "déclaration",
+          "certificat"
+        ],
+        "matchedExpected": [
+          "15 jours",
+          "declaration",
+          "certificat"
+        ],
+        "keywordRecall": 0.75
+      }
+    },
+    {
+      "question": "Quels sont les jours de congés annuels ?",
+      "expandedKeywords": [
+        "sont",
+        "jours",
+        "conges",
+        "conge",
+        "absence",
+        "arret",
+        "annuels"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch2_art1",
+          "titre": "Les congés annuels",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "25 jours ouvrés/an (5j x 5 sem). Prorata selon temps de travail. Modalités de demande, délais, priorités, reports, règles d’attribution.",
+          "score": 26
+        },
+        {
+          "id": "temps_ch2_art3",
+          "titre": "Les jours d’ARTT",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Jours de réduction du temps de travail (ARTT), modalités d’acquisition, gestion, prise, proratisation, déduction en cas d’absence.",
+          "score": 15
+        },
+        {
+          "id": "temps_ch2_art6",
+          "titre": "Les congés liés aux naissances",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Congé maternité, paternité, accueil de l’enfant, hospitalisation, durées, modalités, rémunération.",
+          "score": 15
+        },
+        {
+          "id": "temps_ch2_art2",
+          "titre": "Le congé bonifié (outre-mer)",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Pour fonctionnaires originaires DOM, tous les 2 ans, max 31 jours calendaires, conditions d’ouverture des droits.",
+          "score": 12
+        }
+      ],
+      "topBip": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de l'agent après un congé de maladie Cett...",
+          "score": 30
+        },
+        {
+          "code": "conoco",
+          "title": "Fonctionnaires occupant un emploi à temps non complet : congés",
+          "section": "conges-et-absences",
+          "content": "Fonctionnaires occupant un emploi à temps non complet : carrière (CANOCO) Fonctionnaires occupant un emploi à temps non complet : rémunération (RENOCO) Accueil Fiches Emplois à temps non complet Fonctionnaires occupant un emploi à temps non complet : congés (CONOCO) Fonctionnaires occupant un emploi à temps non complet : congés CONOCO I. CONGES ANNUELS II. CONGES LIES A L'ARRIVEE D'UN ENFANT AU FOYER III. CONGES DE MALADIE IV. SITUATION DU FONCTIONNAIRE A TEMPS NON COMPLET RELEVANT DU REGIME GEN...",
+          "score": 30
+        },
+        {
+          "code": "ntico1",
+          "title": "Agents contractuels : généralités sur les congés",
+          "section": "conges-et-absences",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Agents contractuels Congés des agents contractuels Agents contractuels : généralités sur les congés (NTICO1) Agents contractuels : généralités sur les congés NTICO1 I. Conditions générales d'octroi II. Conditions générales de réemploi III. Prise en compte de la durée des congés Sur les principes généraux relatifs aux agents contractuels, -voir NTIGEN. Cette fiche présente les principes généraux sur les congés des agents contra...",
+          "score": 29
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "**Les jours de congés annuels sont de 25 jours ouvrés par an (5 jours x 5 semaines).**  \nCe droit s'applique pour une année complète de travail effectif, avec un prorata selon le temps de travail réel[Sommaire 1]. Les modalités incluent les demandes de congés, les délais de réponse, les priorités d'attribution, les reports possibles et les règles spécifiques d'attribution. Pour plus de détails précis (comme les démarches ou exceptions), consultez la documentation complète temps_ch2_art1 ou contactez la CFDT au 01 40 85 64 64."
+      },
+      "generationEval": {
+        "isNotFound": true,
+        "expectedKeywords": [
+          "congés annuels",
+          "jours",
+          "acquisition"
+        ],
+        "matchedExpected": [
+          "conges annuels",
+          "jours"
+        ],
+        "keywordRecall": 0.67
+      }
+    },
+    {
+      "question": "Télétravail : qui fournit le matériel ?",
+      "expandedKeywords": [
+        "teletravail",
+        "distance",
+        "remote",
+        "fournit",
+        "materiel"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "teletravail_materiel",
+          "titre": "Matériel et équipement télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "resume": "Matériel fourni par la collectivité, kit ergonomique, connexion internet requise",
+          "score": 15
+        },
+        {
+          "id": "teletravail_materiel",
+          "titre": "Matériel et sécurité",
+          "source": "teletravail",
+          "chapitre": null,
+          "resume": "Matériel fourni, sécurité, dysfonctionnement, kit ergonomique.",
+          "score": 12
+        },
+        {
+          "id": "teletravail_exceptionnel",
+          "titre": "Télétravail en circonstances exceptionnelles",
+          "source": "teletravail",
+          "chapitre": null,
+          "resume": "Télétravail contraint en cas de circonstances exceptionnelles, continuité du service.",
+          "score": 10
+        },
+        {
+          "id": "teletravail_lieu",
+          "titre": "Lieu du télétravail",
+          "source": "teletravail",
+          "chapitre": null,
+          "resume": "Lieu d’exercice, domicile, espace public, confidentialité, déclaration.",
+          "score": 7
+        }
+      ],
+      "topBip": [
+        {
+          "code": "teltra",
+          "title": "Le télétravail",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "content": "Accueil Fiches Conditions d'exercice des fonctions et durée du travail Télétravail Le télétravail (TELTRA) Le télétravail TELTRA I. DEFINITION ET CHAMP D'APPLICATION II. MODALITES DE MISE EN OEUVRE III. PROCEDURE DE MISE EN OEUVRE IV. SITUATION DES AGENTS TELETRAVAILLEURS V. FIN DE LA PERIODE DE TELETRAVAIL La possibilité de recourir au télétravail dans la fonction publique est prévue par les art. L. 430-1 code général de la fonction publique et suivants. Le décret n°2016-151 du 11 février 2016...",
+          "score": 9
+        },
+        {
+          "code": "ccpfon",
+          "title": "Commissions consultatives paritaires : fonctionnement",
+          "section": "agents-contractuels",
+          "content": "Commissions consultatives paritaires : généralités (CCPGEN) Commissions consultatives paritaires : élections des représentants du personnel (CCPELE) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : fonctionnement (CCPFON) Commissions consultatives paritaires : fonctionnement CCPFON I. CONVOCATION II. QUORUM III. ORGANISATION DE REUNIONS A DISTANCE EN CAS D'URGENCE OU DE CIRCONSTANCES PARTI...",
+          "score": 3
+        },
+        {
+          "code": "ccpgen",
+          "title": "Commissions consultatives paritaires : généralités",
+          "section": "agents-contractuels",
+          "content": "Commissions consultatives paritaires : fonctionnement (CCPFON) Accueil Fiches Agents contractuels Agents contractuels : instances compétentes Commissions consultatives paritaires : généralités (CCPGEN) Commissions consultatives paritaires : généralités CCPGEN I. Organisation II. Compétences III. Composition Cette fiche présente les principes généraux relatifs aux commissions consultatives paritaires (CCP). Elle est complétée par les fiches suivantes : - CCP...",
+          "score": 2
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "**La collectivité fournit le matériel pour le télétravail, incluant un kit ergonomique.**[Sommaire 1][Sommaire 2]\n\nCe matériel est mis à disposition des agents, avec une connexion internet requise de leur part. En cas de dysfonctionnement, des mesures de sécurité sont prévues.[Sommaire 1][Sommaire 2]"
+      },
+      "generationEval": {
+        "isNotFound": false,
+        "expectedKeywords": [
+          "matériel",
+          "équipement",
+          "collectivité",
+          "télétravail"
+        ],
+        "matchedExpected": [
+          "materiel",
+          "collectivite",
+          "teletravail"
+        ],
+        "keywordRecall": 0.75
+      }
+    },
+    {
+      "question": "Comment demander une formation CNFPT ?",
+      "expandedKeywords": [
+        "demander",
+        "formation",
+        "cnfpt",
+        "stage",
+        "concours",
+        "examen"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "formation_concours",
+          "titre": "Préparation concours et examens",
+          "source": "formation",
+          "chapitre": null,
+          "resume": "Préparation aux concours/examens FPT, 1j admissibilité + 2j admission",
+          "score": 20
+        },
+        {
+          "id": "formation_obligatoire",
+          "titre": "Formations obligatoires (intégration, professionnalisation)",
+          "source": "formation",
+          "chapitre": null,
+          "resume": "Formation intégration (5-10j), professionnalisation 1er emploi (3-10j), tout au long carrière (2-10j), formation initiale, continue, plan de formation, statut, carrière, diplôme, concours, formation réglementaire, qualifiante, certifiante",
+          "score": 19
+        },
+        {
+          "id": "temps_ch3_art11",
+          "titre": "Formation",
+          "source": "temps",
+          "chapitre": 3,
+          "resume": "Journée de formation assimilée à une journée de travail, récupération, absences pour concours, jury, représentation.",
+          "score": 17
+        },
+        {
+          "id": "temps_ch3_formation",
+          "titre": "Formation et concours",
+          "source": "temps",
+          "chapitre": 3,
+          "resume": "1j avant admissibilité, 2j avant admission, 5j/an jury ou formateur externe",
+          "score": 16
+        }
+      ],
+      "topBip": [
+        {
+          "code": "forobl",
+          "title": "Formation obligatoire des fonctionnaires",
+          "section": "carriere",
+          "content": "Le compte personnel d’activité (CPF et CEC) (CPACPF) Formation facultative des fonctionnaires (FORFAC) Accueil Fiches Droits et obligations Droits et garanties Formation Formation obligatoire des fonctionnaires (FOROBL) Formation obligatoire des fonctionnaires FOROBL I. PRINCIPES GENERAUX II. FORMATION D'INTEGRATION III. FORMATION DE PROFESSIONNALISATION IV. DISPENSES V. OBLIGATIONS LIEES AU SUIVI DE LA FORMATION Cette fiche présente le cadre général de la...",
+          "score": 13
+        },
+        {
+          "code": "finsta",
+          "title": "Fin du stage",
+          "section": "carriere",
+          "content": "Protection sociale des stagiaires (PROSTA) Cas de radiation des stagiaires à l'initiative de la collectivité (CARAST) Accueil Fiches Carrière Stage et titularisation Fin du stage (FINSTA) Fin du stage FINSTA I. Titularisation II. Prolongation du stage à l'initiative de l'autorité territoriale III. Radiation à l'initiative de l'autorité territoriale et ses effets IV. Démission du stagiaire V. Décès du stagiaire La présente fiche traite des principes généraux...",
+          "score": 11
+        },
+        {
+          "code": "stagen",
+          "title": "Stage : généralités",
+          "section": "carriere",
+          "content": "Stagiaires (STAGIA) Accueil Fiches Carrière Stage et titularisation Stage : généralités (STAGEN) Stage : généralités STAGEN I. Nomination au stage II. Classement III. Durée du stage et prolongation IV. Dispense de stage Cette fiche présente les dispositions applicables en matière de stage, période probatoire au cours de laquelle l'aptitude à l'exercice des fonctions est vérifiée, avant une éventuelle titularisation. Le stage est prévu dans les statuts parti...",
+          "score": 11
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "Pour demander une formation au **CNFPT**, l'agent territorial doit utiliser l'inscription en ligne (IEL) sur **www.cnfpt.fr** via le service formation de sa collectivité, qui valide la demande avant transmission au CNFPT[1][3][7][9][10].\n\n### Étapes précises :\n- **Recherchez la formation** sur www.cnfpt.fr avec des critères (mot-clé, présentiel/distance, localisation)[1][8][10].\n- **Générez le formulaire** : Cliquez sur \"Demande de formation\" pour la session choisie ; il est pré-rempli en partie[1][10].\n- **Complétez et validez en interne** : Renseignez toutes les rubriques (identité, email personnel obligatoire pour distance/mixte, objectifs, fonctions exercées), sans rature ; retournez au service formation de votre collectivité pour validation[1][3][7].\n- **Transmission** : Une fois validée, la demande est envoyée au CNFPT en ligne, en quelques clics[1].\n\nLes inscriptions s'effectuent **uniquement en ligne par l’intermédiaire des services formation des collectivités** ; aucun bulletin papier direct au CNFPT[1][3]. Pour les formations CPF, précisez-le et obtenez l'accord de l'employeur[1][2]. \n\nJe ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
+      },
+      "generationEval": {
+        "isNotFound": true,
+        "expectedKeywords": [
+          "formation",
+          "cnfpt",
+          "demande",
+          "validation"
+        ],
+        "matchedExpected": [
+          "formation",
+          "cnfpt",
+          "demande",
+          "validation"
+        ],
+        "keywordRecall": 1
+      }
+    },
+    {
+      "question": "Comment fonctionne le CIA ?",
+      "expandedKeywords": [
+        "fonctionne",
+        "cia"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "teletravail_materiel",
+          "titre": "Matériel et sécurité",
+          "source": "teletravail",
+          "chapitre": null,
+          "resume": "Matériel fourni, sécurité, dysfonctionnement, kit ergonomique.",
+          "score": 5
+        }
+      ],
+      "topBip": [
+        {
+          "code": "cstfon",
+          "title": "Comités sociaux territoriaux et formations spécialisées : fonctionnement",
+          "section": "conditions-d-exercice-des-fonctions-et-duree-du-travail",
+          "content": "Comités sociaux territoriaux : élections des représentants du personnel (CSTELE) Formations spécialisées des comités sociaux territoriaux : généralités (FSPGEN) Accueil Fiches Organisation et organes de la FPT Comités sociaux territoriaux Comités sociaux territoriaux et formations spécialisées : fonctionnement (CSTFON) Comités sociaux territoriaux et formations spécialisées : fonctionnement CSTFON I. PREPARATION DE LA SEANCE II. PRESIDENCE, SECRETARIAT, REGLEMENT INTERIEUR III. PARTICIPATION AUX...",
+          "score": 18
+        },
+        {
+          "code": "casind",
+          "title": "Cas de versement des indemnités de maladie du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "Les prestations en espèces de l'assurance maladie du régime spécial (PREMAL) Les prestations de l'assurance invalidité du régime spécial (PREINV) Accueil Fiches Indisponibilité physique et sécurité sociale Régime spécial de sécurité sociale des fonctionnaires territoriaux Cas de versement des indemnités de maladie du régime spécial (CASIND) Cas de versement des indemnités de maladie du régime spécial CASIND I. REGLES DE CALCUL II. L'INDEMNITE DIFFERENTIELLE III. LE VERSEMENT D’INDEMNITES DE MALA...",
+          "score": 12
+        },
+        {
+          "code": "preinv",
+          "title": "Les prestations de l'assurance invalidité du régime spécial",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "Cas de versement des indemnités de maladie du régime spécial (CASIND) Accueil Fiches Indisponibilité physique et sécurité sociale Régime spécial de sécurité sociale des fonctionnaires territoriaux Les prestations de l'assurance invalidité du régime spécial (PREINV) Les prestations de l'assurance invalidité du régime spécial PREINV I. PRINCIPE II. CONDITIONS GENERALES D'ATTRIBUTION DE L'AIT III. PROCEDURE IV. MONTANT DE L'AIT I. PRINCIPE Les prestations de l'assurance invalidité du régime spécial...",
+          "score": 12
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
+      },
+      "generationEval": {
+        "isNotFound": true,
+        "expectedKeywords": [
+          "cia",
+          "prime",
+          "montant",
+          "critères"
+        ],
+        "matchedExpected": [],
+        "keywordRecall": 0
+      }
+    },
+    {
+      "question": "Quelles sont les règles du jour de carence en CMO ?",
+      "expandedKeywords": [
+        "sont",
+        "regles",
+        "jour",
+        "carence",
+        "cmo",
+        "maladie",
+        "arret",
+        "ordinaire"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Règles de gestion des absences pour maladie, démarches, carence, contrôle médical, expertise, absences injustifiées.",
+          "score": 20
+        },
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Transmission sous 48h, 1 jour de carence, contre-visite possible",
+          "score": 19
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Maladie ordinaire: 3 mois à 90% + 9 mois demi, CLM/CLD: 1-3 ans plein",
+          "score": 13
+        },
+        {
+          "id": "temps_ch2_art3",
+          "titre": "Les jours d’ARTT",
+          "source": "temps",
+          "chapitre": 2,
+          "resume": "Jours de réduction du temps de travail (ARTT), modalités d’acquisition, gestion, prise, proratisation, déduction en cas d’absence.",
+          "score": 12
+        }
+      ],
+      "topBip": [
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "L'année médicale (ANNMED) Accueil Fiches Indisponibilité physique et sécurité sociale Congé de maladie ordinaire Le congé de maladie ordinaire du fonctionnaire (COMAOR) Le congé de maladie ordinaire du fonctionnaire COMAOR I. Ouverture des droits II. Procédure d'octroi III. Contrôle médical IV. Rémunération durant le congé V. Situation du fonctionnaire après un congé Pour connaître les généralités sur les congés de maladie, -voir CONMAL. Sur les droits et obligations généraux durant un congé de...",
+          "score": 22
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de...",
+          "score": 14
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de l'agent après un congé de maladie Cett...",
+          "score": 14
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "**Pour le congé de maladie ordinaire (CMO), un jour de carence non rémunéré s'applique systématiquement sur le premier jour de chaque arrêt de travail, la rémunération étant due à partir du 2e jour.** [1][2][3][7]\n\n### Modalités d'application :\n- Le jour de carence est retenu durant les 90 premiers jours du CMO et déduit des droits à rémunération à 90 %.[1][2]\n- Il s'applique même si l'arrêt commence le jour même d'une journée travaillée (ex. : consultation post-service), sur le premier jour d'absence effective.[1]\n- **Un seul jour par arrêt distinct** : si reprise du travail plus de 48h entre deux arrêts pour la même pathologie, un nouveau jour de carence est prélevé ; sinon (prolongation ou reprise ≤48h), aucun nouveau jour.[1][2][3][5][6]\n\n### Exceptions (pas de jour de carence) :\n- Prolongations d'arrêt (case \"prolongation\" cochée par le médecin).[1][4][6]\n- Congés pour accident du travail/maladie professionnelle, longue maladie (CLM), longue durée (CLD), grave maladie.[1][3][5]\n- CMO post-déclaration de grossesse, fausse couche ou interruption médicale de grossesse, ou 1er CMO dans les 13 semaines après décès d'un enfant/personne <25 ans à charge.[1][6]\n- Congés maternité ou pathologiques.[1][3]\n\n### Cas particuliers des contractuels :\n- **1 jour de carence** si ancienneté ≥4 mois (comme les fonctionnaires).[1][2][3]\n- **3 jours de carence** si ancienneté <4 mois.[1][2][3]\n\nCe jour de carence est en vigueur dans la fonction publique depuis le 1er janvier 2018 (article 115 de la loi de finances 2018).[2][3][4] Il ne peut être compensé par un jour d'ARTT, ASA ou cong"
+      },
+      "generationEval": {
+        "isNotFound": false,
+        "expectedKeywords": [
+          "carence",
+          "cmo",
+          "jour",
+          "maladie"
+        ],
+        "matchedExpected": [
+          "carence",
+          "cmo",
+          "jour",
+          "maladie"
+        ],
+        "keywordRecall": 1
+      }
+    },
+    {
+      "question": "Puis-je cumuler télétravail et arrêt maladie ?",
+      "expandedKeywords": [
+        "cumuler",
+        "teletravail",
+        "distance",
+        "remote",
+        "arret",
+        "maladie",
+        "cmo",
+        "conge"
+      ],
+      "hasAnyContext": true,
+      "topSommaire": [
+        {
+          "id": "temps_ch4_maladie",
+          "titre": "Congé maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Transmission sous 48h, 1 jour de carence, contre-visite possible",
+          "score": 16
+        },
+        {
+          "id": "temps_ch4_art1",
+          "titre": "La maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Règles de gestion des absences pour maladie, démarches, carence, contrôle médical, expertise, absences injustifiées.",
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_clm_details",
+          "titre": "Congé de longue maladie (CLM) - Durée et rémunération",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "CLM: jusqu\\",
+          "score": 14
+        },
+        {
+          "id": "temps_ch4_remuneration",
+          "titre": "Prise en charge rémunération maladie",
+          "source": "temps",
+          "chapitre": 4,
+          "resume": "Maladie ordinaire: 3 mois à 90% + 9 mois demi, CLM/CLD: 1-3 ans plein",
+          "score": 12
+        }
+      ],
+      "topBip": [
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "conges-et-absences",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de l'agent après un congé de maladie Cett...",
+          "score": 23
+        },
+        {
+          "code": "comaor",
+          "title": "Le congé de maladie ordinaire du fonctionnaire",
+          "section": "indisponibilite-physique-et-securite-sociale",
+          "content": "L'année médicale (ANNMED) Accueil Fiches Indisponibilité physique et sécurité sociale Congé de maladie ordinaire Le congé de maladie ordinaire du fonctionnaire (COMAOR) Le congé de maladie ordinaire du fonctionnaire COMAOR I. Ouverture des droits II. Procédure d'octroi III. Contrôle médical IV. Rémunération durant le congé V. Situation du fonctionnaire après un congé Pour connaître les généralités sur les congés de maladie, -voir CONMAL. Sur les droits et obligations généraux durant un congé de...",
+          "score": 22
+        },
+        {
+          "code": "ntico3",
+          "title": "Agents contractuels : les congés de maladie",
+          "section": "agents-contractuels",
+          "content": "Agents contractuels : les congés hors maladie (NTICO2) Accueil Fiches Congés et absences Congés des agents contractuels Agents contractuels : les congés de maladie (NTICO3) Agents contractuels : les congés de maladie NTICO3 I. Le congé de maladie ordinaire II. Le congé de grave maladie III. Le congé pour accident du travail ou maladie professionnelle IV. Coordination entre traitement et prestations de la sécurité sociale V. Contrôle médical VI. Situation de...",
+          "score": 20
+        }
+      ],
+      "generation": {
+        "skipped": false,
+        "reason": null,
+        "answer": "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
+      },
+      "generationEval": {
+        "isNotFound": true,
+        "expectedKeywords": [
+          "arrêt maladie",
+          "télétravail",
+          "conditions"
+        ],
+        "matchedExpected": [],
+        "keywordRecall": 0
+      }
+    }
+  ]
+}
