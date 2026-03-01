@@ -43,8 +43,11 @@ const MAX_BIP_SOURCES = 3
 const MAX_BIP_SNIPPET_CHARS = 280
 const MAX_BIP_TOTAL_CHARS = 1500
 const MAX_SOMMAIRE_CHARS_WITH_BIP = 700
-const MAX_SOMMAIRE_CHARS_SOLO = 2800
-const MAX_CONTEXT_TOTAL_CHARS = 5500
+const MAX_SOMMAIRE_CHARS_SOLO = 2000
+const MAX_CONTEXT_TOTAL_CHARS = 4000
+
+// Cache mémoire pour économiser les appels API sur les questions identiques
+const queryCache = new Map<string, string>();
 
 const SEARCH_STOPWORDS = new Set([
   'de', 'du', 'des', 'le', 'la', 'les', 'un', 'une', 'et', 'ou', 'en', 'au', 'aux', 'a', 'à',
@@ -424,9 +427,8 @@ function App() {
   // --- LOGIQUE DU CALCULATEUR DE PRIMES ---
   const appelPerplexity = async (messages: { role: string; content: string }[], useExternalModel = false) => {
     try {
-      // Utiliser "sonar" pour recherche externe (meilleur respect des instructions FPT)
-      // Utiliser "sonar-pro" pour recherche interne
-      const model = useExternalModel ? "sonar" : "sonar-pro"
+      // Modèle léger 'sonar' utilisé par défaut pour économiser les tokens
+      const model = useExternalModel ? "sonar" : "sonar";
       const data = { model, messages }
       const response = await fetch(BACKEND_API_URL, {
         method: "POST",
@@ -605,8 +607,15 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
   }
 
   const traiterQuestion = async (question: string) => {
+      // Vérification du cache pour économie de tokens
+      const cacheKey = question.trim().toLowerCase()
+      if (queryCache.has(cacheKey)) {
+        console.log("Renvoi depuis le cache local pour économiser des appels API", cacheKey);
+        return queryCache.get(cacheKey)!;
+      }
+
       // --- ENRICHISSEMENT CONTEXTE POUR CAS DIFFICILES ---
-      const questionLower = question.toLowerCase()
+      const questionLower = cacheKey
 
       let enrichCIA = false, enrichCumul = false, enrichDem = false;
       if (questionLower.includes('cia') || questionLower.includes('indemnité') || questionLower.includes('prime')) enrichCIA = true;
@@ -643,7 +652,8 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
     let sommaireTrouve = false
 
     // Utilise notre puissant algorithme maison (stemming, densité, mots vides)
-    const bestSections = rechercherDansSommaire(question, 4)
+    // On limite à 3 résultats au lieu de 4 pour économiser des tokens contextuels
+    const bestSections = rechercherDansSommaire(question, 3)
     const selectedSectionIds = bestSections.map(s => s.id)
 
     if (selectedSectionIds.length > 0) {
@@ -753,6 +763,9 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
         { role: "user", content: question },
       ])
     }
+    
+    // Sauvegarde en cache de la réponse pour économies futures
+    queryCache.set(cacheKey, reponse);
     return reponse
   }
 
