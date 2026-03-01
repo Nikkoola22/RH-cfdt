@@ -5,7 +5,7 @@ import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculat
 import { chapitres } from "./data/temps.ts"
 import { formation } from "./data/formation.ts"
 import { teletravailData } from "./data/teletravail.ts"
-import { sommaireUnifie } from "./data/sommaireUnifie.ts"
+import { sommaireUnifie, rechercherDansSommaire } from "./data/sommaireUnifie.ts"
 import { infoItems } from "./data/info-data.ts"
 import { searchFichesByKeywordsAsync } from "./utils/ficheSearch.ts"
 import { franceInfoRss } from "./data/rss-data.ts"
@@ -45,12 +45,6 @@ const MAX_BIP_TOTAL_CHARS = 1500
 const MAX_SOMMAIRE_CHARS_WITH_BIP = 700
 const MAX_SOMMAIRE_CHARS_SOLO = 2800
 const MAX_CONTEXT_TOTAL_CHARS = 5500
-const MAX_SUMMARY_ITEM_CHARS = 120
-const MAX_SUMMARY_KEYWORDS = 6
-const MAX_USER_HISTORY_MESSAGES = 4
-const MAX_ASSISTANT_HISTORY_MESSAGES = 1
-const MAX_USER_HISTORY_CHARS = 280
-const MAX_ASSISTANT_HISTORY_CHARS = 180
 
 const SEARCH_STOPWORDS = new Set([
   'de', 'du', 'des', 'le', 'la', 'les', 'un', 'une', 'et', 'ou', 'en', 'au', 'aux', 'a', 'à',
@@ -141,40 +135,6 @@ const scoreTextByKeywords = (text: string, keywords: string[]) => {
   ), 0)
 }
 
-const findRelevantSommaireIds = (question: string, expandedKeywords: string[], maxIds = 4) => {
-  if (expandedKeywords.length === 0) return [] as string[]
-
-  const normalizedQuestion = normalizeForSearch(question)
-
-  const scored = sommaireUnifie.map((section) => {
-    const titleScore = scoreTextByKeywords(section.titre || '', expandedKeywords)
-    const resumeScore = scoreTextByKeywords(section.resume || '', expandedKeywords)
-    const keywordScore = scoreTextByKeywords((section.motsCles || []).join(' '), expandedKeywords)
-    const questionOverlap = scoreTextByKeywords(normalizedQuestion, tokenizeForSearch(`${section.titre} ${section.resume || ''}`))
-
-    const score = (titleScore * 5) + (resumeScore * 3) + (keywordScore * 2) + questionOverlap
-    return { id: section.id, score }
-  })
-
-  return scored
-    .filter(item => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, maxIds)
-    .map(item => item.id)
-}
-
-const parseSommaireIdsFromResponse = (responseText: string) => {
-  const responseClean = normalizeForSearch(responseText).replace(/\[/g, '').replace(/\]/g, '')
-  if (!responseClean || responseClean.includes('aucune section') || responseClean === 'aucune') {
-    return [] as string[]
-  }
-
-  return responseClean
-    .split(/[\s,;]+/)
-    .map(id => id.trim())
-    .filter((id): id is string => Boolean(id) && sommaireUnifie.some(section => section.id === id))
-}
-
 const extractRelevantSnippet = (rawContent: string, keywords: string[]) => {
   const cleaned = rawContent
     .replace(/Télécharger\s+Imprimer\s+Ajouter\s+S'abonner/gi, '')
@@ -239,28 +199,6 @@ const extractRelevantPassages = (
   return selected.join(' | ')
 }
 
-const buildCompactConversationHistory = (messages: ChatMessage[]) => {
-  const history = messages.slice(1)
-  const userMessages = history
-    .filter(message => message.type === 'user')
-    .slice(-MAX_USER_HISTORY_MESSAGES)
-    .map(message => ({
-      role: 'user',
-      content: truncateText(message.content, MAX_USER_HISTORY_CHARS),
-    }))
-
-  const assistantMessages = history
-    .filter(message => message.type === 'assistant')
-    .slice(-MAX_ASSISTANT_HISTORY_MESSAGES)
-    .map(message => ({
-      role: 'assistant',
-      content: truncateText(message.content, MAX_ASSISTANT_HISTORY_CHARS),
-    }))
-
-  return [...assistantMessages, ...userMessages]
-}
-
-// --- COMPOSANT RSS BANDEAU (mémorisé pour éviter les re-renders) ---
 const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems: RssItem[], rssLoading: boolean, marqueeRef: React.RefObject<HTMLDivElement> }) => {
   // Générer le contenu des items
   const renderItems = (keyPrefix: string) => {
@@ -473,6 +411,16 @@ function App() {
     setSelectedInfo(null)
   }
 
+  const cleanBotResponse = (text: string) => {
+    if (!text) return text;
+    return text
+      .replace(/\*\*/g, '')              // Supprime les balises bold markdown
+      .replace(/\[\d+(?:,\s*\d+)*\]/g, '') // Supprime les references type [1], [2], [1, 2] etc
+      .replace(/\[Source[^\]]*\]/gi, '') // Supprime les mentions type [Source 3], [Source documentation générale]
+      .replace(/\n{3,}/g, '\n\n')        // Nettoie les retours a la ligne excessifs
+      .trim();
+  }
+
   // --- LOGIQUE DU CALCULATEUR DE PRIMES ---
   const appelPerplexity = async (messages: { role: string; content: string }[], useExternalModel = false) => {
     try {
@@ -493,7 +441,7 @@ function App() {
       }
       
       const result = await response.json()
-      return result.choices[0].message.content
+      return cleanBotResponse(result.choices[0].message.content)
     } catch (error) {
       console.error("Erreur lors du traitement de la question:", error)
       return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
@@ -562,15 +510,8 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
   }
 
   // --- RECHERCHE OPTIMISÉE EN 2 ÉTAPES ---
-  // Étape 1 : Identifier les sections pertinentes via le sommaire léger (~500 tokens)
-  // Étape 2 : Charger uniquement le contenu des sections identifiées
-  // Économie : ~80% de tokens par requête
-
-  const genererSommaireTexte = () => {
-    return sommaireUnifie.map(s => 
-      `[${s.id}] ${s.titre} - ${truncateText(s.resume || s.motsCles.slice(0, MAX_SUMMARY_KEYWORDS).join(', '), MAX_SUMMARY_ITEM_CHARS)}`
-    ).join('\n')
-  }
+  // Étape 1 : Identifier les sections pertinentes via notre algorithme local TF-IDF (0 tokens)
+  // Étape 2 : Charger uniquement le contenu des sections identifiées et l'envoyer à l'IA
 
   const chargerContenuSections = (sectionIds: string[], keywords: string[]): string => {
     const chapitresACharger = new Set<number>()
@@ -641,7 +582,7 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
     let contenuPertinent = 'ÉLÉMENTS PERTINENTS TROUVÉS DANS LES DOCUMENTS :\n'
 
     allResults.slice(0, MAX_BIP_SOURCES).forEach((fiche, idx) => {
-      const title = fiche.title || ('titre' in fiche ? fiche.titre || '' : '')
+      const title = fiche.titre || ('titre' in fiche ? fiche.titre || '' : '')
       const category = fiche.section || ('categorie' in fiche ? fiche.categorie || '' : '')
       const content = 'content' in fiche ? fiche.content : ''
       const snippet = extractRelevantSnippet(content || '', keywords)
@@ -695,34 +636,15 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
       }
 
     const questionKeywords = expandKeywords(tokenizeForSearch(question))
-    // --- ÉTAPE 0 : RECHERCHE CLASSIQUE VIA SOMMAIRE (PRIORITAIRE) ---
-    const sommaire = genererSommaireTexte()
-    const identificationPrompt = `Identifie les sections les plus utiles pour répondre à la question.
-
-SOMMAIRE DES DOCUMENTS DISPONIBLES :
-${sommaire}
-
-QUESTION : ${question}
-
-RÈGLES :
-- Réponds uniquement avec 1 à 4 IDs séparés par des virgules.
-- Si aucune section ne correspond: AUCUNE.
-
-IDs des sections pertinentes :`
-
-    const identificationResponse = await appelPerplexity([
-      { role: "user", content: identificationPrompt }
-    ])
-
-    // Déterminer le contenu cible du sommaire
+    
+    // --- ÉTAPE 0 : RECHERCHE SÉMANTIQUE LOCALE (TF-IDF OPTIMISÉ) ---
+    // Remplace l'ancien prompt métier coûteux par la fonction de recherche locale survitaminée
     let contenuSommaire = ''
     let sommaireTrouve = false
 
-    const idsFromLlm = parseSommaireIdsFromResponse(identificationResponse)
-    const lexicalFallbackIds = findRelevantSommaireIds(question, questionKeywords)
-    const selectedSectionIds = idsFromLlm.length > 0
-      ? idsFromLlm
-      : lexicalFallbackIds
+    // Utilise notre puissant algorithme maison (stemming, densité, mots vides)
+    const bestSections = rechercherDansSommaire(question, 4)
+    const selectedSectionIds = bestSections.map(s => s.id)
 
     if (selectedSectionIds.length > 0) {
       contenuSommaire = chargerContenuSections(selectedSectionIds, questionKeywords)
@@ -828,7 +750,6 @@ IDs des sections pertinentes :`
       `
       reponse = await appelPerplexity([
         { role: "system", content: retryPrompt },
-        ...conversationHistory,
         { role: "user", content: question },
       ])
     }

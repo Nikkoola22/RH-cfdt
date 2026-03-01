@@ -8,8 +8,8 @@ import { bipIndex } from './bip-index'
 import { BIP_FILE_CATEGORIES } from './bip-files'
 
 export interface BipFiche {
-  url: string;
-  title: string;
+  code: string;
+  titre: string;
   content: string;
   timestamp: string;
   source: string;
@@ -31,15 +31,19 @@ function parseJsonlData(data: string): BipFiche[] {
   for (const line of lines) {
     try {
       const fiche = JSON.parse(line);
-      if (fiche.title && fiche.content) {
-        fiches.push(fiche);
+        if (fiche.titre && fiche.content) {
+          fiches.push(fiche);
+        } else if (fiche.title && fiche.content) {
+          fiches.push({
+            ...fiche,
+            titre: fiche.title
+          });
+        }
+      } catch {
+        // Silently skip invalid lines
       }
-    } catch {
-      // Silently skip invalid lines
     }
-  }
-
-  return fiches;
+    return fiches;
 }
 
 function markdownToText(markdown: string): string {
@@ -56,8 +60,8 @@ function markdownToText(markdown: string): string {
 
 function mapIndexEntryToFiche(entry: typeof bipIndex[number], content?: string): BipFiche {
   return {
-    url: entry.url,
-    title: entry.title,
+    code: entry.code,
+    titre: entry.titre,
     content: content && content.length > 0 ? content : entry.content,
     timestamp: entry.timestamp,
     source: entry.source,
@@ -225,7 +229,7 @@ export async function searchBipByKeywords(keywords: string[]): Promise<BipFiche[
     let score = 0;
 
     // Matchs no título (peso: 3)
-    const titleLower = fiche.title.toLowerCase();
+    const titleLower = fiche.titre.toLowerCase();
     normalizedKeywords.forEach(keyword => {
       if (titleLower.includes(keyword)) score += 3;
     });
@@ -276,11 +280,11 @@ export async function getBipFichesByCategory(category: string): Promise<BipFiche
 }
 
 /**
- * Obtem uma fiche específica pelo URL (assincronamente)
+ * Obtem uma fiche específica pelo código (assincronamente)
  */
-export async function getBipFicheByUrl(url: string): Promise<BipFiche | undefined> {
+export async function getBipFicheByCode(code: string): Promise<BipFiche | undefined> {
   const fiches = await loadBipDataAsync();
-  return fiches.find(f => f.url === url);
+  return fiches.find(f => f.code === code);
 }
 
 /**
@@ -305,7 +309,7 @@ export async function searchSelectiveBipByFileAndKeywords(
     let score = 0;
 
     // Matchs no título (peso: 3)
-    const titleLower = fiche.title.toLowerCase();
+    const titleLower = fiche.titre.toLowerCase();
     normalizedKeywords.forEach(keyword => {
       if (titleLower.includes(keyword)) score += 3;
     });

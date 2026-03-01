@@ -10,7 +10,6 @@ export interface SectionIndex {
   resume?: string;
   // Champs optionnels pour les fiches BIP
   code?: string;
-  url?: string;
   localPath?: string;
   content?: string;
   type?: string;
@@ -659,16 +658,8 @@ export const sommaireUnifie: SectionIndex[] = [
   },
   // --- FICHES BIP DYNAMIQUEMENT CONVERTIES ---
   ...bipIndex.map(fiche => ({
-    id: fiche.code,
-    titre: fiche.title,
-    motsCles: fiche.motsCles,
-    resume: fiche.content.substring(0, 150) + '...',
+    ...fiche,
     source: 'bip' as const,
-    code: fiche.code,
-    url: fiche.url,
-    localPath: fiche.localPath,
-    content: fiche.content,
-    type: fiche.type,
   }))
 ];
 
@@ -677,46 +668,94 @@ export const sommaireUnifie: SectionIndex[] = [
  * Retourne les sections les plus pertinentes pour une question donnée
  */
 export function rechercherDansSommaire(question: string, maxResults = 3): SectionIndex[] {
-  const q = question.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const qNorm = question.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   
+  const STOP_WORDS = new Set([
+      'le', 'la', 'les', 'un', 'une', 'des', 'du', 'de', 'au', 'aux',
+      'et', 'ou', 'mais', 'donc', 'or', 'ni', 'car',
+      'a', 'dans', 'par', 'pour', 'en', 'vers', 'avec', 'sans', 'sous', 'sur',
+      'je', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles',
+      'mon', 'ton', 'son', 'ma', 'ta', 'sa', 'mes', 'tes', 'ses',
+      'notre', 'votre', 'leur', 'nos', 'vos', 'leurs',
+      'ce', 'cet', 'cette', 'ces',
+      'qui', 'que', 'quoi', 'dont', 'ou', 'quand',
+      'est', 'sont', 'etre', 'avoir', 'ont', 'fait', 'faire', 'peut', 'peuvent', 'veux', 'vouloir',
+      'comment', 'combien', 'pourquoi', 'quand', 'quel', 'quelle', 'quels', 'quelles'
+  ]);
+
+  // Pseudo-stemmer basique pour pluriel
+  const stem = (w: string) => w.replace(/(s|x)$/, '');
+
+  // Extraire les mots de la question, exclure les STOP_WORDS
+  const queryWords = qNorm
+    .replace(/[^\w\s]/g, ' ')
+    .split(/\s+/)
+    .filter(word => word.length > 2 && !STOP_WORDS.has(word));
+
+  const queryStems = queryWords.map(stem);
+
   // Calculer un score pour chaque section
   const scored = sommaireUnifie.map(section => {
     let score = 0;
     
-    // Vérifier les mots-clés
-    for (const motCle of section.motsCles) {
-      const mcNorm = motCle.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      if (q.includes(mcNorm)) {
-        score += 10;
-      }
-      // Match partiel
-      const mots = mcNorm.split(' ');
-      for (const mot of mots) {
-        if (mot.length > 3 && q.includes(mot)) {
-          score += 3;
-        }
-      }
-    }
-    
-    // Vérifier le titre
     const titreNorm = section.titre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    if (q.includes(titreNorm)) {
-      score += 15;
+    const resumeNorm = section.resume ? section.resume.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') : '';
+    const motsClesNorm = section.motsCles.map(m => m.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+    
+    // 1. Détection des expressions complètes (très fort)
+    if (titreNorm.includes(qNorm)) score += 50;
+    if (resumeNorm.includes(qNorm)) score += 20;
+
+    for (const mcNorm of motsClesNorm) {
+      if (qNorm.includes(mcNorm)) {
+        const wordCount = mcNorm.split(/\s+/).length;
+        score += 20 * wordCount; 
+      }
     }
-    for (const mot of titreNorm.split(' ')) {
-      if (mot.length > 3 && q.includes(mot)) {
-        score += 2;
+
+    // 2. Évaluer chaque mot significatif (racine)
+    for (let i = 0; i < queryWords.length; i++) {
+      const qStem = queryStems[i];
+
+      const isMatch = (text: string) => text.includes(qStem);
+      const isExactMatch = (text: string) => new RegExp(`\\b${qStem}[a-z]*\\b`).test(text);
+
+      // Titre
+      if (isMatch(titreNorm)) {
+        score += 15;
+        if (isExactMatch(titreNorm)) score += 10;
+      }
+      
+      // Keywords
+      for (const mcNorm of motsClesNorm) {
+        if (isMatch(mcNorm)) {
+          score += 15;
+          if (isExactMatch(mcNorm)) score += 8;
+          break; // Un seul match keyword suffit par mot de la question
+        }
+      }
+
+      // Resume
+      if (isMatch(resumeNorm)) {
+        score += 5;
+        if (isExactMatch(resumeNorm)) score += 3;
+      }
+    }
+
+    // 3. Multiplicateur de couverture (Boost densité)
+    // Favorise la section qui matche le PLUS GRAND NOMBRE de mots différents de la question
+    let matchesCount = 0;
+    const texteCombine = titreNorm + " " + motsClesNorm.join(' ') + " " + resumeNorm;
+    
+    for (const qStem of queryStems) {
+      if (texteCombine.includes(qStem)) {
+        matchesCount++;
       }
     }
     
-    // Vérifier le résumé
-    if (section.resume) {
-      const resumeNorm = section.resume.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      for (const mot of resumeNorm.split(' ')) {
-        if (mot.length > 4 && q.includes(mot)) {
-          score += 1;
-        }
-      }
+    // Si la doc contient plusieurs mots différents exigés par la question, le score explose
+    if (matchesCount > 1) {
+       score += (matchesCount * matchesCount * 10);
     }
     
     return { section, score };

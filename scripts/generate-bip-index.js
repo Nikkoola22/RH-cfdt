@@ -27,6 +27,9 @@ function findMarkdownFiles(dir) {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory() && !entry.name.startsWith('.')) {
+        if (dir === BIP_OUTPUT_DIR && !entry.name.startsWith('bip_fiches_')) {
+          continue;
+        }
         files = files.concat(findMarkdownFiles(fullPath));
       } else if (entry.isFile() && entry.name.endsWith('.md')) {
         files.push(fullPath);
@@ -55,15 +58,12 @@ function extractCodeFromFilename(filePath) {
 function parseMetadata(content) {
   const lines = content.split('\n').slice(0, 10);
   const metadata = {
-    url: '',
     section: '',
     date: ''
   };
 
   for (const line of lines) {
-    if (line.includes('**URL:**')) {
-      metadata.url = line.replace('**URL:**', '').trim();
-    } else if (line.includes('**Section:**')) {
+    if (line.includes('**Section:**')) {
       metadata.section = line.replace('**Section:**', '').trim();
     } else if (line.includes('**Date:**')) {
       metadata.date = line.replace('**Date:**', '').trim();
@@ -241,15 +241,16 @@ function parseMarkdownFile(filePath) {
     const localPath = `/bip/output/${relativeFromOutput}`;
 
     return {
+      id: `bip_${code}`,
       code,
-      title,
-      url: metadata.url,
+      titre: title,
       localPath,
       section: metadata.section,
       timestamp: metadata.date,
       source: 'bip',
       type: metadata.section || 'general',
-      content: excerpt,
+      resume: excerpt.length > 150 ? excerpt.substring(0, 150) + '...' : excerpt,
+      content: excerpt, // Keeping content for backward compatibility
       motsCles: keywords
     };
   } catch (err) {
@@ -273,21 +274,22 @@ function generateTypeScriptFile(fiches) {
  */
 
 export interface BipFicheIndex {
+  id: string;
+  titre: string;
+  motsCles: string[];
+  source: string;
+  resume: string;
   code: string;
-  title: string;
-  url: string;
   localPath: string;
   section: string;
   timestamp: string;
-  source: string;
   type: string;
   content: string;
-  motsCles: string[];
 }
 
 // Backwards compatibility alias
 export type FicheIndexEntry = BipFicheIndex & {
-  titre?: string;
+  title?: string;
   categorie?: string;
 };
 
@@ -296,16 +298,17 @@ export const bipIndex: BipFicheIndex[] = [`;
   const entries = fiches.map(fiche => {
     const motsClesStr = JSON.stringify(fiche.motsCles);
     return `  {
+    id: "${fiche.id}",
     code: "${fiche.code}",
-    title: ${JSON.stringify(fiche.title)},
-    url: "${fiche.url}",
+    titre: ${JSON.stringify(fiche.titre)},
+    motsCles: ${motsClesStr},
+    source: "bip",
+    resume: ${JSON.stringify(fiche.resume)},
     localPath: "${fiche.localPath}",
     section: "${fiche.section}",
     timestamp: "${fiche.timestamp}",
-    source: "bip",
     type: "${fiche.type}",
-    content: ${JSON.stringify(fiche.content)},
-    motsCles: ${motsClesStr}
+    content: ${JSON.stringify(fiche.content)}
   }`;
   }).join(',\n');
 

@@ -30,16 +30,15 @@ function countUniqueMatches(text: string, keywords: string[]): number {
 }
 
 function canonicalKeyFromBipFiche(fiche: BipFiche): string {
-  const url = normalizeText(fiche.url || '')
-  const title = normalizeText(fiche.title || '')
-  return url || title
+  const code = normalizeText((fiche as { code?: string }).code || '')
+  const title = normalizeText(fiche.titre || '')
+  return code || title
 }
 
 function canonicalKeyFromIndexFiche(fiche: FicheIndexEntry): string {
-  const url = normalizeText((fiche as { url?: string }).url || '')
   const code = normalizeText((fiche as { code?: string }).code || '')
   const title = normalizeText(getFicheTitle(fiche))
-  return url || code || title
+  return code || title
 }
 
 function deduplicateBipResults(items: BipFiche[]): BipFiche[] {
@@ -135,7 +134,7 @@ function computeIntentBoost(
 }
 
 function getFicheTitle(fiche: FicheIndexEntry): string {
-  return ((fiche as { titre?: string }).titre || (fiche as { title?: string }).title || '').toLowerCase()
+  return ((fiche as { titre?: string }).titre || (fiche as { title?: string }).titre || '').toLowerCase()
 }
 
 function getFicheCategory(fiche: FicheIndexEntry): string {
@@ -281,15 +280,15 @@ export function searchFichesByKeywords(keywords: string[]): SearchResult {
   // Tentar usar dados locais primeiro (com conteúdo completo)
   if (bipDataInitialized && bipDataCache.length > 0) {
     try {
-      const indexByUrl = new Map(ficheIndex.map(entry => [entry.url, entry]))
+      const indexByCode = new Map(ficheIndex.map(entry => [entry.code, entry]))
 
       const scored = bipDataCache.map(fiche => {
         let score = 0
 
-        const titleMatches = countUniqueMatches(fiche.title, normalizedKeywords)
+        const titleMatches = countUniqueMatches(fiche.titre, normalizedKeywords)
         const sectionMatches = countUniqueMatches(fiche.section, normalizedKeywords)
         const contentMatches = countUniqueMatches(fiche.content, normalizedKeywords)
-        const intentBoost = computeIntentBoost(normalizedKeywords, fiche.section, fiche.title)
+        const intentBoost = computeIntentBoost(normalizedKeywords, fiche.section, fiche.titre)
 
         score += titleMatches * 8
         score += sectionMatches * 4
@@ -300,13 +299,13 @@ export function searchFichesByKeywords(keywords: string[]): SearchResult {
         if (titleMatches > 0 && contentMatches > 0) score += 6
 
         // Fuse with index metadata for better precision
-        const indexEntry = indexByUrl.get(fiche.url)
+        const indexEntry = indexByCode.get(fiche.code)
         if (indexEntry) {
           const indexKeywordMatches = (indexEntry.motsCles || [])
             .map(k => normalizeText(k))
             .filter(k => normalizedKeywords.some(q => k.includes(q) || q.includes(k))).length
 
-          const indexTitleMatches = countUniqueMatches(indexEntry.title || '', normalizedKeywords)
+          const indexTitleMatches = countUniqueMatches(indexEntry.titre || '', normalizedKeywords)
 
           score += indexKeywordMatches * 2
           score += indexTitleMatches * 3
