@@ -568,18 +568,11 @@ DOCUMENTATION :
 ${contenuCible}
     `
 
-    const conversationHistory = chatState.messages
-      .slice(1)
-      .filter((msg) => msg.type === "user")
-      .slice(-4)
-      .map((msg) => ({
-        role: "user" as const,
-        content: msg.content,
-      }))
-
+    // Pour l'instant, pas d'historique de conversation pour éviter les erreurs d'alternance
+    // L'API Perplexity exige une alternance stricte user/assistant/user/assistant
+    // Chaque question est traitée indépendamment avec le contexte documentaire complet
     const apiMessages = [
       { role: "system", content: systemPrompt },
-      ...conversationHistory,
       { role: "user", content: question },
     ]
 
