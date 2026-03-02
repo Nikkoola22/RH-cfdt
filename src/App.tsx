@@ -1,35 +1,30 @@
-import React, { useState, useRef, useEffect, Suspense } from "react"
-import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, Link, BookOpen, Scale, FileText, Building2 } from "lucide-react"
+import React, { useState, useRef, useEffect } from "react"
+import { Phone, Mail, MapPin, ArrowRight, Send, ArrowLeft, Search, Rss, Calculator, TrendingUp, DollarSign, LayoutGrid, HelpCircle, ChevronLeft, ChevronRight, Newspaper } from "lucide-react"
 
 // --- IMPORTATIONS DES DONNÉES ---
 import { chapitres } from "./data/temps.ts"
 import { formation } from "./data/formation.ts"
 import { teletravailData } from "./data/teletravail.ts"
-import { sommaireUnifie, rechercherDansSommaire } from "./data/sommaireUnifie.ts"
+import { sommaireUnifie, rechercherAvecPriorite } from "./data/sommaireUnifie.ts"
 import { infoItems } from "./data/info-data.ts"
-import { searchFichesByKeywordsAsync } from "./utils/ficheSearch.ts"
 import { franceInfoRss } from "./data/rss-data.ts"
+import AdminPanel from "./components/AdminPanel.tsx"
+import AdminLogin from "./components/AdminLogin.tsx"
+import CalculateurCIAV2 from "./components/CalculateurCIAV2.tsx"
+import CalculateurPrimesV2 from "./components/CalculateurPrimesV2.tsx"
+import Calculateur13emeV2 from "./components/Calculateur13emeV2.tsx"
+import Metiers from "./components/Metiers.tsx"
+import FAQ from "./components/FAQ.tsx"
 import LandingPage from "./components/LandingPage.tsx"
-
-const AdminPanel = React.lazy(() => import("./components/AdminPanel.tsx"))
-const AdminLogin = React.lazy(() => import("./components/AdminLogin.tsx"))
-const CalculateurCIAV2 = React.lazy(() => import("./components/CalculateurCIAV2.tsx"))
-const CalculateurPrimesV2 = React.lazy(() => import("./components/CalculateurPrimesV2.tsx"))
-const Calculateur13emeV2 = React.lazy(() => import("./components/Calculateur13emeV2.tsx"))
-const Metiers = React.lazy(() => import("./components/Metiers.tsx"))
-const FAQ = React.lazy(() => import("./components/FAQ.tsx"))
-const IntercoCarousel = React.lazy(() => import("./components/IntercoCarousel.tsx"))
 
 
 // --- CONFIGURATION BASE URL POUR GITHUB PAGES ---
 const BASE_URL = import.meta.env.BASE_URL
 
 // --- CONFIGURATION API PERPLEXITY ---
-const BACKEND_API_URL = "/api/completions"
-
-const ViewLoader = () => (
-  <div className="w-full py-8 text-center text-slate-300 font-light">Chargement...</div>
-)
+const BACKEND_API_URL = import.meta.env.DEV 
+  ? "http://localhost:3001/api/completions" 
+  : "/api/completions"
 
 // --- RSS ITEM TYPE ---
 interface RssItem {
@@ -39,38 +34,6 @@ interface RssItem {
 }
 
 const MARQUEE_SPEED = 80
-const MAX_BIP_SOURCES = 3
-const MAX_BIP_SNIPPET_CHARS = 280
-const MAX_BIP_TOTAL_CHARS = 1500
-const MAX_SOMMAIRE_CHARS_WITH_BIP = 700
-const MAX_SOMMAIRE_CHARS_SOLO = 2000
-const MAX_CONTEXT_TOTAL_CHARS = 4000
-
-// Cache mémoire pour économiser les appels API sur les questions identiques
-const queryCache = new Map<string, string>();
-
-const SEARCH_STOPWORDS = new Set([
-  'de', 'du', 'des', 'le', 'la', 'les', 'un', 'une', 'et', 'ou', 'en', 'au', 'aux', 'a', 'à',
-  'd', 'l', 'je', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'mon', 'ma', 'mes',
-  'ton', 'ta', 'tes', 'son', 'sa', 'ses', 'ce', 'cet', 'cette', 'ces', 'dans', 'sur', 'pour',
-  'par', 'avec', 'sans', 'que', 'qui', 'quoi', 'combien', 'est', 'suis', 'etre', 'etre', 'avoir',
-  'puis', 'donc', 'car', 'mais', 'si', 'quand', 'comme', 'plus', 'moins', 'tres', 'très', 'cela',
-  'ca', 'ça', 'dois', 'doit', 'peux', 'peut', 'comment', 'quel', 'quelle', 'quels', 'quelles',
-])
-
-const SEARCH_SYNONYMS: Record<string, string[]> = {
-  maladie: ['cmo', 'arret', 'arrêt', 'conge', 'congé'],
-  cmo: ['maladie', 'arret', 'arrêt', 'ordinaire'],
-  remuneration: ['rémunération', 'salaire', 'traitement', 'paie', 'payer', 'paye', 'payee'],
-  salaire: ['rémunération', 'traitement', 'paie', 'payer'],
-  payer: ['rémunération', 'traitement', 'salaire', 'paie'],
-  conge: ['congé', 'absence', 'arret', 'arrêt'],
-  absence: ['conge', 'congé', 'arret', 'arrêt'],
-  formation: ['cnfpt', 'stage', 'concours', 'examen'],
-  teletravail: ['télétravail', 'distance', 'remote'],
-  prime: ['ifse', 'cia', 'indemnite', 'indemnité'],
-  accident: ['service', 'trajet', 'maladie', 'professionnelle'],
-}
 
 const updateMarqueeDuration = (el: HTMLDivElement | null) => {
   if (!el) return
@@ -83,125 +46,7 @@ const updateMarqueeDuration = (el: HTMLDivElement | null) => {
   el.style.animation = ""
 }
 
-const truncateText = (text: string, maxChars: number) => {
-  const clean = text.replace(/\s+/g, ' ').trim()
-  if (clean.length <= maxChars) return clean
-  return `${clean.slice(0, maxChars)}…`
-}
-
-const normalizeForSearch = (value: string) => (
-  value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-)
-
-const tokenizeForSearch = (value: string, minLength = 3) => {
-  return normalizeForSearch(value)
-    .split(' ')
-    .map(token => token.trim())
-    .filter(token => token.length >= minLength && !SEARCH_STOPWORDS.has(token))
-}
-
-const expandKeywords = (keywords: string[]) => {
-  const expanded = new Set<string>()
-
-  keywords.forEach((keyword) => {
-    const normalizedKeyword = normalizeForSearch(keyword)
-    if (!normalizedKeyword) return
-
-    expanded.add(normalizedKeyword)
-
-    Object.entries(SEARCH_SYNONYMS).forEach(([base, synonyms]) => {
-      const normalizedBase = normalizeForSearch(base)
-      if (
-        normalizedKeyword.includes(normalizedBase)
-        || normalizedBase.includes(normalizedKeyword)
-      ) {
-        expanded.add(normalizedBase)
-        synonyms.forEach(syn => expanded.add(normalizeForSearch(syn)))
-      }
-    })
-  })
-
-  return Array.from(expanded).filter(Boolean)
-}
-
-const scoreTextByKeywords = (text: string, keywords: string[]) => {
-  if (!text || keywords.length === 0) return 0
-  const normalizedText = normalizeForSearch(text)
-  return keywords.reduce((score, keyword) => (
-    normalizedText.includes(keyword) ? score + 1 : score
-  ), 0)
-}
-
-const extractRelevantSnippet = (rawContent: string, keywords: string[]) => {
-  const cleaned = rawContent
-    .replace(/Télécharger\s+Imprimer\s+Ajouter\s+S'abonner/gi, '')
-    .replace(/No content available/gi, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-
-  if (!cleaned) return ''
-
-  const sentences = cleaned.split(/(?<=[.!?])\s+/).filter(Boolean)
-  if (sentences.length === 0) return truncateText(cleaned, MAX_BIP_SNIPPET_CHARS)
-
-  const normalizedKeywords = expandKeywords(keywords)
-  const scored = sentences.map(sentence => {
-    const score = scoreTextByKeywords(sentence, normalizedKeywords)
-    return { sentence, score }
-  })
-
-  const bestScored = scored.filter(item => item.score > 0)
-
-  const best = (bestScored.length > 0 ? bestScored : scored)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 2)
-    .map(({ sentence }) => sentence)
-    .join(' ')
-
-  return truncateText(best || cleaned, MAX_BIP_SNIPPET_CHARS)
-}
-
-const extractRelevantPassages = (
-  rawText: string,
-  keywords: string[],
-  maxPassages = 2,
-  maxPassageChars = 260,
-) => {
-  const cleaned = rawText.replace(/\s+/g, ' ').trim()
-  if (!cleaned) return ''
-
-  const chunks = cleaned
-    .split(/\n{2,}|(?<=[.!?])\s+/)
-    .map(chunk => chunk.trim())
-    .filter(chunk => chunk.length > 30)
-
-  if (chunks.length === 0) {
-    return truncateText(cleaned, maxPassageChars)
-  }
-
-  const normalizedKeywords = expandKeywords(keywords)
-
-  const scored = chunks.map(chunk => {
-    const score = scoreTextByKeywords(chunk, normalizedKeywords)
-    return { chunk, score }
-  })
-
-  const selectedPool = scored.filter(item => item.score > 0)
-
-  const selected = (selectedPool.length > 0 ? selectedPool : scored)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, maxPassages)
-    .map(({ chunk }) => truncateText(chunk, maxPassageChars))
-
-  return selected.join(' | ')
-}
-
+// --- COMPOSANT RSS BANDEAU (mémorisé pour éviter les re-renders) ---
 const RssBandeau = React.memo(({ rssItems, rssLoading, marqueeRef }: { rssItems: RssItem[], rssLoading: boolean, marqueeRef: React.RefObject<HTMLDivElement> }) => {
   // Générer le contenu des items
   const renderItems = (keyPrefix: string) => {
@@ -264,7 +109,7 @@ interface InfoItem {
   content: string
 }
 interface ChatbotState {
-  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq" | "liens-utiles" | "bip"
+  currentView: "menu" | "chat" | "calculators" | "metiers" | "faq"
   selectedDomain: number | null
   messages: ChatMessage[]
   isProcessing: boolean
@@ -285,6 +130,18 @@ function App() {
   const [selectedInfo, setSelectedInfo] = useState<InfoItem | null>(null)
   const [rssItems, setRssItems] = useState<RssItem[]>([])
   const [rssLoading, setRssLoading] = useState(false)
+
+  // --- ACTUALITÉS INTERCO CFDT ---
+  interface IntercoNewsItem {
+    title: string
+    link: string
+    pubDate: string
+    category: string
+    description: string
+  }
+  const [intercoNews, setIntercoNews] = useState<IntercoNewsItem[]>([])
+  const [intercoLoading, setIntercoLoading] = useState(true)
+  const intercoCarouselRef = useRef<HTMLDivElement>(null)
 
 
 
@@ -376,6 +233,49 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
+  // --- ACTUALITÉS STATIQUES CFDT INTERCO (fallback) ---
+  const intercoFallbackNews: IntercoNewsItem[] = [
+    { title: "8 mars, Journée internationale des droits des femmes : la France doit s'engager pour l'égalité !", link: "https://interco.cfdt.fr/8-mars-journee-internationale-des-droits-des-femmes-la-france-doit-sengager-pour-legalite/", pubDate: "Sat, 08 Mar 2026 00:00:00 +0000", category: "Actu générale", description: "Communiqué intersyndical pour la Journée internationale des droits des femmes." },
+    { title: "La CFDT réagit à l'annonce de la création de 150 postes en milieu ouvert à la PJJ", link: "https://interco.cfdt.fr/quand-la-protection-judiciaire-de-la-jeunesse-entend-reinventer-le-placement/", pubDate: "Fri, 20 Feb 2026 00:00:00 +0000", category: "Protection judiciaire", description: "Quand la protection judiciaire de la jeunesse entend réinventer le placement." },
+    { title: "Défendre l'autonomie et les moyens du CNFPT", link: "https://interco.cfdt.fr/defendre-lautonomie-et-les-moyens-du-cnfpt/", pubDate: "Thu, 12 Feb 2026 00:00:00 +0000", category: "Territoriale", description: "Déclaration CFDT pour défendre l'autonomie et les moyens du CNFPT." },
+    { title: "Comment valoriser l'implication des agents et des magistrats ?", link: "https://interco.cfdt.fr/comment-valoriser-limplication-des-agents-et-des-magistrats-et-leur-determination-a-rendre-la-meilleure-justice/", pubDate: "Tue, 10 Feb 2026 00:00:00 +0000", category: "Services judiciaires", description: "Déclaration liminaire Formation spécialisée CSA des services judiciaires." },
+    { title: "Se donner l'ambition et les moyens — CSA PJJ du 5 février 2026", link: "https://interco.cfdt.fr/se-donner-lambition-et-les-moyens/", pubDate: "Thu, 05 Feb 2026 00:00:00 +0000", category: "Actu générale", description: "Déclaration préliminaire de la CFDT au CSA PJJ du 5 février 2026." },
+    { title: "Un changement de cap clair et concret est demandé !", link: "https://interco.cfdt.fr/un-changement-de-cap-clair-et-concret-est-demande/", pubDate: "Sun, 26 Jan 2026 00:00:00 +0000", category: "Affaires sociales", description: "Déclaration liminaire de la CFDT lors de la rencontre avec la ministre de la Santé." },
+    { title: "Déclaration liminaire CFDT au CSA services judiciaires du 19 février", link: "https://interco.cfdt.fr/lacte-de-juger-ne-se-reduit-pas-au-rendu-dune-decision/", pubDate: "Wed, 19 Feb 2026 00:00:00 +0000", category: "Services judiciaires", description: "L'absence de réflexion transverse sur le sens des missions de chacun." },
+  ]
+
+  // --- CHARGER LES ACTUALITÉS INTERCO CFDT ---
+  useEffect(() => {
+    const fetchIntercoNews = async () => {
+      try {
+        setIntercoLoading(true)
+        const apiUrl = import.meta.env.DEV
+          ? '/api/interco-rss'
+          : `${window.location.origin}${BASE_URL === '/' ? '' : BASE_URL}/api/interco-rss`
+        const response = await fetch(apiUrl)
+        if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`)
+        const data = await response.json()
+        const items = (data.items || []).map((item: IntercoNewsItem) => ({
+          ...item,
+          title: item.title.replace(/^•\s*/, '').trim()
+        }))
+        if (items.length > 0) {
+          setIntercoNews(items)
+        } else {
+          setIntercoNews(intercoFallbackNews)
+        }
+      } catch (error) {
+        console.warn('Impossible de récupérer les actualités Interco CFDT, utilisation des données par défaut', error)
+        setIntercoNews(intercoFallbackNews)
+      } finally {
+        setIntercoLoading(false)
+      }
+    }
+    fetchIntercoNews()
+    const interval = setInterval(fetchIntercoNews, 30 * 60 * 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   // --- FONCTIONS DE GESTION ---
   const handleInfoClick = (info: InfoItem) => setSelectedInfo(info)
 
@@ -414,21 +314,12 @@ function App() {
     setSelectedInfo(null)
   }
 
-  const cleanBotResponse = (text: string) => {
-    if (!text) return text;
-    return text
-      .replace(/\*\*/g, '')              // Supprime les balises bold markdown
-      .replace(/\[\d+(?:,\s*\d+)*\]/g, '') // Supprime les references type [1], [2], [1, 2] etc
-      .replace(/\[Source[^\]]*\]/gi, '') // Supprime les mentions type [Source 3], [Source documentation générale]
-      .replace(/\n{3,}/g, '\n\n')        // Nettoie les retours a la ligne excessifs
-      .trim();
-  }
-
   // --- LOGIQUE DU CALCULATEUR DE PRIMES ---
   const appelPerplexity = async (messages: { role: string; content: string }[], useExternalModel = false) => {
     try {
-      // Modèle léger 'sonar' utilisé par défaut pour économiser les tokens
-      const model = useExternalModel ? "sonar" : "sonar";
+      // Utiliser "sonar" pour recherche externe (meilleur respect des instructions FPT)
+      // Utiliser "sonar-pro" pour recherche interne
+      const model = useExternalModel ? "sonar" : "sonar-pro"
       const data = { model, messages }
       const response = await fetch(BACKEND_API_URL, {
         method: "POST",
@@ -443,7 +334,7 @@ function App() {
       }
       
       const result = await response.json()
-      return cleanBotResponse(result.choices[0].message.content)
+      return result.choices[0].message.content
     } catch (error) {
       console.error("Erreur lors du traitement de la question:", error)
       return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
@@ -453,16 +344,46 @@ function App() {
   // Fonction de recherche élargie sur Légifrance (Code général de la fonction publique)
   const rechercherLegifrance = async (question: string) => {
     const systemPrompt = `
-Rôle: conseiller CFDT RH, uniquement FONCTION PUBLIQUE TERRITORIALE.
-Interdit: Code du travail, droit privé, convention collective.
-Sources autorisées: CGFP, décret 87-602, décret 88-145 (Légifrance).
-Format: 1) Fonctionnaires, 2) Contractuels, avec articles précis et points pratiques.
-Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
+🚨 INSTRUCTION CRITIQUE : Tu réponds UNIQUEMENT sur la FONCTION PUBLIQUE TERRITORIALE (FPT).
+Si ta réponse contient "Code du travail" ou "L1226" ou "salarié" ou "employeur privé" = ERREUR GRAVE.
+
+👤 CONTEXTE : Agent territorial (fonctionnaire ou contractuel) d'une MAIRIE française.
+
+📚 SOURCES LÉGALES OBLIGATOIRES - RECHERCHE UNIQUEMENT DANS :
+
+▶ FONCTIONNAIRES TERRITORIAUX :
+• Code général de la fonction publique (CGFP) Articles L822-1 à L822-12 pour les congés maladie
+  URL: https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551
+• Décret n°87-602 du 30 juillet 1987 (congés maladie fonctionnaires territoriaux)
+  URL: https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000520911
+
+▶ AGENTS CONTRACTUELS TERRITORIAUX :
+• Décret n°88-145 du 15 février 1988 (agents non titulaires territoriaux)
+  URL: https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000871608
+
+📋 RÉPONSE STRUCTURÉE OBLIGATOIRE :
+
+## Pour les FONCTIONNAIRES titulaires :
+[Citer CGFP + Décret 87-602 avec articles précis]
+
+## Pour les CONTRACTUELS :
+[Citer Décret 88-145 avec articles précis]
+
+💡 EXEMPLE - Congé Longue Maladie (CLM) fonctionnaire territorial :
+- Durée : 3 ans maximum (Article 57 ancien statut → CGFP L822-4)
+- Rémunération : 1 an plein traitement + 2 ans demi-traitement
+- Conditions : Maladie rendant nécessaire un traitement et repos prolongés
+
+Question : ${question}
 `
 
     const apiMessages = [
       { role: "system", content: systemPrompt },
-      { role: "user", content: `Question agent territorial: ${question}` },
+      { role: "user", content: `FONCTION PUBLIQUE TERRITORIALE UNIQUEMENT.
+Question d'un agent territorial : ${question}
+
+⚠️ INTERDIT : Code du travail, droit privé, convention collective.
+✅ OBLIGATOIRE : CGFP, Décret 87-602, Décret 88-145.` },
     ]
 
     return await appelPerplexity(apiMessages, true) // true = recherche externe, utilise modèle "sonar"
@@ -512,10 +433,17 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
   }
 
   // --- RECHERCHE OPTIMISÉE EN 2 ÉTAPES ---
-  // Étape 1 : Identifier les sections pertinentes via notre algorithme local TF-IDF (0 tokens)
-  // Étape 2 : Charger uniquement le contenu des sections identifiées et l'envoyer à l'IA
+  // Étape 1 : Identifier les sections pertinentes via le sommaire léger (~500 tokens)
+  // Étape 2 : Charger uniquement le contenu des sections identifiées
+  // Économie : ~80% de tokens par requête
 
-  const chargerContenuSections = (sectionIds: string[], keywords: string[]): string => {
+  const genererSommaireTexte = () => {
+    return sommaireUnifie.map(s => 
+      `[${s.id}] ${s.titre} - ${s.resume || s.motsCles.join(', ')}`
+    ).join('\n')
+  }
+
+  const chargerContenuSections = (sectionIds: string[]): string => {
     const chapitresACharger = new Set<number>()
     let chargerFormation = false
     let chargerTeletravail = false
@@ -537,236 +465,125 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
     if (chapitresACharger.size > 0) {
       const titres = ['', 'LE TEMPS DE TRAVAIL', 'LES CONGÉS', "AUTORISATIONS SPÉCIALES D'ABSENCE", 'LES ABSENCES POUR MALADIES ET ACCIDENTS']
       chapitresACharger.forEach(ch => {
-        const chapterText = (chapitres as Record<number, string>)[ch] || ''
-        const chapterExtract = extractRelevantPassages(chapterText, keywords)
-        if (chapterExtract) {
-          contenu += `\n\n=== ${titres[ch] || 'CHAPITRE ' + ch} ===\n${chapterExtract}`
-        }
+        contenu += `\n\n=== ${titres[ch] || 'CHAPITRE ' + ch} ===\n${(chapitres as Record<number, string>)[ch] || ''}`
       })
     }
     if (chargerFormation) {
-      const formationExtract = extractRelevantPassages(formation || '', keywords)
-      if (formationExtract) {
-        contenu += `\n\n=== RÈGLEMENT FORMATION ===\n${formationExtract}`
-      }
+      contenu += `\n\n=== RÈGLEMENT FORMATION ===\n${formation || ''}`
     }
     if (chargerTeletravail) {
-      const teletravailText = typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)
-      const teletravailExtract = extractRelevantPassages(teletravailText, keywords)
-      if (teletravailExtract) {
-        contenu += `\n\n=== PROTOCOLE TÉLÉTRAVAIL ===\n${teletravailExtract}`
-      }
+      contenu += `\n\n=== PROTOCOLE TÉLÉTRAVAIL ===\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
     }
     return contenu.trim()
   }
 
-  // --- RECHERCHE DANS DOCUMENTS INTERNES (BIP + INDEX) ---
-  // Étape 1 : Identifier les fichiers/sections pertinentes
-  // Étape 2 : Extraire le contenu pertinent
-  // Étape 3 : Utiliser l'API pour générer une réponse basée sur ce contenu
-  
-  const rechercherDocumentsInternes = async (question: string, precomputedKeywords?: string[]): Promise<string | null> => {
-    const keywords = precomputedKeywords && precomputedKeywords.length > 0
-      ? precomputedKeywords
-      : expandKeywords(tokenizeForSearch(question))
-    
-    if (keywords.length === 0) {
-      return null
-    }
-
-    // Chercher dans BIP et index (combined search)
-    const { results: allResults } = await searchFichesByKeywordsAsync(keywords)
-
-    if (!allResults || allResults.length === 0) {
-      return null
-    }
-
-    let contenuPertinent = 'ÉLÉMENTS PERTINENTS TROUVÉS DANS LES DOCUMENTS :\n'
-
-    allResults.slice(0, MAX_BIP_SOURCES).forEach((fiche, idx) => {
-      const title = fiche.titre || ('titre' in fiche ? fiche.titre || '' : '')
-      const category = fiche.section || ('categorie' in fiche ? fiche.categorie || '' : '')
-      const content = 'content' in fiche ? fiche.content : ''
-      const snippet = extractRelevantSnippet(content || '', keywords)
-      const keywordsText = 'motsCles' in fiche && Array.isArray(fiche.motsCles)
-        ? fiche.motsCles.slice(0, 8).join(', ')
-        : ''
-
-      contenuPertinent += `\n[Source ${idx + 1}] ${title}\n`
-      contenuPertinent += `Section/Catégorie: ${category}\n`
-      if (snippet) {
-        contenuPertinent += `Extrait: ${snippet}\n`
-      }
-      if (keywordsText) {
-        contenuPertinent += `Mots-clés: ${keywordsText}\n`
-      }
-      contenuPertinent += '---\n'
-    })
-
-    return truncateText(contenuPertinent, MAX_BIP_TOTAL_CHARS)
-  }
-
   const traiterQuestion = async (question: string) => {
-      // Vérification du cache pour économie de tokens
-      const cacheKey = question.trim().toLowerCase()
-      if (queryCache.has(cacheKey)) {
-        console.log("Renvoi depuis le cache local pour économiser des appels API", cacheKey);
-        return queryCache.get(cacheKey)!;
-      }
+    // ÉTAPE 1 : Identifier les sections pertinentes avec le sommaire léger
+    const sommaire = genererSommaireTexte()
+    const identificationPrompt = `Tu es un assistant qui identifie les sections pertinentes pour répondre à une question.
 
-      // --- ENRICHISSEMENT CONTEXTE POUR CAS DIFFICILES ---
-      const questionLower = cacheKey
+SOMMAIRE DES DOCUMENTS DISPONIBLES :
+${sommaire}
 
-      let enrichCIA = false, enrichCumul = false, enrichDem = false;
-      if (questionLower.includes('cia') || questionLower.includes('indemnité') || questionLower.includes('prime')) enrichCIA = true;
-      if (questionLower.includes('cumul') || questionLower.includes('cumuler')) enrichCumul = true;
-      if (questionLower.includes('demenagement') || questionLower.includes('déménagement')) enrichDem = true;
+QUESTION : ${question}
 
-      // Synthèses injectées, chaque phrase sur une ligne courte, guillemets simples
-      let extraSynth = '';
-      if (enrichCIA) {
-        extraSynth += '\n\n=== RÉCAPITULATIF CIA/PRIMES ===\n';
-        extraSynth += 'Le CIA (Complément indemnitaire annuel) est une prime liée à la valeur professionnelle. ';
-        extraSynth += 'Le montant dépend du grade et de la collectivité. ';
-        extraSynth += 'Les critères sont fixés localement. ';
-        extraSynth += 'Voir les fiches RIFSEEP et CIA pour plus de détails.';
-      }
-      if (enrichCumul) {
-        extraSynth += '\n\n=== CUMUL ARRÊT MALADIE / TÉLÉTRAVAIL ===\n';
-        extraSynth += 'En principe, le télétravail n\'est pas compatible avec un arrêt maladie. ';
-        extraSynth += 'L\'arrêt de travail suspend toute activité professionnelle, y compris à distance. ';
-        extraSynth += 'Des exceptions existent en cas de reprise progressive ou d\'adaptation du poste. ';
-        extraSynth += 'Valider avec la médecine du travail.';
-      }
-      if (enrichDem) {
-        extraSynth += '\n\n=== CONGÉ DÉMÉNAGEMENT ===\n';
-        extraSynth += 'Un jour de congé est accordé pour un déménagement, sur justificatif. ';
-        extraSynth += 'Les modalités dépendent des règles internes de la collectivité.';
-      }
+RÈGLES :
+- Réponds UNIQUEMENT avec les IDs des sections pertinentes, séparés par des virgules
+- Choisis 1 à 4 sections maximum, les plus pertinentes
+- Si aucune section ne correspond, réponds "AUCUNE"
+- Format attendu : temps_ch2_conges_annuels, temps_ch2_rtt
 
-    const questionKeywords = expandKeywords(tokenizeForSearch(question))
+IDs des sections pertinentes :`
+
+    const identificationResponse = await appelPerplexity([
+      { role: "user", content: identificationPrompt }
+    ])
+
+    // Parser la réponse pour extraire les IDs (tolérant à la ponctuation et au texte parasite)
+    const responseClean = identificationResponse.toLowerCase().replace(/["']/g, '').replace(/\[/g, '').replace(/\]/g, '').trim()
     
-    // --- ÉTAPE 0 : RECHERCHE SÉMANTIQUE LOCALE (TF-IDF OPTIMISÉ) ---
-    // Remplace l'ancien prompt métier coûteux par la fonction de recherche locale survitaminée
-    let contenuSommaire = ''
-    let sommaireTrouve = false
+    // Extraire les IDs valides de façon robuste (même si le modèle dit "AUCUNE", fallback local)
+    const knownIds = sommaireUnifie.map(s => s.id)
+    const idsExtraits = (responseClean === 'aucune' || responseClean.includes('aucune section')) 
+      ? [] 
+      : knownIds.filter(id => responseClean.includes(id.toLowerCase()))
 
-    // Utilise notre puissant algorithme maison (stemming, densité, mots vides)
-    // On limite à 3 résultats au lieu de 4 pour économiser des tokens contextuels
-    const bestSections = rechercherDansSommaire(question, 3)
-    const selectedSectionIds = bestSections.map(s => s.id)
-
-    if (selectedSectionIds.length > 0) {
-      contenuSommaire = chargerContenuSections(selectedSectionIds, questionKeywords)
-      sommaireTrouve = contenuSommaire.trim().length > 0
-    }
-
-    if (!sommaireTrouve) {
-      const broadFallbackIds = sommaireUnifie.slice(0, 20).map(section => section.id)
-      contenuSommaire = chargerContenuSections(broadFallbackIds, questionKeywords)
-      sommaireTrouve = contenuSommaire.trim().length > 0
-    }
-
-    // --- ÉTAPE 1 : ENRICHISSEMENT AVEC BIP (OPTIONNEL) ---
-    // Chercher du contenu BIP spécifique pour enrichir
-    const contenuDocumentsInternes = await rechercherDocumentsInternes(question, questionKeywords)
+    // Fallback déterministe local si le modèle n'a pas renvoyé d'IDs exploitables
+    const idsLocaux = rechercherAvecPriorite(question, 4).map(section => section.id)
+    const idsFinals = Array.from(new Set([...idsExtraits, ...idsLocaux]))
     
-    // Combiner sommaire + BIP si les deux existent
-    let contenuFinal: string
+    console.log(`[traiterQuestion] Question: "${question}"`)
+    console.log(`[traiterQuestion] IDs du modèle (phase 1): [${idsExtraits.join(', ')}]`)
+    console.log(`[traiterQuestion] IDs locaux (fallback): [${idsLocaux.join(', ')}]`)
+    console.log(`[traiterQuestion] IDs finaux: [${idsFinals.join(', ')}]`)
 
-    // Injection contextuelle pour CIA/primes/cumul/déménagement
-    if (enrichCIA) {
-      extraSynth += '\n\n=== RÉCAPITULATIF CIA/PRIMES ===\n';
-      extraSynth += 'Le CIA (Complément indemnitaire annuel) est une prime liée à la valeur professionnelle. ';
-      extraSynth += 'Le montant dépend du grade et de la collectivité. ';
-      extraSynth += 'Les critères sont fixés localement. ';
-      extraSynth += 'Voir les fiches RIFSEEP et CIA pour plus de détails.';
-    }
-    if (enrichCumul) {
-      extraSynth += '\n\n=== CUMUL ARRÊT MALADIE / TÉLÉTRAVAIL ===\n';
-      extraSynth += 'En principe, le télétravail n\'est pas compatible avec un arrêt maladie. ';
-      extraSynth += 'L\'arrêt de travail suspend toute activité professionnelle, y compris à distance. ';
-      extraSynth += 'Des exceptions existent en cas de reprise progressive ou d\'adaptation du poste. ';
-      extraSynth += 'Valider avec la médecine du travail.';
-    }
-    if (enrichDem) {
-      extraSynth += '\n\n=== CONGÉ DÉMÉNAGEMENT ===\n';
-      extraSynth += 'Un jour de congé est accordé pour un déménagement, sur justificatif. ';
-      extraSynth += 'Les modalités dépendent des règles internes de la collectivité.';
-    }
+    // Si aucun ID valide trouvé, fallback sur recherche complète (1 chapitre)
+    let contenuCible: string
+    if (idsFinals.length === 0) {
+      // Fallback : charger tout (ancien comportement)
+      contenuCible = `
+CHAPITRE 1 - LE TEMPS DE TRAVAIL :\n${(chapitres as Record<number, string>)[1] || ''}
 
-    if (sommaireTrouve && contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
-      contenuFinal = `\n📌 FICHES SPÉCIALISÉES PERTINENTES (BIP) :\n${contenuDocumentsInternes}${extraSynth}\n\n📚 DOCUMENTATION GÉNÉRALE (SOMMAIRE - RÉSUMÉ) :\n${truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_WITH_BIP)}`
-    } else if (contenuDocumentsInternes && contenuDocumentsInternes.trim().length > 100) {
-      contenuFinal = contenuDocumentsInternes + extraSynth
-    } else if (sommaireTrouve) {
-      contenuFinal = truncateText(contenuSommaire, MAX_SOMMAIRE_CHARS_SOLO) + extraSynth
-    } else if (extraSynth) {
-      contenuFinal = extraSynth
+CHAPITRE 2 - LES CONGÉS :\n${(chapitres as Record<number, string>)[2] || ''}
+
+CHAPITRE 3 - AUTORISATIONS SPÉCIALES D'ABSENCE :\n${(chapitres as Record<number, string>)[3] || ''}
+
+CHAPITRE 4 - LES ABSENCES POUR MALADIES ET ACCIDENTS :\n${(chapitres as Record<number, string>)[4] || ''}
+
+RÈGLEMENT FORMATION :\n${formation || ''}
+
+PROTOCOLE TÉLÉTRAVAIL :\n${typeof teletravailData === 'string' ? teletravailData : JSON.stringify(teletravailData)}`
     } else {
-      return "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64 pour plus de détails."
+      // ÉTAPE 2 : Charger uniquement les sections identifiées
+      contenuCible = chargerContenuSections(idsFinals)
     }
 
-    contenuFinal = truncateText(contenuFinal, MAX_CONTEXT_TOTAL_CHARS)
-
-    // --- NOUVEAU GARDE-FOU ANTI 'PAS TROUVÉ' ---
-    // Si le contexte contient des éléments, on interdit la réponse 'pas trouvé' et on force la synthèse
     const systemPrompt = `
-  Tu es conseiller CFDT Gennevilliers.
-  Réponds uniquement avec la documentation fournie.
-  Sois précis (chiffres, délais, conditions), en français clair.
-  Priorise les passages qui contiennent des montants, pourcentages, durées et conditions.
-  Si la documentation ne répond que partiellement, fais une synthèse ou une explication à partir des éléments disponibles, même si la réponse n’est pas complète.
-  Si la question concerne le CIA, les primes, un cumul ou un déménagement, tente toujours une explication à partir des éléments présents, même partiels.
-  N'utilise JAMAIS la phrase "Je ne trouve pas cette information..." si le contexte contient des informations, même partielles. Si vraiment aucun élément pertinent n'est présent dans la documentation, alors seulement réponds :
-  "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
+Tu es un assistant CFDT pour la Mairie de Gennevilliers.
 
-  DOCUMENTATION:
-  ${contenuFinal}
+RÈGLES STRICTES :
+1. Réponds UNIQUEMENT en utilisant les documents ci-dessous
+2. Ne cherche JAMAIS sur internet, n'utilise JAMAIS tes connaissances externes
+3. Sois précis sur les chiffres et délais mentionnés dans les documents
+4. Réponds comme un collègue syndical bienveillant
+5. Ne mentionne JAMAIS [CHAPITRE X - ARTICLE Y] dans ta réponse. Réponds naturellement.
+
+⚠️ RÈGLE CRITIQUE - INTERPRÈTE LA QUESTION :
+- Si l'utilisateur demande "congés bonifiés" → cherche "congé bonifié" dans les documents
+- Si l'utilisateur demande "école grève" → cherche "garde d'enfant", "école fermée", "grève"
+- Fais des correspondances intelligentes entre les termes utilisés et le contenu des documents
+
+⚠️ RÈGLE CRITIQUE - SI TU TROUVES L'INFO :
+- Donne directement la réponse, sans dire "Je ne trouve pas"
+- Cite les détails précis des documents
+- Même si la question est mal formulée, tente de comprendre et répondre si possible
+
+⚠️ RÈGLE CRITIQUE - SI TU NE TROUVES PAS L'INFO :
+- Réponds UNIQUEMENT : "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
+- ARRÊTE-TOI IMMÉDIATEMENT après cette phrase
+- N'ajoute AUCUNE information supplémentaire
+- Ne commence JAMAIS par "Je ne trouve pas" puis donne une réponse ensuite
+
+DOCUMENTATION :
+${contenuCible}
     `
 
+    const conversationHistory = chatState.messages
+      .slice(1)
+      .filter((msg) => msg.type === "user")
+      .slice(-4)
+      .map((msg) => ({
+        role: "user" as const,
+        content: msg.content,
+      }))
 
-    // Correction : garantir l'alternance des rôles pour l'API Perplexity
-    // On ne garde que le dernier échange utilisateur (question) pour la génération
     const apiMessages = [
       { role: "system", content: systemPrompt },
+      ...conversationHistory,
       { role: "user", content: question },
     ]
 
-    let reponse = await appelPerplexity(apiMessages)
-
-    // Garde-fou côté code : si la réponse contient 'pas trouvé' mais que le contexte n'est pas vide, on reformule
-    const notFoundPatterns = [
-      "je ne trouve pas",
-      "pas cette information",
-      "pas trouvé",
-      "aucune information",
-      "documents internes",
-      "contactez la cfdt"
-    ]
-    const isNotFound = notFoundPatterns.some(pattern =>
-      reponse.toLowerCase().includes(pattern)
-    )
-    if (isNotFound && contenuFinal.trim().length > 100) {
-      // Relancer le modèle avec une consigne stricte d'interdiction de 'pas trouvé'
-      const retryPrompt = `
-        Tu es conseiller CFDT Gennevilliers.
-        Réponds uniquement avec la documentation fournie.
-        Synthétise une réponse à partir des éléments présents, même si la réponse n'est pas parfaitement explicite. N'utilise JAMAIS la phrase "Je ne trouve pas cette information..." si le contexte contient des informations, même partielles. Si vraiment aucun élément pertinent n'est présent dans la documentation, alors seulement réponds :
-        "Je ne trouve pas cette information dans nos documents internes. Contactez la CFDT au 01 40 85 64 64."
-
-        DOCUMENTATION:
-        ${contenuFinal}
-      `
-      reponse = await appelPerplexity([
-        { role: "system", content: retryPrompt },
-        { role: "user", content: question },
-      ])
-    }
-    
-    // Sauvegarde en cache de la réponse pour économies futures
-    queryCache.set(cacheKey, reponse);
-    return reponse
+    return await appelPerplexity(apiMessages)
   }
 
   const handleSendMessage = async () => {
@@ -779,18 +596,17 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
     try {
       const reponseContent = await traiterQuestion(question)
       
-      // Détecter si la réponse indique qu'on n'a pas trouvé l'info
-      const notFoundPatterns = [
-        "je ne trouve pas",
-        "pas cette information",
-        "pas trouvé",
-        "aucune information",
-        "documents internes",
-        "contactez la cfdt"
-      ]
-      const isNotFound = notFoundPatterns.some(pattern => 
-        reponseContent.toLowerCase().includes(pattern)
-      )
+      // Détecter STRICTEMENT la réponse de non-trouvaille (évite les faux positifs)
+      const normalizedResponse = reponseContent
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+
+      const isNotFound =
+        normalizedResponse === "je ne trouve pas cette information dans nos documents internes. contactez la cfdt au 01 40 85 64 64." ||
+        normalizedResponse.startsWith("je ne trouve pas cette information dans nos documents internes")
       
       if (isNotFound) {
         // Proposer d'élargir la recherche
@@ -845,20 +661,17 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
     <div className="min-h-screen relative">
       {/* Background image with transparency */}
       <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0"
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 pointer-events-none"
         style={{ backgroundImage: `url('${BASE_URL}unnamed.jpg')`, opacity: 0.3 }}
       ></div>
 
       {/* Subtle overlay for better text readability */}
-      <div className="fixed inset-0 bg-black/20 z-0"></div>
+      <div className="fixed inset-0 bg-black/20 z-0 pointer-events-none"></div>
 
-      {/* Couches de fond supplémentaires */}
-      <div className="bg-blob-3" aria-hidden="true" />
-      <div className="bg-noise"  aria-hidden="true" />
-      <div className="bg-aurora" aria-hidden="true" />
+      {/* Couches de fond supplémentaires — supprimées (GPU layers plein écran) */}
 
       {/* HEADER PROFESSIONNEL */}
-      <header className="relative bg-gradient-to-r from-slate-900/70 via-purple-900/70 to-slate-900/70 backdrop-blur-md shadow-lg z-10 bg-cover bg-center glass-banner header-bottom-glow" style={{ backgroundImage: `url('${BASE_URL}mairie.jpeg')`, backgroundBlendMode: 'overlay' }}>
+      <header className="relative bg-gradient-to-r from-slate-900/95 via-purple-900/90 to-slate-900/95 shadow-lg z-10 bg-cover bg-center glass-banner header-bottom-glow" style={{ backgroundImage: `url('${BASE_URL}mairie.jpeg')`, backgroundBlendMode: 'overlay' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-purple-900/80 to-slate-900/80 z-0"></div>
         {/* Scan line traversant le header */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
@@ -903,9 +716,9 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
       </header>
 
       {/* Bandeau NEWS FPT - Pleine largeur sous le header */}
-      <section className="relative bg-gradient-to-r from-orange-500/60 via-red-500/60 to-pink-500/60 backdrop-blur-md text-white overflow-hidden w-full shadow-lg border-b border-orange-400/30 z-10 glass-banner marquee-pausable banner-top-streak">
+      <section className="relative bg-gradient-to-r from-orange-600/90 via-red-600/90 to-pink-600/90 text-white overflow-hidden w-full shadow-lg border-b border-orange-400/30 z-10 glass-banner marquee-pausable banner-top-streak">
       <div className="relative h-16 flex items-center overflow-hidden">
-        <div className="absolute left-0 top-0 h-full w-32 flex items-center justify-center bg-gradient-to-r from-orange-600 to-red-600 backdrop-blur z-20 shadow-lg glass-pill news-pill-glow">
+        <div className="absolute left-0 top-0 h-full w-32 flex items-center justify-center bg-gradient-to-r from-orange-700 to-red-700 z-20 shadow-lg glass-pill news-pill-glow">
           <span className="text-base font-light tracking-wide text-white">NEWS:</span>
         </div>
         <div ref={newsMarqueeRef} className="marquee-track animate-marquee pl-36">
@@ -950,95 +763,96 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
                     <h3 className="text-3xl font-light bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent mb-4">{selectedInfo.title}</h3>
                     <p className="text-slate-200 leading-relaxed">{selectedInfo.content}</p>
                     <button
-                      type="button"
                       onClick={() => setSelectedInfo(null)}
-                      className="mt-6 flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill"
+                      className="mt-6 px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200"
                     >
                       Fermer
                     </button>
                   </section>
                 )}
 
-                <div className="flex flex-col sm:flex-row justify-center mb-1 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-0">
+                <div className="flex justify-center mb-1 gap-8">
                   <button
                     onClick={() => handleDomainSelection(0)}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-purple-900/70 to-slate-800/70 backdrop-blur-md border border-purple-500/30 rounded-2xl p-6 sm:p-10 hover:border-pink-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card animate-card-enter-1 card-border-sweep btn-ripple"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-purple-900/70 to-slate-800/70 backdrop-blur-md border border-purple-500/30 rounded-2xl p-10 hover:border-pink-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150 glass-card animate-card-enter-1 card-border-sweep btn-ripple"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
                       <div className="relative">
                         <span className="absolute -inset-3 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 sm:p-6 bg-gradient-to-br from-purple-500/80 to-pink-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
-                          <Search className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                        <div className="relative p-6 bg-gradient-to-br from-purple-500/80 to-pink-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
+                          <Search className="w-16 h-16 text-white" />
                         </div>
                       </div>
-                      <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white card-title-purple">
+                      <h4 className="text-2xl font-light tracking-tight text-white card-title-purple">
                         Recherche Unifiée
                       </h4>
-                      <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                      <p className="text-center text-slate-300 font-light text-sm">
                         Temps de travail, formation, télétravail - Recherche dans tous les documents
                       </p>
                       <div className="flex items-center gap-2 text-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-light text-xs sm:text-sm">Accéder à l&apos;assistant</span>
+                        <span className="font-light text-sm">Accéder à l&apos;assistant</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
                   </button>
 
                   <button
-                    onClick={() => setChatState({ ...chatState, currentView: 'calculators' })}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-6 sm:p-10 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card animate-card-enter-2 card-border-sweep card-border-sweep-blue btn-ripple"
+                    onClick={(e) => e.preventDefault()}
+                    disabled
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-10 w-80 h-96 transition-transform duration-150 glass-card animate-card-enter-2 opacity-50 cursor-not-allowed pointer-events-none"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                    <div className="absolute inset-0 bg-black/20"></div>
+                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
                       <div className="relative">
-                        <span className="absolute -inset-3 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 sm:p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
-                          <Calculator className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                        <div className="relative p-6 bg-gradient-to-br from-blue-500/50 to-cyan-500/50 backdrop-blur rounded-2xl shadow-2xl">
+                          <Calculator className="w-16 h-16 text-white/70" />
                         </div>
                       </div>
-                      <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white card-title-blue">
+                      <h4 className="text-2xl font-light tracking-tight text-white/70 card-title-blue">
                         Calculateurs
                       </h4>
-                      <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                      <p className="text-center text-slate-300/60 font-light text-sm">
                         Primes IFSE - Calcul CIA - Outils de simulation
                       </p>
-                      <div className="flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-light text-xs sm:text-sm">Accéder aux calculateurs</span>
-                        <ArrowRight className="w-4 h-4" />
+                      <div className="flex items-center gap-2 text-cyan-400/60">
+                        <span className="font-light text-sm">Bientôt disponible</span>
                       </div>
+                    </div>
+                    <div className="absolute top-4 right-4 bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-bold shadow-lg z-20">
+                      BIENTÔT DISPONIBLE
                     </div>
                   </button>
 
                   {/* Carte Grilles Indiciaires */}
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'metiers' })}
-                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-6 sm:p-10 hover:border-green-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card animate-card-enter-3 card-border-sweep card-border-sweep-green btn-ripple"
+                    className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-10 hover:border-green-500/50 hover:shadow-2xl hover:-translate-y-1 w-80 h-96 transition-transform duration-150 glass-card animate-card-enter-3 card-border-sweep card-border-sweep-green btn-ripple"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-transparent to-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                    <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
+                    <div className="relative z-10 flex flex-col items-center gap-6 h-full justify-between">
                       <div className="relative">
                         <span className="absolute -inset-3 bg-gradient-to-br from-emerald-400/30 to-green-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                        <div className="relative p-4 sm:p-6 bg-gradient-to-br from-emerald-500/80 to-green-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
-                          <LayoutGrid className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
+                        <div className="relative p-6 bg-gradient-to-br from-emerald-500/80 to-green-500/80 backdrop-blur rounded-2xl shadow-2xl icon-box-spring">
+                          <LayoutGrid className="w-16 h-16 text-white" />
                         </div>
                       </div>
-                      <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white card-title-green">
+                      <h4 className="text-2xl font-light tracking-tight text-white card-title-green">
                         Grilles Indiciaires
                       </h4>
-                      <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
+                      <p className="text-center text-slate-300 font-light text-sm">
                         Filières, métiers et grilles de rémunération FPT
                       </p>
                       <div className="flex items-center gap-2 text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                        <span className="font-light text-xs sm:text-sm">Voir les grilles</span>
+                        <span className="font-light text-sm">Voir les grilles</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
                   </button>
                 </div>
 
-                {/* Boutons Questions Fréquentes, Répertoire BIP et Liens utiles */}
-                <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 px-2 sm:px-0">
+                {/* Bouton Questions Fréquentes */}
+                <div className="flex justify-center mt-8">
                   <button
                     onClick={() => setChatState({ ...chatState, currentView: 'faq' })}
                     className="group flex items-center gap-3 bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-500 hover:via-amber-500 hover:to-yellow-600 text-slate-900 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-yellow-500/30 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter btn-shine"
@@ -1047,21 +861,102 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
                     <span className="text-lg">Questions Fréquentes</span>
                     <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                   </button>
-
-                  <button
-                    onClick={() => setChatState({ ...chatState, currentView: 'liens-utiles' })}
-                    className="group flex items-center gap-3 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 hover:from-blue-500 hover:via-cyan-500 hover:to-blue-600 text-slate-900 font-medium px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-150 hover:scale-105 btn-cta animate-cta-enter btn-shine"
-                  >
-                    <Link className="w-6 h-6" />
-                    <span className="text-lg">Liens utiles</span>
-                    <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
-                  </button>
                 </div>
 
-                {/* Carrousel Actualités Interco CFDT */}
-                <Suspense fallback={<ViewLoader />}>
-                  <IntercoCarousel />
-                </Suspense>
+                {/* --- CARROUSEL ACTUALITÉS INTERCO CFDT --- */}
+                {(
+                <div className="mt-12 mb-4">
+                  <div className="flex items-center gap-3 mb-5 justify-center">
+                    <Newspaper className="w-5 h-5 text-blue-400" />
+                    <h3 className="text-lg font-light text-white tracking-wide">Actualités <span className="text-blue-300 font-normal">CFDT Interco</span></h3>
+                    <a
+                      href="https://interco.cfdt.fr/actualites/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-2 text-xs text-slate-400 hover:text-blue-300 transition-colors duration-150 underline underline-offset-2"
+                    >
+                      Voir toutes les actualités →
+                    </a>
+                  </div>
+
+                  {intercoLoading ? (
+                    <div className="flex gap-4 overflow-hidden">
+                      {[...Array(4)].map((_, i) => (
+                        <div key={i} className="flex-none w-72 h-44 bg-slate-800/50 rounded-2xl animate-pulse border border-slate-700/40" />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="relative group/carousel">
+                      {/* Flèche gauche */}
+                      <button
+                        onClick={() => {
+                          if (intercoCarouselRef.current) {
+                            intercoCarouselRef.current.scrollBy({ left: -320, behavior: 'smooth' })
+                          }
+                        }}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-9 h-9 rounded-full bg-slate-800/90 border border-slate-600/50 flex items-center justify-center text-white shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-700 transition-all duration-150"
+                        aria-label="Défiler à gauche"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+
+                      {/* Flèche droite */}
+                      <button
+                        onClick={() => {
+                          if (intercoCarouselRef.current) {
+                            intercoCarouselRef.current.scrollBy({ left: 320, behavior: 'smooth' })
+                          }
+                        }}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-9 h-9 rounded-full bg-slate-800/90 border border-slate-600/50 flex items-center justify-center text-white shadow-lg opacity-0 group-hover/carousel:opacity-100 hover:bg-slate-700 transition-all duration-150"
+                        aria-label="Défiler à droite"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+
+                      {/* Dégradés latéraux */}
+                      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-900/80 to-transparent z-[1] pointer-events-none rounded-l-2xl" />
+                      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-900/80 to-transparent z-[1] pointer-events-none rounded-r-2xl" />
+
+                      {/* Scrollable track */}
+                      <div
+                        ref={intercoCarouselRef}
+                        className="flex gap-4 overflow-x-auto pb-2 scroll-smooth interco-carousel-track"
+                        style={{ scrollbarWidth: 'none' }}
+                      >
+                        {intercoNews.map((article, i) => {
+                          const date = article.pubDate ? new Date(article.pubDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
+                          return (
+                            <a
+                              key={i}
+                              href={article.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group/card flex-none w-72 flex flex-col justify-between bg-gradient-to-br from-slate-800/80 via-blue-950/60 to-slate-800/80 backdrop-blur-md border border-blue-500/20 rounded-2xl p-5 hover:border-blue-400/50 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-150 glass-card"
+                            >
+                              <div>
+                                {article.category && (
+                                  <span className="inline-block text-xs font-medium px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-3">
+                                    {article.category}
+                                  </span>
+                                )}
+                                <p className="text-white font-light text-sm leading-snug group-hover/card:text-blue-200 transition-colors duration-150 line-clamp-3">
+                                  {article.title}
+                                </p>
+                              </div>
+                              <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-700/40">
+                                <span className="text-xs text-slate-400 font-light">{date}</span>
+                                <span className="text-xs text-blue-400 flex items-center gap-1 opacity-0 group-hover/card:opacity-100 transition-opacity duration-150">
+                                  Lire <ArrowRight className="w-3 h-3" />
+                                </span>
+                              </div>
+                            </a>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                )}
               </div>
             </div>
           </>
@@ -1070,206 +965,12 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
 
       {/* --- SECTION GRILLES INDICIAIRES / MÉTIERS --- */}
       {chatState.currentView === 'metiers' && (
-        <section className="relative z-30">
-          <Suspense fallback={<ViewLoader />}>
-            <Metiers onClose={returnToMenu} />
-          </Suspense>
-        </section>
+        <Metiers onClose={() => setChatState({ ...chatState, currentView: 'menu' })} />
       )}
 
       {/* --- SECTION FAQ --- */}
       {chatState.currentView === 'faq' && (
-        <section className="relative z-30">
-          <Suspense fallback={<ViewLoader />}>
-            <FAQ onBack={returnToMenu} />
-          </Suspense>
-        </section>
-      )}
-
-
-      {/* --- SECTION LIENS UTILES --- */}
-      {chatState.currentView === 'liens-utiles' && (
-        <section className="relative w-full min-h-screen bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 z-20">
-          {/* Header */}
-          <div className="sticky top-0 bg-gradient-to-r from-slate-800/95 to-purple-900/95 backdrop-blur-md border-b border-purple-500/30 z-30">
-            <div className="max-w-6xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
-              <div className="flex items-center justify-between gap-2">
-                <button
-                  onClick={() => setChatState({ ...chatState, currentView: 'menu' })}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  Retour
-                </button>
-                <h2 className="text-sm sm:text-xl font-light text-white truncate text-right">
-                  <span className="hidden sm:inline">Liens utiles</span>
-                  <span className="sm:hidden">Liens</span>
-                </h2>
-              </div>
-            </div>
-          </div>
-
-          {/* Contenu principal */}
-          <div className="max-w-6xl mx-auto px-2 sm:px-4 py-8 sm:py-12">
-            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 lg:gap-8">
-              {/* Carte Juridique */}
-              <button
-                onClick={() => window.open('https://www.cfdt-interco12.fr/actualites/actualites-jurdiques/', '_blank')}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-red-900/70 to-slate-800/70 backdrop-blur-md border border-red-500/30 rounded-2xl p-6 sm:p-10 hover:border-rose-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 via-transparent to-rose-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
-                  <div className="relative">
-                    <span className="absolute -inset-3 bg-gradient-to-br from-red-400/30 to-rose-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-red-500/80 to-rose-500/80 backdrop-blur rounded-2xl shadow-2xl">
-                      <Scale className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
-                    Juridique
-                  </h4>
-                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
-                    Droits et obligations des agents publics
-                  </p>
-                  <div className="flex items-center gap-2 text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <span className="font-light text-xs sm:text-sm">En savoir plus</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </button>
-
-              {/* Carte Formation */}
-              <button
-                onClick={() => window.open('https://www.cnfpt.fr/catalogue/catalogues/region84/#page/1', '_blank')}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-violet-900/70 to-slate-800/70 backdrop-blur-md border border-violet-500/30 rounded-2xl p-6 sm:p-10 hover:border-purple-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
-                  <div className="relative">
-                    <span className="absolute -inset-3 bg-gradient-to-br from-violet-400/30 to-purple-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-violet-500/80 to-purple-500/80 backdrop-blur rounded-2xl shadow-2xl">
-                      <BookOpen className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
-                    Formation
-                  </h4>
-                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
-                    Plans et ressources de formation professionnelle
-                  </p>
-                  <div className="flex items-center gap-2 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <span className="font-light text-xs sm:text-sm">En savoir plus</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </button>
-
-              {/* Carte Guide des Primes */}
-              <button
-                onClick={() => window.open('https://www.cdg31.fr/sites/default/files/guide_des_primes_2025.pdf', '_blank')}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-amber-900/70 to-slate-800/70 backdrop-blur-md border border-amber-500/30 rounded-2xl p-6 sm:p-10 hover:border-yellow-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-transparent to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
-                  <div className="relative">
-                    <span className="absolute -inset-3 bg-gradient-to-br from-amber-400/30 to-yellow-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-amber-500/80 to-yellow-500/80 backdrop-blur rounded-2xl shadow-2xl">
-                      <DollarSign className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
-                    Guide des Primes
-                  </h4>
-                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
-                    Détails et conditions de versement des primes
-                  </p>
-                  <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <span className="font-light text-xs sm:text-sm">En savoir plus</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </button>
-
-              {/* Carte Légifrance */}
-              <button
-                onClick={() => window.open('https://www.legifrance.gouv.fr/codes/texte_lc/LEGITEXT000044416551/', '_blank')}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-blue-900/70 to-slate-800/70 backdrop-blur-md border border-blue-500/30 rounded-2xl p-6 sm:p-10 hover:border-cyan-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
-                  <div className="relative">
-                    <span className="absolute -inset-3 bg-gradient-to-br from-blue-400/30 to-cyan-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-blue-500/80 to-cyan-500/80 backdrop-blur rounded-2xl shadow-2xl">
-                      <FileText className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
-                    Légifrance
-                  </h4>
-                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
-                    Code général de la fonction publique
-                  </p>
-                  <div className="flex items-center gap-2 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <span className="font-light text-xs sm:text-sm">Accéder</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </button>
-
-              {/* Carte Recherche Jurisprudence */}
-              <button
-                onClick={() => window.open('https://opendata.justice-administrative.fr/recherche', '_blank')}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-emerald-900/70 to-slate-800/70 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-6 sm:p-10 hover:border-teal-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-transparent to-teal-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
-                  <div className="relative">
-                    <span className="absolute -inset-3 bg-gradient-to-br from-emerald-400/30 to-teal-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-emerald-500/80 to-teal-500/80 backdrop-blur rounded-2xl shadow-2xl">
-                      <Search className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
-                    Jurisprudence
-                  </h4>
-                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
-                    Décisions et jurisprudence administrative
-                  </p>
-                  <div className="flex items-center gap-2 text-teal-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <span className="font-light text-xs sm:text-sm">Rechercher</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </button>
-
-              {/* Carte CIG */}
-              <button
-                onClick={() => window.open('https://www.cig929394.fr', '_blank')}
-                className="group relative overflow-hidden bg-gradient-to-br from-slate-800/70 via-pink-900/70 to-slate-800/70 backdrop-blur-md border border-pink-500/30 rounded-2xl p-6 sm:p-10 hover:border-fuchsia-500/50 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-80 h-auto sm:h-96 transition-transform duration-150 glass-card"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 via-transparent to-fuchsia-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-150"></div>
-                <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 h-full justify-between">
-                  <div className="relative">
-                    <span className="absolute -inset-3 bg-gradient-to-br from-pink-400/30 to-fuchsia-400/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg group-hover:scale-110 transition-opacity duration-150"></span>
-                    <div className="relative p-4 sm:p-6 bg-gradient-to-br from-pink-500/80 to-fuchsia-500/80 backdrop-blur rounded-2xl shadow-2xl">
-                      <Building2 className="w-12 sm:w-16 h-12 sm:h-16 text-white" />
-                    </div>
-                  </div>
-                  <h4 className="text-lg sm:text-2xl font-light tracking-tight text-white">
-                    CIG
-                  </h4>
-                  <p className="text-center text-slate-300 font-light text-xs sm:text-sm">
-                    Centre de gestion - Ressources pour agents publics
-                  </p>
-                  <div className="flex items-center gap-2 text-fuchsia-400 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                    <span className="font-light text-xs sm:text-sm">Visiter</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
-        </section>
+        <FAQ onBack={() => setChatState({ ...chatState, currentView: 'menu' })} />
       )}
 
       {/* --- SECTION CALCULATEURS FULL-WIDTH --- */}
@@ -1277,8 +978,8 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
       <section className="relative w-full min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 z-20">
         {/* Header */}
         <div className="sticky top-0 bg-gradient-to-r from-slate-800/95 to-blue-900/95 backdrop-blur-md border-b border-blue-500/30 z-30">
-          <div className="max-w-6xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
-            <div className="flex items-center justify-between gap-2">
+          <div className="max-w-6xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
               <button
                 onClick={() => {
                   if (activeCalculator) {
@@ -1287,70 +988,66 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
                     setChatState({ ...chatState, currentView: 'menu' })
                   }
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill whitespace-nowrap"
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-100 font-light"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span className="hidden sm:inline">{activeCalculator ? 'Retour aux calculateurs' : 'Retour'}</span>
-                <span className="sm:hidden">Retour</span>
+                <span>{activeCalculator ? 'Retour aux calculateurs' : 'Retour au menu'}</span>
               </button>
-              <h2 className="text-sm sm:text-xl font-light text-white truncate text-right">
-                <span className="hidden sm:inline">Calculateurs CFDT</span>
-                <span className="sm:hidden">Calculateurs</span>
-              </h2>
+              <h2 className="text-xl font-light text-white">Calculateurs CFDT</h2>
             </div>
           </div>
         </div>
 
         {/* Page d'accueil avec les 3 icônes */}
         {!activeCalculator && (
-          <div className="max-w-6xl mx-auto px-2 sm:px-4 py-6 sm:py-12 calc-landing-enter">
-            <div className="text-center mb-6 sm:mb-12">
-              <h3 className="text-2xl sm:text-3xl font-light text-white mb-2 sm:mb-4">Choisissez un calculateur</h3>
-              <p className="text-slate-400 font-light text-sm sm:text-base">Cliquez sur une icône pour accéder au calculateur</p>
+          <div className="max-w-6xl mx-auto px-4 py-12 calc-landing-enter">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-light text-white mb-4">Choisissez un calculateur</h3>
+              <p className="text-slate-400 font-light">Cliquez sur une icône pour accéder au calculateur</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Carte Primes IFSE */}
               <button
                 onClick={() => setActiveCalculator('primes')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-cyan-900/50 backdrop-blur-md border border-cyan-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-cyan-900/50 backdrop-blur-md border border-cyan-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-xl sm:rounded-2xl"></div>
-                <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6">
-                  <div className="p-3 sm:p-6 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-xl sm:rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
-                    <TrendingUp className="w-8 sm:w-16 h-8 sm:h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                <div className="relative z-10 flex flex-col items-center gap-6">
+                  <div className="p-6 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
+                    <TrendingUp className="w-16 h-16 text-white" />
                   </div>
-                  <h4 className="text-lg sm:text-2xl font-light text-white group-hover:text-cyan-200 transition-colors duration-100">Primes IFSE</h4>
-                  <p className="text-center text-slate-400 font-light text-xs sm:text-sm">Calculez vos primes IFSE 1 et IFSE 2 selon votre grade et direction</p>
+                  <h4 className="text-2xl font-light text-white group-hover:text-cyan-200 transition-colors duration-100">Primes IFSE</h4>
+                  <p className="text-center text-slate-400 font-light text-sm">Calculez vos primes IFSE 1 et IFSE 2 selon votre grade et direction</p>
                 </div>
               </button>
 
               {/* Carte CIA */}
               <button
                 onClick={() => setActiveCalculator('cia')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-orange-900/50 backdrop-blur-md border border-orange-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-orange-900/50 backdrop-blur-md border border-orange-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-orange-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-xl sm:rounded-2xl"></div>
-                <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6">
-                  <div className="p-3 sm:p-6 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-xl sm:rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
-                    <Calculator className="w-8 sm:w-16 h-8 sm:h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                <div className="relative z-10 flex flex-col items-center gap-6">
+                  <div className="p-6 bg-gradient-to-br from-orange-500/80 to-amber-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
+                    <Calculator className="w-16 h-16 text-white" />
                   </div>
-                  <h4 className="text-lg sm:text-2xl font-light text-white group-hover:text-orange-200 transition-colors duration-100">CIA</h4>
-                  <p className="text-center text-slate-400 font-light text-xs sm:text-sm">Complément Indemnitaire Annuel - Simulez votre prime CIA</p>
+                  <h4 className="text-2xl font-light text-white group-hover:text-orange-200 transition-colors duration-100">CIA</h4>
+                  <p className="text-center text-slate-400 font-light text-sm">Complément Indemnitaire Annuel - Simulez votre prime CIA</p>
                 </div>
               </button>
 
               {/* Carte 13ème Mois */}
               <button
                 onClick={() => setActiveCalculator('13eme')}
-                className="group relative bg-gradient-to-br from-slate-800/80 to-green-900/50 backdrop-blur-md border border-green-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-8 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
+                className="group relative bg-gradient-to-br from-slate-800/80 to-green-900/50 backdrop-blur-md border border-green-500/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 hover:scale-105 hover:-translate-y-2 transition-transform duration-150 glass-card"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-xl sm:rounded-2xl"></div>
-                <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-6">
-                  <div className="p-3 sm:p-6 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-xl sm:rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
-                    <DollarSign className="w-8 sm:w-16 h-8 sm:h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150 rounded-2xl"></div>
+                <div className="relative z-10 flex flex-col items-center gap-6">
+                  <div className="p-6 bg-gradient-to-br from-green-500/80 to-emerald-500/80 rounded-2xl shadow-2xl group-hover:scale-110 transition-transform duration-150">
+                    <DollarSign className="w-16 h-16 text-white" />
                   </div>
-                  <h4 className="text-lg sm:text-2xl font-light text-white group-hover:text-green-200 transition-colors duration-100">13ème Mois</h4>
-                  <p className="text-center text-slate-400 font-light text-xs sm:text-sm">Calculez votre prime de 13ème mois selon votre situation</p>
+                  <h4 className="text-2xl font-light text-white group-hover:text-green-200 transition-colors duration-100">13ème Mois</h4>
+                  <p className="text-center text-slate-400 font-light text-sm">Calculez votre prime de 13ème mois selon votre situation</p>
                 </div>
               </button>
             </div>
@@ -1359,35 +1056,29 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
 
         {/* Contenu du calculateur sélectionné */}
         {activeCalculator === 'primes' && (
-          <Suspense fallback={<ViewLoader />}>
-            <div className="calc-tool-enter"><CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} /></div>
-          </Suspense>
+          <div className="calc-tool-enter"><CalculateurPrimesV2 onClose={() => setActiveCalculator(null)} /></div>
         )}
         {activeCalculator === 'cia' && (
-          <Suspense fallback={<ViewLoader />}>
-            <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
-          </Suspense>
+          <div className="calc-tool-enter"><CalculateurCIAV2 onClose={() => setActiveCalculator(null)} /></div>
         )}
         {activeCalculator === '13eme' && (
-          <Suspense fallback={<ViewLoader />}>
-            <div className="calc-tool-enter"><Calculateur13emeV2 onClose={() => setActiveCalculator(null)} /></div>
-          </Suspense>
+          <div className="calc-tool-enter"><Calculateur13emeV2 onClose={() => setActiveCalculator(null)} /></div>
         )}
       </section>
       )}
 
-      <main className="relative max-w-full mx-auto px-2 sm:px-4 lg:px-8 py-2 z-10">
+      <main className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 z-10">
         {chatState.currentView === "chat" && (
           <div
             ref={chatContainerRef}
-            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 backdrop-blur-md border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 glass-card animate-chat-enter max-w-4xl mx-auto"
+            className="bg-gradient-to-br from-slate-800/80 via-purple-900/80 to-slate-800/80 backdrop-blur-md border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 glass-card animate-chat-enter"
           >
-            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 backdrop-blur text-white p-3 sm:p-6 glass-banner">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                  <Search className="w-5 sm:w-7 h-5 sm:h-7 text-pink-200 flex-shrink-0" />
-                  <div className="min-w-0">
-                    <h3 className="text-sm sm:text-lg font-light tracking-tight truncate">
+            <div className="bg-gradient-to-r from-purple-600/70 via-pink-600/70 to-purple-600/70 backdrop-blur text-white p-6 glass-banner">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Search className="w-7 h-7 text-pink-200" />
+                  <div>
+                    <h3 className="text-lg font-light tracking-tight">
                       Assistant CFDT Unifié
                     </h3>
                     <p className="text-purple-100 text-xs font-light">CFDT Gennevilliers</p>
@@ -1395,20 +1086,20 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
                 </div>
                 <button
                   onClick={returnToMenu}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm glass-pill flex-shrink-0"
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all duration-200 backdrop-blur-sm font-light glass-pill"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  Retour
+                  <span className="hidden sm:inline text-sm">Retour</span>
                 </button>
               </div>
             </div>
-            <div className="min-h-[300px] sm:min-h-[400px] max-h-[500px] sm:max-h-[700px] overflow-y-auto p-3 sm:p-6 space-y-3 sm:space-y-4 bg-gradient-to-b from-slate-800/40 to-purple-900/40 glass-card">
+            <div className="min-h-[400px] max-h-[700px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-slate-800/40 to-purple-900/40 glass-card">
               {chatState.messages.map((message, index) => (
                 <div key={index} className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-xs sm:max-w-md px-3 sm:px-4 py-2 sm:py-3 rounded-xl backdrop-blur-sm font-light glass-card text-sm sm:text-base ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
+                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl backdrop-blur-sm font-light glass-card ${message.type === "user" ? "bg-gradient-to-r from-purple-600/70 to-pink-600/70 text-white shadow-lg" : "bg-slate-700/70 text-slate-100 border border-purple-500/30"}`}
                   >
-                    <div className="whitespace-pre-wrap break-words">{message.content}</div>
+                    <div className="whitespace-pre-wrap break-words text-sm">{message.content}</div>
                     <div className={`text-xs mt-2 ${message.type === "user" ? "text-purple-100" : "text-slate-400"}`}>
                       {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                     </div>
@@ -1429,17 +1120,16 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
               )}
               {/* Boutons Oui/Non pour élargir la recherche */}
               {showExpandSearch && !chatState.isProcessing && (
-                <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mt-4 mb-2">
+                <div className="flex justify-center gap-4 mt-4 mb-2">
                   <button
                     onClick={handleExpandSearch}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center justify-center gap-2 btn-cta"
+                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center gap-2 btn-cta"
                   >
                     <span>✅ Oui, rechercher sur Légifrance</span>
                   </button>
                   <button
-                    type="button"
                     onClick={handleDeclineSearch}
-                    className="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-full font-semibold transition-all text-sm flex items-center justify-center gap-2 glass-pill"
+                    className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium flex items-center gap-2 glass-pill"
                   >
                     <span>❌ Non, retour à l'accueil</span>
                   </button>
@@ -1447,22 +1137,22 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
               )}
               <div ref={messagesEndRef} />
             </div>
-            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 backdrop-blur-md p-2 sm:p-4 glass-banner">
-              <div className="flex gap-2 sm:gap-3">
+            <div className="border-t border-purple-500/30 bg-gradient-to-r from-slate-800/80 to-purple-900/80 backdrop-blur-md p-4 glass-banner">
+              <div className="flex gap-3">
                 <input
                   ref={inputRef}
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Posez votre question..."
-                  className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 backdrop-blur-sm text-xs sm:text-sm font-light text-slate-100 placeholder-slate-400"
+                  placeholder="Ex: Combien de jours de congés ? Comment utiliser mon CPF ? Télétravail possible ?"
+                  className="flex-1 px-4 py-3 border border-purple-500/30 rounded-lg focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 outline-none transition-all duration-200 bg-slate-700/70 backdrop-blur-sm text-sm font-light text-slate-100 placeholder-slate-400"
                   disabled={chatState.isProcessing}
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || chatState.isProcessing}
-                  className={`px-3 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-purple-600/70 to-pink-600/70 backdrop-blur-sm text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-1 sm:gap-2 shadow-lg hover:shadow-xl font-light flex-shrink-0${inputValue.trim() && !chatState.isProcessing ? ' send-btn-pulse' : ''}`}
+                  className={`px-6 py-3 bg-gradient-to-r from-purple-600/70 to-pink-600/70 backdrop-blur-sm text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl font-light${inputValue.trim() && !chatState.isProcessing ? ' send-btn-pulse' : ''}`}
                 >
                   <Send className="w-4 h-4" />
                   <span className="hidden sm:inline text-sm">Envoyer</span>
@@ -1493,27 +1183,27 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
           backgroundAttachment: 'fixed'
         }}
       >
-        <div className="max-w-6xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="flex justify-center items-center gap-2 sm:gap-3 mb-4 sm:mb-8">
-            <span className="text-pink-400 font-light text-sm sm:text-base tracking-wide">CFDT Gennevilliers</span>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center gap-3 mb-8">
+            <span className="text-pink-400 font-light text-base tracking-wide">CFDT Gennevilliers</span>
           </div>
-          <div className="flex flex-col gap-3 sm:gap-8 mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-6">
             <a
               href="tel:0140856464"
-              className="flex items-center justify-center sm:justify-start gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-105 font-light text-xs sm:text-sm"
+              className="flex items-center gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-110 font-light text-sm"
             >
-              <Phone className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
+              <Phone className="w-5 h-5" />
               <span>01 40 85 64 64</span>
             </a>
             <a
               href="mailto:cfdt-interco@ville-gennevilliers.fr"
-              className="flex items-center justify-center sm:justify-start gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-105 font-light text-xs sm:text-sm break-all"
+              className="flex items-center gap-2 text-pink-400/90 hover:text-pink-300 transition-all duration-200 hover:scale-110 font-light text-sm"
             >
-              <Mail className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
+              <Mail className="w-5 h-5" />
               <span>cfdt-interco@ville-gennevilliers.fr</span>
             </a>
-            <div className="flex items-center justify-center sm:justify-start gap-2 text-pink-400/90 font-light text-xs sm:text-sm">
-              <MapPin className="w-4 sm:w-5 h-4 sm:h-5 flex-shrink-0" />
+            <div className="flex items-center gap-2 text-pink-400/90 font-light text-sm">
+              <MapPin className="w-5 h-5" />
               <span>177 av. Gabriel-Péri</span>
             </div>
           </div>
@@ -1543,23 +1233,17 @@ Si l'information n'est pas trouvée dans ces sources, dis-le clairement.
 
       {/* Admin Login Modal */}
       {showAdminLogin && (
-        <Suspense fallback={<ViewLoader />}>
-          <AdminLogin 
-            onClose={() => setShowAdminLogin(false)} 
-            onSuccess={() => {
-              setShowAdminLogin(false);
-              setShowAdminPanel(true);
-            }}
-          />
-        </Suspense>
+        <AdminLogin 
+          onClose={() => setShowAdminLogin(false)} 
+          onSuccess={() => {
+            setShowAdminLogin(false);
+            setShowAdminPanel(true);
+          }}
+        />
       )}
 
       {/* Admin Panel Modal */}
-      {showAdminPanel && (
-        <Suspense fallback={<ViewLoader />}>
-          <AdminPanel onClose={() => setShowAdminPanel(false)} />
-        </Suspense>
-      )}
+      {showAdminPanel && <AdminPanel onClose={() => setShowAdminPanel(false)} />}
     </div>
   );
 }

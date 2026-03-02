@@ -469,10 +469,10 @@ export const sommaireUnifie: SectionIndex[] = [
     titre: 'Formations obligatoires (intégration, professionnalisation)',
     motsCles: [
       'formation obligatoire', 'intégration', 'professionnalisation', 'CNFPT', 'titularisation', '5 jours', '10 jours',
-      'formation initiale', 'formation continue', 'plan de formation', 'statut', 'carrière', 'catégorie A', 'catégorie B', 'catégorie C', 'diplôme', 'concours', 'examen professionnel', 'formation d’intégration', 'formation de professionnalisation', 'formation tout au long de la carrière', 'formation réglementaire', 'formation qualifiante', 'formation certifiante'
+      'formation initiale', 'formation continue', 'plan de formation', 'statut', 'carrière', 'catégorie A', 'catégorie B', 'catégorie C', 'diplôme', 'concours', 'examen professionnel', 'formation d\'intégration', 'formation de professionnalisation', 'formation tout au long de la carrière', 'formation réglementaire', 'formation qualifiante', 'formation certifiante', 'hygiène', 'sécurité', 'habilitation électrique', 'premiers secours', 'CACES'
     ],
     source: 'formation',
-    resume: 'Formation intégration (5-10j), professionnalisation 1er emploi (3-10j), tout au long carrière (2-10j), formation initiale, continue, plan de formation, statut, carrière, diplôme, concours, formation réglementaire, qualifiante, certifiante'
+    resume: 'Quatre types de formations obligatoires : (1) Formation d\'intégration (10 jours cat A/B, 5 jours cat C) pour les nouveaux agents avant titularisation. (2) Formation de professionnalisation au 1er emploi (5-10 jours cat A/B, 3-10 jours cat C) dans les 2 ans suivant nomination. (3) Formation de professionnalisation tout au long de la carrière (2-10 jours) tous les 5 ans pour maintenir les compétences. (4) Formations hygiène et sécurité obligatoires selon le poste (CACES, habilitation électrique, premiers secours, SST). Gérées par CNFPT et DCRH. Prise en charge des frais par la collectivité.'
   },
   {
     id: 'formation_concours',
@@ -666,8 +666,19 @@ export const sommaireUnifie: SectionIndex[] = [
 /**
  * Fonction utilitaire pour rechercher dans le sommaire
  * Retourne les sections les plus pertinentes pour une question donnée
+ * @param allowedSources - Filtrer par source (ex: ['temps', 'formation', 'teletravail'])
  */
-export function rechercherDansSommaire(question: string, maxResults = 3): SectionIndex[] {
+export function rechercherDansSommaire(question: string, maxResults = 3, allowedSources?: string[]): SectionIndex[] {
+  // Détecter les acronymes (mots en MAJUSCULES 2-5 lettres) dans la question originale
+  const acronymsDetected = new Set<string>();
+  question.split(/\s+/).forEach(word => {
+    const clean = word.replace(/[^\w]/g, '');
+    // Si mot de 2-5 lettres tout en majuscules → probable acronyme (CET, RTT, CAF, etc.)
+    if (/^[A-Z]{2,5}$/.test(clean)) {
+      acronymsDetected.add(clean.toLowerCase());
+    }
+  });
+  
   const qNorm = question.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   
   const STOP_WORDS = new Set([
@@ -686,16 +697,17 @@ export function rechercherDansSommaire(question: string, maxResults = 3): Sectio
   // Pseudo-stemmer basique pour pluriel
   const stem = (w: string) => w.replace(/(s|x)$/, '');
 
-  // Extraire les mots de la question, exclure les STOP_WORDS
+  // Extraire les mots de la question, exclure les STOP_WORDS SAUF les acronymes détectés
   const queryWords = qNorm
     .replace(/[^\w\s]/g, ' ')
     .split(/\s+/)
-    .filter(word => word.length > 2 && !STOP_WORDS.has(word));
+    .filter(word => word.length > 2 && (!STOP_WORDS.has(word) || acronymsDetected.has(word)));
 
   const queryStems = queryWords.map(stem);
 
   // Calculer un score pour chaque section
-  const scored = sommaireUnifie.map(section => {
+  const sectionsToScore = allowedSources ? sommaireUnifie.filter(s => allowedSources.includes(s.source)) : sommaireUnifie;
+  const scored = sectionsToScore.map(section => {
     let score = 0;
     
     const titreNorm = section.titre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -767,6 +779,25 @@ export function rechercherDansSommaire(question: string, maxResults = 3): Sectio
     .sort((a, b) => b.score - a.score)
     .slice(0, maxResults)
     .map(s => s.section);
+}
+
+/**
+ * Recherche avec hiérarchie de sources
+ * Cherche d'abord dans temps/formation/teletravail, puis BIP si nécessaire
+ */
+export function rechercherAvecPriorite(question: string, maxResults = 3): SectionIndex[] {
+  // Phase 1 : Chercher dans les sources prioritaires
+  const prioritySources = ['temps', 'formation', 'teletravail'];
+  const priorityResults = rechercherDansSommaire(question, maxResults, prioritySources);
+  
+  // Si on a de bons résultats prioritaires, les retourner
+  if (priorityResults.length >= 2) {
+    return priorityResults;
+  }
+  
+  // Phase 2 : Complémenter avec BIP si nécessaire
+  const bipResults = rechercherDansSommaire(question, maxResults - priorityResults.length, ['bip']);
+  return [...priorityResults, ...bipResults].slice(0, maxResults);
 }
 
 /**
