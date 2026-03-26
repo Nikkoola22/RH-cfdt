@@ -17,21 +17,21 @@
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Gestionnaire adjointe",
-    "Direction": "DSA",
+    "Direction": "DME",
     "Service": "SMAPE"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Cuisinier",
-    "Direction": "DSA",
+    "Direction": "DME",
     "Service": "SMAPE"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Agent technique polyvalent",
-    "Direction": "DSA",
+    "Direction": "DME",
     "Service": "SMAPE"
   },
   {
@@ -219,7 +219,7 @@
   {
     "Motif": "Prime chef d'équipe",
     "Montant": "85 €",
-    "Metiers_concernes": "Chef d'équipe",
+    "Metiers_concernes": "Chef d'équipe ASVP",
     "Direction": "DRU",
     "Service": "ASVP"
   },
@@ -310,7 +310,7 @@
   {
     "Motif": "Prime accueil 2",
     "Montant": "50 €",
-    "Metiers_concernes": "Chef d'équipe",
+    "Metiers_concernes": "Chef d'équipe ASVP",
     "Direction": "DRU",
     "Service": "ASVP"
   },
@@ -667,7 +667,7 @@
   {
     "Motif": "Prime Gestionnaire déconcentré",
     "Montant": "90 €",
-    "Metiers_concernes": "Responsable gestion financière",
+    "Metiers_concernes": "Responsable de gestion budgétaire",
     "Direction": "DRH",
     "Service": "Gestion financière"
   },
@@ -730,7 +730,7 @@
   {
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
-    "Metiers_concernes": "Chef d'équipe",
+    "Metiers_concernes": "Chef d'équipe ASVP",
     "Direction": "DRU",
     "Service": "ASVP"
   },
@@ -1157,23 +1157,9 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Responsable de service",
-    "Direction": "DRH",
-    "Service": "DRH"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
     "Metiers_concernes": "Assistante DCRH",
     "Direction": "DRH",
     "Service": "DCRH"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Agent d'accueil",
-    "Direction": "DRH",
-    "Service": "Centre Nautique"
   },
   {
     "Motif": "Prime accueil 1",
@@ -1196,6 +1182,13 @@
     "Direction": "DDS",
     "Service": "Urbanisme régl / Domaine public"
   },
+   {
+    "Motif": "Prime accueil 1",
+    "Montant": "50 €",
+    "Metiers_concernes": "Assistante",
+    "Direction": "DRH",
+    "Service": "GCR"
+  },
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
@@ -1213,7 +1206,7 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Chef d'équipe",
+    "Metiers_concernes": "Chef d'équipe ASVP",
     "Direction": "DRU",
     "Service": "ASVP"
   },
@@ -1360,20 +1353,6 @@
   {
     "Motif": "Prime accueil 1",
     "Montant": "50 €",
-    "Metiers_concernes": "Agent d'accueil administratif",
-    "Direction": "DH",
-    "Service": "Logement"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
-    "Metiers_concernes": "Adjoint au responsable de service",
-    "Direction": "DH",
-    "Service": "Logement"
-  },
-  {
-    "Motif": "Prime accueil 1",
-    "Montant": "50 €",
     "Metiers_concernes": "Chef d'équipe",
     "Direction": "DCCS",
     "Service": "Espace Grésillons"
@@ -1467,7 +1446,7 @@
     "Montant": "281,71 €",
     "Metiers_concernes": "Responsable de gestion budgétaire",
     "Direction": "DRH",
-    "Service": "GCR"
+    "Service": "Gestion financière"
   },
   {
     "Motif": "Prime technicité DGA",
@@ -1569,14 +1548,14 @@
   },
   {
     "Motif": "Indemnité de sujétion spéciale",
-    "Montant": "Entre 16 et 18 €",
+    "Montant": "18 €",
     "Metiers_concernes": "Adjoint au directeur de crèche / Directeur crèche",
     "Direction": "DPE",
     "Service": "Toutes crèches"
   },
   {
     "Motif": "Indemnité de sujétion spéciale",
-    "Montant": "Entre 16 et 18 €",
+    "Montant": "18 €",
     "Metiers_concernes": "Coordinatrice (Uniquement pour certains grades)",
     "Direction": "DPE",
     "Service": "Toutes crèches"
@@ -1639,7 +1618,7 @@
   },
   {
     "Motif": "Sujétions spéci-fiques aux soins",
-    "Montant": "182,75 € ou 197,11 €",
+    "Montant": "197,11 €",
     "Metiers_concernes": "Aide-soignante",
     "Direction": "DMSP",
     "Service": "SIADPA"
@@ -1802,13 +1781,6 @@
     "Motif": "Indemnités horaires décalées cat 1",
     "Montant": "20 €",
     "Metiers_concernes": "Adjoint au responsable de service",
-    "Direction": "DH",
-    "Service": "Logement"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Adjoint au responsable de service",
     "Direction": "DMRU",
     "Service": "Accueil démarches prestations"
   },
@@ -1818,13 +1790,6 @@
     "Metiers_concernes": "Adjoint au responsable de service",
     "Direction": "DMRU",
     "Service": "Affaires civiles"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Adjoint au responsable de service",
-    "Direction": "DRH",
-    "Service": "GCR"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -1839,13 +1804,6 @@
     "Metiers_concernes": "Agent d'accueil",
     "Direction": "DESS",
     "Service": "SERA"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Agent d'accueil",
-    "Direction": "DH",
-    "Service": "Logement"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
@@ -1962,20 +1920,6 @@
     "Metiers_concernes": "Responsable de service",
     "Direction": "DMSP",
     "Service": "Radiologie"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable de service",
-    "Direction": "DRH",
-    "Service": "DIRECTION"
-  },
-  {
-    "Motif": "Indemnités horaires décalées cat 1",
-    "Montant": "20 €",
-    "Metiers_concernes": "Responsable de service",
-    "Direction": "DRH",
-    "Service": "DRH"
   },
   {
     "Motif": "Indemnités horaires décalées cat 1",
