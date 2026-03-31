@@ -434,7 +434,51 @@ Quand l'état de santé de l'enfant nécessite son hospitalisation immédiate ap
 La période de congé de 4 jours consécutifs peut être prolongée, pendant la durée de l'hospitalisation, dans la limite de 30 jours consécutifs.
 La période de 21 jours calendaires doit alors être prise dans les 6 mois suivant la fin de l'hospitalisation.
 L'agent doit en faire la demande. L'administration ne peut pas refuser cette prolongation.
-Demande de congé de paternité ou d'accueil de l'enfant (formulaire accessible sur Intranet).`.trim(),               3: `
+Demande de congé de paternité ou d'accueil de l'enfant (formulaire accessible sur Intranet)
+CONGE D’ADOPTION
+Les fonctionnaires (titulaires ou stagiaires) et les agents contractuels permanents en activité peuvent
+bénéficier du congé d’adoption lorsqu’un ou plusieurs enfants leur sont confiés, en vue d’une adoption,
+par le service départemental d’aide sociale à l’enfance, l’Agence française de l’adoption ou tout autre
+organisme autorisé pour l’adoption.
+Ce congé rémunéré est ouvert à l’un ou l’autre des parents adoptifs.
+Si les deux parents adoptifs sont agents publics en activité, le congé peut être réparti entre eux, avec
+augmentation de la durée du congé.
+Le ou les bénéficiaires doivent cesser tout travail rémunéré pendant le congé.
+La demande doit indiquer la date d’arrivée de l’enfant ainsi que les dates prévisionnelles de congé.
+Elle doit être accompagnée :
+ D’un document attestant que l’agent s’est vu confier un enfant par le service départemental
+d’aide sociale à l’enfance, l’Agence française de l’adoption ou tout autre organisme autorisé
+pour l’adoption et précisant la date de son arrivée ;
+ D’une déclaration du conjoint adoptant attestant qu’il ne bénéficie pas lui-même d’un congé
+d’adoption ou, le cas échéant, que le congé est réparti entre les deux agents publics adoptants.
+La durée du congé d’adoption dépend du nombre d’enfants adoptés, du nombre d’enfants déjà à
+charge avant adoption et de l’éventuelle répartition du congé entre les parents :
+NB enfants adoptés     NB enfants à la charge                      Durée du congé                    Durée du congé d’adoption en cas de partage entre les parents
+                        du couple avant                          d’adoption si un seul
+                         l’adoption                                parent demande à en
+                                                                      bénéficier
+        1                     0 ou 1                                   16 semaines                                       16 sem + 25 jours
+        1                   2 ou plus                                  18 semaines                                       18 sem + 25 jours
+    2 ou plus               Indifférent                                 22 semaines                                      22 sem + 32 jours
+Le congé débute le jour de l’arrivée de l’enfant au foyer ou dans les sept jours qui précèdent cette
+arrivée. En cas de retrait de l’enfant, le congé cesse à la date du retrait.
+Il est considéré comme une période d’activité. La période est prise en compte pour l’avancement de
+grade ou d’échelon.
+Pendant ce congé, l’agent continue de percevoir l’intégralité de sa rémunération.
+A la fin du congé d’adoption, l’agent est affecté sur son ancien poste. Si celui-ci ne peut pas lui être
+proposé, il est affecté dans un emploi similaire avec rémunération équivalente.
+CONGE DE NAISSANCE : NOUVEAU DROIT EFFECTIF A COMPTER DU JUILLET 2026
+Le congé supplémentaire de naissance est un nouveau congé d’une durée maximale de deux mois.
+Concrètement, ce congé permettra à chaque parent de prendre jusqu’à deux mois de congé
+supplémentaire rémunéré à :
+ 70 % du salaire net le premier mois,
+ 60 % le second mois.
+Ce congé pourra être pris sous la forme d’un mois, de deux mois ou de deux périodes d’un mois non consécutives.
+Le congé supplémentaire de naissance est un nouveau droit visant à mieux accompagner les familles en favorisant le bon développement de l’enfant dans ses premiers mois et renforcer l’égalité entre les femmes et les hommes.
+Ce congé s’ajoute au congé de maternité, de paternité ou d’adoption. Il ne remplace pas le congé parental, dont les modalités restent inchangées.
+Le congé supplémentaire de naissance sera accessible dès le 1er juillet 2026.
+Chaque parent d’un enfant né ou adopté à partir du 1er janvier 2026, ou dont la date de naissance
+était prévue à cette date, pourra bénéficier du congé supplémentaire de naissance.`.trim(),               3: `
 CHAPITRE 3 - AUTORISATIONS SPECIALE D'ABSENCES
 Le congé annuel ne peut pas être interrompu par une autorisation d'absence, dans la mesure où celle- ci n'est accordée que pour permettre à un agent, qui aurait dû être présent pour assurer ses fonctions de s'absenter exceptionnellement de son service. Ces autorisations ne sont pas récupérables.
 ARTICLE 1 - FETES RELIGIEUSES
@@ -482,8 +526,7 @@ Au 1 janvier 2022, les agents municipaux sont autorisés, sur présentation d'un
 Conjoint : 5 jours ouvrés
 Père, mère : 5 jours ouvrés
 Enfant à charge de + 16 ans : 5 jours ouvrés
-Ascendants (Agent ou conjoint), frère, sœur, oncle, tante, neveu, nièce, beau-frère, belle-sœur : 3
-jours ouvrés
+Ascendants (Agent ou conjoint), frère, sœur, oncle, tante, neveu, nièce, beau-frère, belle-sœur : 3 jours ouvrés
 Ces jours ne sont pas nécessairement consécutifs mais doivent faire l'objet d'une programmation.
 Pour les autres membres de la famille, l'agent peut déposer une demande de congés annuels ou A.R.T.T.
 ARTICLE 4 - POUR ACCOMPAGNER UNE PERSONNE EN FIN DE VIE : CONGE PROCHE AIDANT
@@ -628,36 +671,30 @@ décrivant les lésions et leur localisation ou la nature de la maladie et trans
 ARTICLE 3 – LA PRISE EN CHARGE DE LA REMUNERATION
 POUR LES AGENTS TITULAIRES AFFILIES A LA CNRACL
 
-Nature de l'arrêt                            Durée              Plein traitement (salaire             Demi-traitement (demi-
-                                            maximum                     complet)                             salaire)
-Maladie ordinaire                               1 an                        3 mois  a 90%                             9 mois
-Longue maladie                                 3 ans                          1 an                               2 ans
-Longue durée                                   5 ans                         3 ans                               2 ans
+Nature de l'arrêt                            Durée maximum             Plein traitement (salaire 90%)              Demi-traitement (demi-salaire)                                                                                            
+Maladie ordinaire                               1 an                        3 mois  a 90%                              9 mois
+Longue maladie                                 3 ans                          1 an                                     2 ans
+Longue durée                                   5 ans                         3 ans                                     2 ans
 Accident de service et de trajet                       Plein traitement jusqu'à la reprise de son activité
 POUR LES AGENTS TITULAIRES AFFILIES A L'IRCANTEC
-
-Nature de l'arrêt                            Durée              Plein traitement (salaire             Demi-traitement (demi-
-                                            maximum                     complet)                             salaire)
-Maladie ordinaire                               1 an                        3 mois a 90%                            9 mois
-Grave maladie                                  3 ans                          1 an                               2 ans
-Accident de service et de trajet             Tant que                        3 ans                   Pas de demi-traitement,
-                                           l'agent est                                                  la CPAM versera
-                                          inapte à ses                                              directement à l'agent ses
-                                            fonctions                                                indemnités journalières
+Nature de l'arrêt                          Durée maximum               Plein traitement (salaire 90%)             Demi-traitement (demi-salaire)                                                                                           
+Maladie ordinaire                               1 an                          3 mois a 90%                                9 mois
+Grave maladie                                  3 ans                          1 an                                        2 ans
+Accident de service et de trajet             Tant que                         3 ans                            Pas de demi-traitement,
+                                           l'agent est                                                          la CPAM versera
+                                          inapte à ses                                                   directement à l'agent ses
+                                            fonctions                                                     indemnités journalières
 POUR LES AGENTS CONTRACTUELS AFFILIES AU REGIME GENERAL DE LA SECURITE SOCIALE
 Nature de l'arrêt
-                                           Ancienneté de l'agent                    Plein             Demi-traitement (demi-
-                                                                                 traitement                  salaire)           42
-                                                                                   (salaire
-                                                                                  complet)
-Maladie ordinaire                                   < 4 mois
-                                              > 4 mois < 2 ans                     1 mois                        1 mois
-                                                 2 ans < 3 ans                     2 mois                        2 mois
-                                                    > 3 ans                          3 mois                      3 mois
-Grave maladie                                        > 3 ans
-                                                 3 ans et plus                       1 ans                       2 ans
-Accident de service et de trajet                       > 1 an                      1 mois
-                                                  1= > 3 ans                       2 mois                          (**)
-                                                    > 3 ans                        3 mois
+                                       Ancienneté de l'agent         Plein traitement (salaire 90%)         Demi-traitement (demi-salaire)                                                                                                                                                                                                                                                                                  
+Maladie ordinaire                       < 4 mois
+                                       > 4 mois < 2 ans                 1 mois à 90%                          1 mois
+                                       2 ans < 3 ans                    2 mois à 90%                          2 mois
+                                       > 3 ans                          3 mois à 90%                          3 mois
+Grave maladie                          > 3 ans
+                                      3 ans et plus                      1 ans                               2 ans
+Accident de service et de trajet          > 1 an                      1 mois
+                                        1 > 3 ans                     2 mois                          (**)
+                                          > 3 ans                     3 mois
 `.trim()
 }
